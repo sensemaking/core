@@ -21,8 +21,6 @@ jobs:
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
     - name: Package
-      run: dotnet pack
-    - name: Add Nuget Source
-      run: dotnet nuget add source https://nuget.pkg.github.com/sensemaking/index.json -n GitHub -u sensemaking -p ${{secrets.GITHUB_TOKEN}} --store-password-in-clear-text    
+      run: dotnet pack      
     - name: Push Package 
-      run: dotnet nuget push $GITHUB_WORKSPACE\Core.nupkg -source GitHub
+      run: dotnet nuget push $GITHUB_WORKSPACE\Core.nupkg -source https://nuget.pkg.github.com/sensemaking/index.json -k ${{secrets.GITHUB_TOKEN}}
