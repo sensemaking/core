@@ -23,4 +23,4 @@ jobs:
     - name: Package
       run: dotnet pack      
     - name: Push Package 
-      run: dotnet nuget push ${{ github.workspace }}\Core.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget push ${{ github.workspace }}/Core/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
