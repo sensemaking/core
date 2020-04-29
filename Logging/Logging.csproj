@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Sensemaking.Core</AssemblyName>
-    <RootNamespace>System</RootNamespace>
+    <AssemblyName>Sensemaking.Logging</AssemblyName>
+    <RootNamespace>System.Logging</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NodaTime" Version="2.4.8" />
+    <ProjectReference Include="..\Serialization\Serialization.csproj" />
   </ItemGroup>
 
 </Project>
