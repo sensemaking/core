@@ -1,14 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>Sensemaking.Core</AssemblyName>
     <RootNamespace>System</RootNamespace>
-    <Deterministic>False</Deterministic>
-    <Company>sensemaking</Company>
-    <RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>
-    <Version Condition=" '$(GITHUB_RUN_NUMBER)' == '' ">0.0.1-local</Version>
-    <Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">$(GITHUB_RUN_NUMBER)</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -25,11 +25,6 @@ namespace System
             return Date.Today() < date;
         }
 
-        public static bool IsFuture(this DateTime date)
-        {
-            return DateTime.UtcNow.Date < date.Date;
-        }
-
         public static bool IsFuture(this LocalDateTime date)
         {
             return Date.Now().Date < date.Date;
