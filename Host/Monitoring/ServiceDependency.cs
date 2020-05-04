@@ -1,4 +1,6 @@
-﻿namespace Sensemaking.Monitoring
+﻿using Sensemaking.Monitoring;
+
+namespace Sensemaking.Host.Monitoring
 {
     public class ServiceDependency
     {
