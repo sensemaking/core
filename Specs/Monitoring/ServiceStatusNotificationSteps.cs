@@ -18,7 +18,6 @@ namespace Sensemaking.Monitoring.Specs
 
         private static readonly Duration heartbeat = Duration.FromMilliseconds(200);
         private IMonitorServices service_monitor;
-        private ServiceMonitor.Status log_entry;
 
         protected override void before_all()
         {
