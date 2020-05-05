@@ -7,7 +7,6 @@ namespace Sensemaking.Monitoring
         Availability Availability();
     }
 
-
     public interface ICanBeMonitored
     {
         IMonitor Monitor { get; }

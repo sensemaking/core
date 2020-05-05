@@ -8,11 +8,10 @@ namespace Sensemaking.Monitoring.Specs
     public partial class ServiceMonitorSpecs : Specification
     {
         [Test]
-        public void it_provides_monitoring_info()
+        public void it_provides_monitoring_interval()
         {
             Given(a_service_monitor);
-            Then(it_has_monitoring_info);
-            And(it_has_its_monitoring_interval);
+            Then(it_has_its_monitoring_interval);
         }
 
         [Test]
@@ -32,7 +31,7 @@ namespace Sensemaking.Monitoring.Specs
             And(dependency_1_is_available);
             And(dependency_2_is_unavailable);
             When(getting_status);
-            Then(it_has_its_monitoring_info_and_for_each_internal_monitor);
+            Then(it_has_monitoring_info_for_each_dependency);
         }
 
         [Test]

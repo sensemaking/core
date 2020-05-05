@@ -13,8 +13,7 @@ namespace Sensemaking.Monitoring.Specs
 {
     public partial class ServiceStatusNotificationSpecs
     {
-        private static readonly ServiceMonitor.Status service_status = new ServiceMonitor.Status(new FakeMonitor().Info, Array.Empty<MonitorInfo>(),
-            Availability.Down(AlertFactory.InstanceUnavailable(new MonitorInfo("AlertType", "AlertName", "AlertInstances"), "Weird shizzle happened")));
+        private static readonly ServiceMonitor.Status service_status = new ServiceMonitor.Status(Availability.Down(AlertFactory.InstanceUnavailable(new MonitorInfo("AlertType", "AlertName", "AlertInstances"), "Weird shizzle happened")), Array.Empty<MonitorInfo>());
 
         private static readonly Duration heartbeat = Duration.FromMilliseconds(200);
         private IMonitorServices service_monitor;

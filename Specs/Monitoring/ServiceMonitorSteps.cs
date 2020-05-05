@@ -14,7 +14,6 @@ namespace Sensemaking.Monitoring.Specs
         private ServiceDependency service_dependency_2;
         private IMonitor dependency_1_monitor;
         private IMonitor dependency_2_monitor;
-        private readonly MonitorInfo monitoring_info = new FakeMonitor().Info;
         private readonly Duration heartbeat = Duration.FromMilliseconds(100);
         private ServiceMonitor service_monitor;
         private Availability overall_availability;
@@ -40,6 +39,7 @@ namespace Sensemaking.Monitoring.Specs
 
         private void a_service_monitor()
         {
+            service_monitor = new ServiceMonitor(heartbeat, service_dependencies.ToArray());
         }
 
         private void dependency_1_is_available()
@@ -74,22 +74,14 @@ namespace Sensemaking.Monitoring.Specs
 
         private void getting_service_availability()
         {
-            service_monitor = new ServiceMonitor(monitoring_info, heartbeat, service_dependencies.ToArray());
+            service_monitor = new ServiceMonitor(heartbeat, service_dependencies.ToArray());
             overall_availability = service_monitor.Availability();
         }
 
         private void getting_status()
         {
-            service_monitor = new ServiceMonitor(monitoring_info, heartbeat, service_dependencies.ToArray());
+            service_monitor = new ServiceMonitor(heartbeat, service_dependencies.ToArray());
             the_status = service_monitor.GetStatus();
-        }
-
-        private void it_has_monitoring_info()
-        {
-            service_monitor = new ServiceMonitor(monitoring_info, heartbeat, service_dependencies.ToArray());
-            service_monitor.Info.Type.should_be(monitoring_info.Type);
-            service_monitor.Info.Name.should_be(monitoring_info.Name);
-            service_monitor.Info.Instances.should_be(monitoring_info.Instances);
         }
 
         private void it_has_its_monitoring_interval()
@@ -104,9 +96,8 @@ namespace Sensemaking.Monitoring.Specs
             overall_availability.Alerts.should_be(availability.Alerts);
         }
 
-        private void it_has_its_monitoring_info_and_for_each_internal_monitor()
+        private void it_has_monitoring_info_for_each_dependency()
         {
-            the_status.Monitor.should_be(service_monitor.Info);
             the_status.Monitoring.should_be(new[] {dependency_1_monitor.Info, dependency_2_monitor.Info});
         }
 
