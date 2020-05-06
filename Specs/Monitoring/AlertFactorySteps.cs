@@ -18,27 +18,27 @@ namespace Sensemaking.Monitoring.Specs
 
         private void a_service_unavailable_alert()
         {
-            alert = AlertFactory.ServiceUnavailable(FakeInstanceMonitor.FakeInfo, message);
+            alert = AlertFactory.ServiceUnavailable(Fake.AnInstanceMonitor.Info, message);
         }
 
         private void a_service_redundancy_lost_alert()
         {
-            alert = AlertFactory.ServiceRedundancyLost(FakeInstanceMonitor.FakeInfo, message);
+            alert = AlertFactory.ServiceRedundancyLost(Fake.AnInstanceMonitor.Info, message);
         }
 
         private void an_instance_unavailable_alert()
         {
-            alert = AlertFactory.InstanceUnavailable(FakeInstanceMonitor.FakeInfo, message);
+            alert = AlertFactory.InstanceUnavailable(Fake.AnInstanceMonitor.Info, message);
         }
 
         private void an_unknown_error_alert()
         {
-            alert = AlertFactory.UnknownErrorOccured(FakeInstanceMonitor.FakeInfo, exception, additional_info);
+            alert = AlertFactory.UnknownErrorOccured(Fake.AnInstanceMonitor.Info, exception, additional_info);
         }
 
         private void an_information_alert()
         {
-            alert = AlertFactory.InformationAlert("info_alert", FakeInstanceMonitor.FakeInfo, message);
+            alert = AlertFactory.InformationAlert("info_alert", Fake.AnInstanceMonitor.Info, message);
         }
 
         private void it_has_an_alert_code_of(string code)
@@ -48,7 +48,7 @@ namespace Sensemaking.Monitoring.Specs
 
         private void it_has_the_monitor_it_was_created_with()
         {
-            alert.Monitor.should_be(FakeInstanceMonitor.FakeInfo);
+            alert.Monitor.should_be(Fake.AnInstanceMonitor.Info);
         }
 
         private void it_has_the_message_it_is_created_with()

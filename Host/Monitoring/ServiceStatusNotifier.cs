@@ -14,7 +14,30 @@ namespace Sensemaking.Host.Monitoring
         public ServiceStatusNotifier(IMonitorServices monitor)
         {
             Monitor = monitor;
-            Timer = new Timer(e => Log.Information(Monitor.GetStatus().Serialize()), null, TimeSpan.Zero, monitor.Heartbeat.ToTimeSpan());
+            Timer = new Timer(e => Monitor.LogStatus(), null, TimeSpan.Zero, monitor.Heartbeat.ToTimeSpan());
+        }
+    }
+
+    internal static class Logging
+    {
+        internal static void LogStatus(this IMonitorServices monitor)
+        {
+            var status = monitor.GetStatus();
+            switch (status.Health)
+            {
+                case ServiceMonitor.Status.Healthiness.Alive:
+                    Log.Information(status.Serialize());
+                    break;
+                case ServiceMonitor.Status.Healthiness.Ill:
+                    Log.Warning(status.Serialize());
+                    break;
+                case ServiceMonitor.Status.Healthiness.OnLastLegs:
+                    Log.Error(status.Serialize());
+                    break;
+                case ServiceMonitor.Status.Healthiness.Dead:
+                    Log.Fatal(status.Serialize());
+                    break;
+            }
         }
     }
 }

@@ -8,10 +8,10 @@ namespace Sensemaking.Monitoring.Specs
     public partial class MultiInstanceMonitorSpecs : Specification
     {
         private static readonly Alert unavailable_alert =
-            AlertFactory.ServiceUnavailable(FakeInstanceMonitor.FakeInfo, "It's down Bob");
+            AlertFactory.ServiceUnavailable(Fake.AnInstanceMonitor.Info, "It's down Bob");
 
         private static readonly Alert unavailable_alert_2 =
-            AlertFactory.ServiceUnavailable(FakeInstanceMonitor.FakeInfo, "It's down Bill");
+            AlertFactory.ServiceUnavailable(Fake.AnInstanceMonitor.Info, "It's down Bill");
 
         [Test]
         public void uses_monitored_monitor_name_and_type_as_monitoring_info()

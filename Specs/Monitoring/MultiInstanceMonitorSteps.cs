@@ -21,17 +21,17 @@ namespace Sensemaking.Monitoring.Specs
 
         private void a_non_instance_monitor()
         {
-            instance_monitors.Add(new FakeMonitor());
+            instance_monitors.Add(Fake.AMonitor);
         }
 
         private void available_instance()
         {
-            instance_monitors.Add(new FakeInstanceMonitor());
+            instance_monitors.Add(Fake.AnInstanceMonitor);
         }
 
         private void unavailable_instance(Alert alert)
         {
-            instance_monitors.Add(new FakeInstanceMonitor(alert.Message));
+            instance_monitors.Add(Fake.AnAlertingInstanceMonitor(alert.Message));
         }
 
         public void getting_availability()
@@ -88,16 +88,6 @@ namespace Sensemaking.Monitoring.Specs
         private void has_no_alerts()
         {
             service_availability.Alerts.should_be_empty();
-        }
-    }
-
-    public class FakeMonitor : IMonitor
-    {
-        public MonitorInfo Info { get; } = new MonitorInfo("FakeMonitor", "FakeMonitor", "FakeMonitorInstance");
-
-        public Availability Availability()
-        {
-            throw new NotImplementedException();
         }
     }
 }

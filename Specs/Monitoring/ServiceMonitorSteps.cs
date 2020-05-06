@@ -51,7 +51,7 @@ namespace Sensemaking.Monitoring.Specs
         private void dependency_2_is_unavailable()
         {
             service_dependency_2.Monitor.Availability()
-                .Returns(Availability.Down(AlertFactory.InstanceUnavailable(new FakeInstanceMonitor().Info, "Ooops")));
+                .Returns(Availability.Down(AlertFactory.InstanceUnavailable(Fake.AnInstanceMonitor.Info, "Ooops")));
             service_dependencies.Add(service_dependency_2);
         }
 
@@ -59,7 +59,7 @@ namespace Sensemaking.Monitoring.Specs
         {
             service_dependency_1.Monitor.Availability().Returns(
                 Availability.Up() | Availability.Up() |
-                Availability.Down(AlertFactory.InstanceUnavailable(new FakeInstanceMonitor().Info, "Ooops"))
+                Availability.Down(AlertFactory.InstanceUnavailable(Fake.AnInstanceMonitor.Info, "Ooops"))
             );
             service_dependencies.Add(service_dependency_1);
         }
@@ -67,7 +67,7 @@ namespace Sensemaking.Monitoring.Specs
         private void dependency_1_has_lost_redundancy()
         {
             var availability = Availability.Up();
-            availability.Add(AlertFactory.ServiceRedundancyLost(new FakeInstanceMonitor().Info, "Ooops"));
+            availability.Add(AlertFactory.ServiceRedundancyLost(Fake.AnInstanceMonitor.Info, "Ooops"));
             service_dependency_1.Monitor.Availability().Returns(availability);
             service_dependencies.Add(service_dependency_1);
         }

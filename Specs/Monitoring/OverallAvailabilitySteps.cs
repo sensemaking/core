@@ -6,27 +6,27 @@ namespace Sensemaking.Monitoring.Specs
 {
     public partial class OverallAvailabilitySpecs
     {
-        private IList<InstanceMonitor> instance_monitors_1;
-        private IList<InstanceMonitor> instance_monitors_2;
+        private IList<Monitoring.InstanceMonitor> instance_monitors_1;
+        private IList<Monitoring.InstanceMonitor> instance_monitors_2;
         private Availability overall_availability;
 
         protected override void before_each()
         {
             base.before_each();
             overall_availability = null;
-            instance_monitors_1 = new List<InstanceMonitor>();
-            instance_monitors_2 = new List<InstanceMonitor>();
+            instance_monitors_1 = new List<Monitoring.InstanceMonitor>();
+            instance_monitors_2 = new List<Monitoring.InstanceMonitor>();
         }
 
-        private void available_instance(IList<InstanceMonitor> monitors)
+        private void available_instance(IList<Monitoring.InstanceMonitor> monitors)
         {
-            monitors.Add(new FakeInstanceMonitor());
+            monitors.Add(Fake.AnInstanceMonitor);
         }
 
-        private void unavailable_instance(ICollection<InstanceMonitor> monitors)
+        private void unavailable_instance(ICollection<Monitoring.InstanceMonitor> monitors)
         {
             var instance = monitors.Count + 1;
-            monitors.Add(new FakeInstanceMonitor($"{instance} is down."));
+            monitors.Add(Fake.AnAlertingInstanceMonitor($"{instance} is down."));
         }
 
         public void getting_overall_availability()

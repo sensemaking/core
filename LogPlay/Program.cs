@@ -15,6 +15,8 @@ namespace LogPlay
                 .CreateLogger();
 
             Log.Information(new { Name = "Fred", Type = "Bob"}.Serialize());
+            Console.WriteLine();
+            Console.WriteLine();
             Log.Information("I logged this: {0} and that: {1}", "Bob", "Jim");
             Console.ReadLine();
         }
