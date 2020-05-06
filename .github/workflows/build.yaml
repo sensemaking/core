@@ -21,6 +21,18 @@ jobs:
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
     - name: Package
-      run: dotnet pack -o Packages     
-    - name: Push Package 
-      run: dotnet nuget push ${{ github.workspace }}/Packages/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet pack
+    - name: Push Bdd 
+      run: dotnet nuget push ${{ github.workspace }}/Bdd/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+    - name: Push Core 
+      run: dotnet nuget push ${{ github.workspace }}/Core/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+    - name: Push Host 
+      run: dotnet nuget push ${{ github.workspace }}/Host/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+    - name: Push Http 
+      run: dotnet nuget push ${{ github.workspace }}/Http/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+    - name: Push Logging.Serilog 
+      run: dotnet nuget push ${{ github.workspace }}/Logging.Serilog/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+    - name: Push Monitoring 
+      run: dotnet nuget push ${{ github.workspace }}/Monitoring/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+    - name: Push Serialization 
+      run: dotnet nuget push ${{ github.workspace }}/Serialization/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
