@@ -21,7 +21,6 @@ jobs:
     - name: Build Solution
       run: dotnet build --configuration Release --no-restore
     - name: Package
-      run: dotnet pack      
+      run: dotnet pack -o .\Packages     
     - name: Push Package 
-      run: dotnet nuget push ${{ github.workspace }}/Core/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
-      run: dotnet nuget push ${{ github.workspace }}/Http/bin/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
+      run: dotnet nuget push ${{ github.workspace }}/Packages/*.nupkg -s https://nuget.pkg.github.com/sensemaking/index.json -k ${{ secrets.GITHUB_TOKEN }}
