@@ -13,8 +13,7 @@ namespace Sensemaking.Serialization.Specs
     {
         public class Returns254Converter : JsonConverter
         {
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-                Newtonsoft.Json.JsonSerializer serializer)
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
                 return (uint)254;
             }

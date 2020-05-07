@@ -28,7 +28,7 @@ namespace Sensemaking.Monitoring
             return new Alert(Codes.InstanceUnavailable, monitor, message);
         }
 
-        public static Alert UnknownErrorOccured(MonitorInfo monitor, Exception exception, object additionalInfo = null)
+        public static Alert UnknownErrorOccured(MonitorInfo monitor, Exception exception, object? additionalInfo = null)
         {
             return new ExceptionAlert(Codes.UnknownErrorOccured, monitor, exception, additionalInfo);
         }

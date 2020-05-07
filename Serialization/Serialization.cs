@@ -13,7 +13,7 @@ namespace System.Serialization
             var settings = Serialization.GetSettings(converters);
             CheckAdditionalContent = settings.CheckAdditionalContent;
             ConstructorHandling = settings.ConstructorHandling;
-            ContractResolver = settings.ContractResolver;
+            ContractResolver = settings.ContractResolver!;
             Culture = settings.Culture;
             DateFormatHandling = settings.DateFormatHandling;
             DateFormatString = settings.DateFormatString;
@@ -50,10 +50,10 @@ namespace System.Serialization
                     additionalConverters.Add(c);
             });
         }
-
+        
         public static T Deserialize<T>(this string json, params JsonConverter[] converters)
         {
-            return JsonConvert.DeserializeObject<T>(json, GetSettings(converters));
+            return JsonConvert.DeserializeObject<T>(json, GetSettings(converters))!;
         }
 
         public static string Serialize(this object entity, params JsonConverter[] converters)

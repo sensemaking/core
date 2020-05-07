@@ -7,30 +7,24 @@ namespace System.Serialization
 {
     public class RemoveWhitespaceStringEnumConverter : StringEnumConverter
     {
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
+        public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, Newtonsoft.Json.JsonSerializer serializer)
         {
             var value = reader.Value;
             if (value == null)
                 return null;
 
             var enumType = Nullable.GetUnderlyingType(objectType) ?? objectType;
-            switch (value)
+            return value switch
             {
-                case string stringValue:
-                    return Parse(enumType, stringValue);
-                case byte byteValue:
-                    return Convert(enumType, byteValue); 
-                case short shortValue:
-                    return Convert(enumType, shortValue); 
-                case int intValue:
-                    return Convert(enumType, intValue); 
-                case long longValue:
-                    return Convert(enumType, longValue); 
-                default:
-                    throw new SerializationException(GetErrorMessage(value, enumType, Enum.GetNames(enumType)));
-            }
+                string stringValue => Parse(enumType, stringValue),
+                byte byteValue => Convert(enumType, byteValue),
+                short shortValue => Convert(enumType, shortValue),
+                int intValue => Convert(enumType, intValue),
+                long longValue => Convert(enumType, longValue),
+                _ => throw new SerializationException(GetErrorMessage(value, enumType, Enum.GetNames(enumType)))
+            };
         }
-
+        
         private static object Parse(Type enumType, string value)
         {
             if (int.TryParse(value, out var intValue)) return Convert(enumType, intValue);
@@ -48,13 +42,12 @@ namespace System.Serialization
         private static object Convert(Type enumType, object value)
         {
             var convertedValue = enumType.Convert(value) ;
-            if (!Enum.IsDefined(enumType, convertedValue))
-            {
-                var allNames = Enum.GetNames(enumType);
-                throw new SerializationException(GetErrorMessage(value, enumType, enumType.GetAllValues().Select((v, i) => $"{v} ({allNames[i]})").ToArray()));
-            }
+            if (Enum.IsDefined(enumType, convertedValue)) 
+                return Enum.ToObject(enumType, value);
 
-            return Enum.ToObject(enumType, value);
+            var allNames = Enum.GetNames(enumType);
+            throw new SerializationException(GetErrorMessage(value, enumType, enumType.GetAllValues().Select((v, i) => $"{v} ({allNames[i]})").ToArray()));
+
         }
 
         private static string GetErrorMessage(object value, Type enumType, string[] allowable)

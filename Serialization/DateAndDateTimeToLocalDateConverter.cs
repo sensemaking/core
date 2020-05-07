@@ -38,7 +38,7 @@ namespace System.Serialization
             var dateString = reader.Value as string;
             var index = dateString?.ToUpper().IndexOf("T");
             if (index.HasValue && index.Value > 0)
-                dateString = dateString.Substring(0, index.Value);
+                dateString = dateString!.Substring(0, index.Value);
 
 
             var parseResult = LocalDatePattern.Iso.Parse(dateString);

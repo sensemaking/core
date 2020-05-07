@@ -35,7 +35,7 @@ namespace System.Serialization
                 emptyArray = Array.CreateInstance(arrayType, 0);
             }
 
-            public void SetValue(object property, object value)
+            public void SetValue(object property, object? value)
             {
                 defaultArrayValueProvider.SetValue(property, value ?? emptyArray);
             }
