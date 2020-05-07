@@ -26,7 +26,7 @@ namespace Sensemaking.Serialization.Specs
 
         private void json_with_a_int_as_string_enum_value()
         {
-            the_value = ((int)FakeEnum.WibbleWobble).ToString();
+            the_value = ((int) FakeEnum.WibbleWobble).ToString();
         }
 
         private void json_with_a_byte_enum_value()
@@ -81,17 +81,17 @@ namespace Sensemaking.Serialization.Specs
 
         private void json_with_an_integer_as_string_enum_value_that_does_not_exist()
         {
-            the_value = ((int)FakeEnum.WibbleWobble + 999).ToString();
+            the_value = ((int) FakeEnum.WibbleWobble + 999).ToString();
         }
 
         private void json_with_a_decimal_enum_value()
         {
-            the_value = ((int)FakeEnum.WibbleWobble) + 0.12m;
+            the_value = ((int) FakeEnum.WibbleWobble) + 0.12m;
         }
 
         private void json_with_a_decimal_as_string_enum_value()
         {
-            the_value = (((int)FakeEnum.WibbleWobble) + 0.12m).ToString();
+            the_value = (((int) FakeEnum.WibbleWobble) + 0.12m).ToString();
         }
 
         private void json_with_a_boolean_enum_value()
@@ -101,7 +101,7 @@ namespace Sensemaking.Serialization.Specs
 
         private void json_with_an_object_enum_value()
         {
-            the_value = new { Property = "Boomshakala" };
+            the_value = new {Property = "Boomshakala"};
         }
 
         private void converting()

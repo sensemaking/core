@@ -1,12 +1,12 @@
 ﻿{
-  "date": "1992-05-01",
-  "emptyArrayFromNull": null,
-  "dateWithATime": "1994-02-06T00:00:00",
-  "nonNullNullableDate": "1990-11-24",
-  "nonNullNullableDateWithATime": "1995-12-14T00:00:00",
-  "nullDate": null,
-  "monthOfBirth": "2016-12",
-  "aPrivateSetterNumber": 1,
-  "stringEnumValue": "wibble wobble",
-  "Two54": 100
+	"date": "1992-05-01",
+	"emptyArrayFromNull": null,
+	"dateWithATime": "1994-02-06T00:00:00",
+	"nonNullNullableDate": "1990-11-24",
+	"nonNullNullableDateWithATime": "1995-12-14T00:00:00",
+	"nullDate": null,
+	"monthOfBirth": "2016-12",
+	"aPrivateSetterNumber": 1,
+	"stringEnumValue": "wibble wobble",
+	"Two54": 100
 }

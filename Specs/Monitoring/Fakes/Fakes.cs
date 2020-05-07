@@ -10,8 +10,10 @@ namespace Sensemaking.Monitoring.Specs
         public static InstanceMonitor AnAlertingInstanceMonitor(string alertMessage) => new InstanceMonitor(alertMessage);
         public static ServiceMonitor.Status AliveServiceMonitorStatus => new ServiceMonitor.Status(Availability.Up(), AMonitor.Info);
         public static ServiceMonitor.Status DeadServiceMonitorStatus => new ServiceMonitor.Status(Availability.Down(AlertFactory.InstanceUnavailable(AMonitor.Info, "Ooops")), AMonitor.Info);
+
         public static ServiceMonitor.Status IllServiceMonitorStatus => new ServiceMonitor.Status(Availability.Up() |
-            Availability.Down(AlertFactory.InstanceUnavailable(AMonitor.Info, "Ooops")), AMonitor.Info);
+                                                                                                 Availability.Down(AlertFactory.InstanceUnavailable(AMonitor.Info, "Ooops")), AMonitor.Info);
+
         public static ServiceMonitor.Status OnLastLegsServiceMonitorStatus
         {
             get
