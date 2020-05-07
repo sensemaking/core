@@ -18,7 +18,7 @@ jobs:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Nuget Restore
       run: dotnet restore
-    - name: Build Solution
+    - name: Build and Test
       run: dotnet build --configuration Release --no-restore
     - name: Package
       run: dotnet pack
