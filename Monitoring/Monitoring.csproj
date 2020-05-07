@@ -8,7 +8,7 @@
     <LangVersion>8.0</LangVersion>
     <RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>
     <Version Condition=" '$(GITHUB_RUN_NUMBER)' == '' ">0.0.1-local</Version>
-    <Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">$(GITHUB_RUN_NUMBER)</Version>
+    <Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">1.0.0.$(GITHUB_RUN_NUMBER)</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
