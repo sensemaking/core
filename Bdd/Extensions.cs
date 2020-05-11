@@ -10,7 +10,6 @@ namespace Sensemaking.Bdd
         public static dynamic ToDynamic(this object value)
         {
             IDictionary<string, object> expando = new ExpandoObject();
-nocompile
             foreach (var property in value.GetType().GetProperties())
                 expando.Add(property.Name, property.GetValue(value));
 
