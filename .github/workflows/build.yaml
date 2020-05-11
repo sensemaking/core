@@ -14,10 +14,8 @@ jobs:
         source-url: https://nuget.pkg.github.com/sensemaking/index.json
       env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-    - name: Nuget Restore
-      run: dotnet restore
     - name: Build and Test
-      run: dotnet test --configuration Release --no-restore
+      run: dotnet test --configuration Release
     - name: Package
       run: dotnet pack -o packages
     - name: Publish Packages 
