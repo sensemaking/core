@@ -17,26 +17,12 @@ namespace Sensemaking.Monitoring
 
         public MonitorInfo(string type, string name, params string[] instances)
         {
-            if (type.IsNullOrEmpty() || name.IsNullOrEmpty() || instances.None(x => !x.IsNullOrEmpty()))
-            { 
-                var missingParameters = MonitorInfoMissingParamter(type, name, instances.ToArray());
-                throw new ArgumentException("Monitor type, name and monitored instances must be provided " + missingParameters);
-            }
+            if (type.IsNullOrEmpty() || instances.None(x => !x.IsNullOrEmpty()))
+                throw new ArgumentException("Monitor type and monitored instances must be provided");
 
             Name = name;
             Type = type;
             Instances = instances.ToArray();
-        }
-
-        private static string MonitorInfoMissingParamter(string type, string name, string[] instances)
-        {
-            var missingType = string.IsNullOrWhiteSpace(type) ? "Missing Type" : type;
-
-            var missingName = string.IsNullOrWhiteSpace(name) ? "Missing Name" : name;
-
-            var missingInstances = !instances.Any() ? "Missing Instances" : string.Join(" ", instances);
-
-            return $"{missingType} {missingName} {missingInstances}";
         }
 
         public static bool operator ==(MonitorInfo @this, MonitorInfo that)
