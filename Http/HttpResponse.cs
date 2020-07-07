@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Serialization;
 
@@ -24,8 +23,8 @@ namespace Sensemaking.Http
                 Reason = reason;
             }
 
-            private HttpStatusCode Code { get; }
-            private string Reason { get; }
+            public HttpStatusCode Code { get; }
+            public string Reason { get; }
         }
 
         public static implicit operator HttpStatus (HttpResponse response)
