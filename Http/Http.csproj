@@ -5,8 +5,7 @@
     <AssemblyName>Sensemaking.Http</AssemblyName>
     <RootNamespace>Sensemaking.Http</RootNamespace>
     <Nullable>enable</Nullable>
-    <LangVersion>8.0</LangVersion>
-    <Description>Http requests and dependency monitoring</Description>
+    <Description>Http and Http dependency monitoring</Description>
     <RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>
     <Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">1.0.$(GITHUB_RUN_NUMBER)</Version>
   </PropertyGroup>

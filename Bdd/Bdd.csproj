@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Sensemaking.Bdd</AssemblyName>
     <RootNamespace>Sensemaking.Bdd</RootNamespace>
-    <LangVersion>8.0</LangVersion>
     <Description>Simple Given, When, Then support for BDD</Description>
     <RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>
     <Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">1.0.$(GITHUB_RUN_NUMBER)</Version>

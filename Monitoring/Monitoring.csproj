@@ -5,7 +5,6 @@
     <AssemblyName>Sensemaking.Monitoring</AssemblyName>
     <RootNamespace>Sensemaking.Monitoring</RootNamespace>
     <Nullable>enable</Nullable>
-    <LangVersion>8.0</LangVersion>
     <Description>Monitoring and alerting framework</Description>
     <RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>
     <Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">1.0.$(GITHUB_RUN_NUMBER)</Version>
