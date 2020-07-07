@@ -9,7 +9,8 @@ namespace Sensemaking.Http
     {
         public HttpStatus Status { get; }
         public (string Name, string Value)[] Headers { get; }
-          
+        public string this[string name] => Headers.SingleOrDefault(h => h.Name == name).Value;
+
         internal JsonResponse(HttpResponseMessage response)
         {
             Status = new HttpStatus(response.StatusCode, response.ReasonPhrase);
