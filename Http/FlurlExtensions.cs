@@ -14,10 +14,7 @@ namespace Sensemaking.Http
 {
     public static class Json
     {
-        static Json()
-        {
-            FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
-        }
+        static Json() => FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
 
         public static async Task<JsonResponse<T>> GetAsync<T>(this string url, params (string Name, string Value)[] headers)
         {
@@ -45,9 +42,9 @@ namespace Sensemaking.Http
             return new JsonResponse(response);
         }
 
-        private static(string, string)[] AddAcceptHeader(this IEnumerable<(string, string)> headers)
+        private static (string, string)[] AddAcceptHeader(this IEnumerable<(string, string)> headers)
         {
-            return headers.Concat(new (string, string)[] { ("Accept", MediaType.Json)}).ToArray();
+            return headers.Concat(new (string, string)[] { ("Accept", MediaType.Json) }).ToArray();
         }
 
         private static StringContent ToRequestBody(this object payload)

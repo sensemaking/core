@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Serialization;
@@ -39,7 +38,7 @@ namespace Sensemaking.Http
     {
         public T Body { get; }
           
-        internal JsonResponse(string body, HttpResponseMessage response): base(response)
+        internal JsonResponse(string body, HttpResponseMessage response) : base(response)
         {
             Body = body.Deserialize<T>();
         }
