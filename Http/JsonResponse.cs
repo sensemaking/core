@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Serialization;
@@ -9,7 +10,7 @@ namespace Sensemaking.Http
     {
         public HttpStatus Status { get; }
         public (string Name, string Value)[] Headers { get; }
-        public string this[string name] => Headers.SingleOrDefault(h => h.Name == name).Value;
+        public string this[string name] => Headers.SingleOrDefault(h => h.Name == name).Value ?? string.Empty;
 
         internal JsonResponse(HttpResponseMessage response)
         {
