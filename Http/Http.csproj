@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Monitoring\Monitoring.csproj" />
+    <ProjectReference Include="..\Serialization\Serialization.csproj" />
   </ItemGroup>
 
 </Project>
