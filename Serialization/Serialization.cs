@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -61,22 +63,6 @@ namespace System.Serialization
         public static string Serialize(this object entity, params JsonConverter[] converters)
         {
             return SerializeObject(entity, Formatting.None, GetSettings(converters));
-        }
-
-        public static byte[] SerializeAsBytes(this object entity)
-        {
-            return Encoding.UTF8.GetBytes(entity.Serialize());
-        }
-
-        public static T DeserializeFromBytes<T>(this byte[] bytes, params JsonConverter[] converters)
-        {
-            var json = Encoding.UTF8.GetString(bytes);
-            return json.Deserialize<T>(converters);
-        }
-
-        public static string GetString(this byte[] bytes)
-        {
-           return Encoding.UTF8.GetString(bytes);
         }
 
         public static JsonSerializerSettings GetSettings(params JsonConverter[] converters)
