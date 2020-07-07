@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Serialization;
 
 namespace Sensemaking.Http
@@ -7,12 +9,12 @@ namespace Sensemaking.Http
     public class JsonResponse
     {
         public HttpStatus Status { get; }
-        public IDictionary<string, string> Headers { get; }
+        public (string Name, string Value)[] Headers { get; }
           
-        internal JsonResponse(HttpStatusCode code, string reason, IDictionary<string, string> headers)
+        internal JsonResponse(HttpResponseMessage response)
         {
-            Status = new HttpStatus(code, reason);
-            Headers = headers;
+            Status = new HttpStatus(response.StatusCode, response.ReasonPhrase);
+            Headers = response.Headers.Select(header => (header.Key, string.Join(",", header.Value))).ToArray();
         }
 
         public readonly struct HttpStatus
@@ -37,7 +39,7 @@ namespace Sensemaking.Http
     {
         public T Body { get; }
           
-        internal JsonResponse(string body, HttpStatusCode code, string reason, IDictionary<string, string> headers) : base(code, reason, headers)
+        internal JsonResponse(string body, HttpResponseMessage response): base(response)
         {
             Body = body.Deserialize<T>();
         }

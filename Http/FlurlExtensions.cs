@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security;
 using System.Serialization;
 using System.Text;
@@ -18,44 +19,35 @@ namespace Sensemaking.Http
             FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
         }
 
-        public static async Task<JsonResponse<T>> GetAsync<T>(this string url, IDictionary<string, string>? headers = null)
+        public static async Task<JsonResponse<T>> GetAsync<T>(this string url, params (string Name, string Value)[] headers)
         {
-            headers = AddAcceptHeader(headers);
-            var response = await url.WithHeaders(headers).GetAsync();
+            var response = await url.WithHeaders(headers.AddAcceptHeader()).GetAsync();
             var body = await response.Content.ReadAsStringAsync();
-            var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
-            return new JsonResponse<T>(body, response.StatusCode, response.ReasonPhrase, responseHeaders);
+            return new JsonResponse<T>(body, response);
         }
 
-        public static async Task<JsonResponse> PutAsync(this string url, object payload, IDictionary<string, string>? headers = null)
+        public static async Task<JsonResponse> PutAsync(this string url, object payload, params (string Name, string Value)[] headers)
         {
-            headers = AddAcceptHeader(headers);
-            var response = await url.WithHeaders(headers).PutAsync(payload.ToRequestBody());
-            var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
-            return new JsonResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
+            var response = await url.WithHeaders(headers.AddAcceptHeader()).PutAsync(payload.ToRequestBody());
+            return new JsonResponse(response);
         }
 
-        public static async Task<JsonResponse> DeleteAsync(this string url, IDictionary<string, string>? headers = null)
+        public static async Task<JsonResponse> DeleteAsync(this string url, params (string Name, string Value)[] headers)
         {
-            headers = AddAcceptHeader(headers);
-            var response = await url.WithHeaders(headers).DeleteAsync();
-            var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
-            return new JsonResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
+            var response = await url.WithHeaders(headers.AddAcceptHeader()).DeleteAsync();
+            return new JsonResponse(response);
         }
 
-        public static async Task<JsonResponse> PostAsync(this string url, object payload, IDictionary<string, string>? headers = null)
+        public static async Task<JsonResponse> PostAsync(this string url, object payload, params (string Name, string Value)[] headers)
         {
-            headers = AddAcceptHeader(headers);
-            var response = await url.WithHeaders(headers).PostAsync(payload.ToRequestBody());
-            var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
-            return new JsonResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
+            headers.AddAcceptHeader();
+            var response = await url.WithHeaders(headers.AddAcceptHeader()).PostAsync(payload.ToRequestBody());
+            return new JsonResponse(response);
         }
 
-        private static IDictionary<string, string> AddAcceptHeader(IDictionary<string, string>? headers)
+        private static(string, string)[] AddAcceptHeader(this IEnumerable<(string, string)> headers)
         {
-            headers ??= new Dictionary<string, string>();
-            headers.Add("Accept", MediaType.Json);
-            return headers;
+            return headers.Concat(new (string, string)[] { ("Accept", MediaType.Json)}).ToArray();
         }
 
         private static StringContent ToRequestBody(this object payload)
