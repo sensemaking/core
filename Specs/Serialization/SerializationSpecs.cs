@@ -64,13 +64,5 @@ namespace Sensemaking.Serialization.Specs
             When(serializing_and_deserialising);
             Then(the_object_is_reanimated);
         }
-
-        [Test]
-        public void serialize_and_deserialize_as_bytes()
-        {
-            Given(an_object);
-            When(serializing_and_deserialising_to_and_from_bytes);
-            Then(the_object_is_reanimated);
-        }
     }
 }

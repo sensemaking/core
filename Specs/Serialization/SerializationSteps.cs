@@ -93,12 +93,6 @@ namespace Sensemaking.Serialization.Specs
             deserializedByExtensionMethod = serialize.Deserialize<DeserializedObject>();
         }
 
-        private void serializing_and_deserialising_to_and_from_bytes()
-        {
-            var seraliszedBytes = the_object.SerializeAsBytes();
-            deserializedByExtensionMethod = seraliszedBytes.DeserializeFromBytes<DeserializedObject>();
-        }
-
         private void dates_values_are_serialized_to_local_dates()
         {
             deserializedByExtensionMethod.Date.should_be(new LocalDate(1992, 5, 1));
