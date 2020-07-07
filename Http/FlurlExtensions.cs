@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
+using System.Security;
 using System.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,30 +13,42 @@ namespace Sensemaking.Http
 {
     public static class Json
     {
-        public static async Task<T> GetAsync<T>(this string url, IDictionary<string, string>? headers = null)
+        static Json()
+        {
+            FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
+        }
+
+        public static async Task<HttpResponse<T>> GetAsync<T>(this string url, IDictionary<string, string>? headers = null)
         {
             headers = AddAcceptHeader(headers);
             var response = await url.WithHeaders(headers).GetAsync();
             var body = await response.Content.ReadAsStringAsync();
-            return body.Deserialize<T>();
+            var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
+            return new HttpResponse<T>(body, response.StatusCode, response.ReasonPhrase, responseHeaders);
         }
 
-        public static async Task<HttpResponseMessage> PutAsync(this string url, object payload, IDictionary<string, string>? headers = null)
+        public static async Task<HttpResponse> PutAsync(this string url, object payload, IDictionary<string, string>? headers = null)
         {
             headers = AddAcceptHeader(headers);
-            return await url.WithHeaders(headers).PutAsync(new StringContent(payload.Serialize(), Encoding.UTF8, MediaType.Json));
+            var response = await url.WithHeaders(headers).PutAsync(payload.ToRequestBody());
+            var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
+            return new HttpResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
         }
-        
-        public static async Task<HttpResponseMessage> DeleteAsync(this string url, IDictionary<string, string>? headers = null)
+
+        public static async Task<HttpResponse> DeleteAsync(this string url, IDictionary<string, string>? headers = null)
         {
             headers = AddAcceptHeader(headers);
-            return await url.WithHeaders(headers).DeleteAsync();
+            var response = await url.WithHeaders(headers).DeleteAsync();
+            var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
+            return new HttpResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
         }
-        
-        public static async Task<HttpResponseMessage> PostAsync(this string url, object payload, IDictionary<string, string>? headers = null)
+
+        public static async Task<HttpResponse> PostAsync(this string url, object payload, IDictionary<string, string>? headers = null)
         {
             headers = AddAcceptHeader(headers);
-            return await url.WithHeaders(headers).PostAsync(new StringContent(payload.Serialize(), Encoding.UTF8, MediaType.Json));
+            var response = await url.WithHeaders(headers).PostAsync(payload.ToRequestBody());
+            var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
+            return new HttpResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
         }
 
         private static IDictionary<string, string> AddAcceptHeader(IDictionary<string, string>? headers)
@@ -42,6 +56,11 @@ namespace Sensemaking.Http
             headers ??= new Dictionary<string, string>();
             headers.Add("Accept", MediaType.Json);
             return headers;
+        }
+
+        private static StringContent ToRequestBody(this object payload)
+        {
+            return new StringContent(payload.Serialize(), Encoding.UTF8, MediaType.Json);
         }
     }
 }

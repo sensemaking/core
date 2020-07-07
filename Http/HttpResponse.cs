@@ -5,16 +5,13 @@ using System.Serialization;
 
 namespace Sensemaking.Http
 {
-    public class HttpResponse<T>
+    public class HttpResponse
     {
-        [AllowNull]
-        public T Body { get; }
         public HttpStatus Status { get; }
         public IDictionary<string, string> Headers { get; }
           
-        internal HttpResponse(HttpStatusCode code, string reason, IDictionary<string, string> headers, string body = default!)
+        internal HttpResponse(HttpStatusCode code, string reason, IDictionary<string, string> headers)
         {
-            Body = body != null ? body.Deserialize<T>() : default;
             Status = new HttpStatus(code, reason);
             Headers = headers;
         }
@@ -29,6 +26,21 @@ namespace Sensemaking.Http
 
             private HttpStatusCode Code { get; }
             private string Reason { get; }
+        }
+
+        public static implicit operator HttpStatus (HttpResponse response)
+        {
+            return response.Status;
+        }
+    }
+
+    public class HttpResponse<T> : HttpResponse
+    {
+        public T Body { get; }
+          
+        internal HttpResponse(string body, HttpStatusCode code, string reason, IDictionary<string, string> headers) : base(code, reason, headers)
+        {
+            Body = body.Deserialize<T>();
         }
 
         public static implicit operator T (HttpResponse<T> response)
