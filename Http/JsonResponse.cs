@@ -4,12 +4,12 @@ using System.Serialization;
 
 namespace Sensemaking.Http
 {
-    public class HttpResponse
+    public class JsonResponse
     {
         public HttpStatus Status { get; }
         public IDictionary<string, string> Headers { get; }
           
-        internal HttpResponse(HttpStatusCode code, string reason, IDictionary<string, string> headers)
+        internal JsonResponse(HttpStatusCode code, string reason, IDictionary<string, string> headers)
         {
             Status = new HttpStatus(code, reason);
             Headers = headers;
@@ -27,22 +27,22 @@ namespace Sensemaking.Http
             public string Reason { get; }
         }
 
-        public static implicit operator HttpStatus (HttpResponse response)
+        public static implicit operator HttpStatus (JsonResponse response)
         {
             return response.Status;
         }
     }
 
-    public class HttpResponse<T> : HttpResponse
+    public class JsonResponse<T> : JsonResponse
     {
         public T Body { get; }
           
-        internal HttpResponse(string body, HttpStatusCode code, string reason, IDictionary<string, string> headers) : base(code, reason, headers)
+        internal JsonResponse(string body, HttpStatusCode code, string reason, IDictionary<string, string> headers) : base(code, reason, headers)
         {
             Body = body.Deserialize<T>();
         }
 
-        public static implicit operator T (HttpResponse<T> response)
+        public static implicit operator T (JsonResponse<T> response)
         {
             return response.Body;
         }

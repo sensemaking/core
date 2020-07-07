@@ -18,37 +18,37 @@ namespace Sensemaking.Http
             FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
         }
 
-        public static async Task<HttpResponse<T>> GetAsync<T>(this string url, IDictionary<string, string>? headers = null)
+        public static async Task<JsonResponse<T>> GetAsync<T>(this string url, IDictionary<string, string>? headers = null)
         {
             headers = AddAcceptHeader(headers);
             var response = await url.WithHeaders(headers).GetAsync();
             var body = await response.Content.ReadAsStringAsync();
             var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
-            return new HttpResponse<T>(body, response.StatusCode, response.ReasonPhrase, responseHeaders);
+            return new JsonResponse<T>(body, response.StatusCode, response.ReasonPhrase, responseHeaders);
         }
 
-        public static async Task<HttpResponse> PutAsync(this string url, object payload, IDictionary<string, string>? headers = null)
+        public static async Task<JsonResponse> PutAsync(this string url, object payload, IDictionary<string, string>? headers = null)
         {
             headers = AddAcceptHeader(headers);
             var response = await url.WithHeaders(headers).PutAsync(payload.ToRequestBody());
             var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
-            return new HttpResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
+            return new JsonResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
         }
 
-        public static async Task<HttpResponse> DeleteAsync(this string url, IDictionary<string, string>? headers = null)
+        public static async Task<JsonResponse> DeleteAsync(this string url, IDictionary<string, string>? headers = null)
         {
             headers = AddAcceptHeader(headers);
             var response = await url.WithHeaders(headers).DeleteAsync();
             var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
-            return new HttpResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
+            return new JsonResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
         }
 
-        public static async Task<HttpResponse> PostAsync(this string url, object payload, IDictionary<string, string>? headers = null)
+        public static async Task<JsonResponse> PostAsync(this string url, object payload, IDictionary<string, string>? headers = null)
         {
             headers = AddAcceptHeader(headers);
             var response = await url.WithHeaders(headers).PostAsync(payload.ToRequestBody());
             var responseHeaders = response.Headers.ToDictionary(header => header.Key, header => string.Join(",", header.Value));
-            return new HttpResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
+            return new JsonResponse(response.StatusCode, response.ReasonPhrase, responseHeaders);
         }
 
         private static IDictionary<string, string> AddAcceptHeader(IDictionary<string, string>? headers)
