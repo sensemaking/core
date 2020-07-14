@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Security;
+using Newtonsoft.Json;
 using NodaTime;
 using NodaTime.Serialization.JsonNet;
 using NodaTime.Text;
@@ -16,9 +17,9 @@ namespace System.Serialization
         {
             var dateString = reader.Value as string;
             if (dateString == null)
-                return LocalDatePattern.Iso.Parse(dateString).Value;
+                throw new SerializationException("Date cannot be null.");
 
-            var index = dateString.ToUpper().IndexOf("T");
+            var index = dateString.ToUpper().IndexOf("T", StringComparison.Ordinal);
             if (index > 0)
                 dateString = dateString.Substring(0, index);
 
@@ -41,7 +42,7 @@ namespace System.Serialization
                 dateString = dateString!.Substring(0, index.Value);
 
 
-            var parseResult = LocalDatePattern.Iso.Parse(dateString);
+            var parseResult = LocalDatePattern.Iso.Parse(dateString!);
             return parseResult.Success ? parseResult.Value : new LocalDate?();
         }
     }

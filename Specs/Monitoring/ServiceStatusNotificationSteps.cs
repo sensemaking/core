@@ -14,7 +14,7 @@ namespace Sensemaking.Monitoring.Specs
     public partial class ServiceStatusNotificationSpecs
     {
         private static ServiceMonitor.Status service_status;
-        private static readonly Duration heartbeat = Duration.FromMilliseconds(200);
+        private static readonly Period heartbeat = Period.FromMilliseconds(200);
         private IMonitorServices service_monitor;
 
         protected override void before_all()
@@ -40,6 +40,7 @@ namespace Sensemaking.Monitoring.Specs
         private void a_service_monitor()
         {
             service_monitor = Substitute.For<IMonitorServices>();
+            service_monitor.Heartbeat.Returns(Period.FromSeconds(20));
             service_monitor.Availability().Returns(Availability.Up());
         }
 
@@ -81,7 +82,7 @@ namespace Sensemaking.Monitoring.Specs
         private void notifying_of_service_status()
         {
             new ServiceStatusNotifier(service_monitor);
-            Thread.Sleep(heartbeat.Milliseconds - 50);
+            Thread.Sleep((int) heartbeat.Milliseconds - 50);
         }
 
         private void status_is_logged()
@@ -92,7 +93,7 @@ namespace Sensemaking.Monitoring.Specs
         private void it_is_logged_again_after_heartbeat_interval()
         {
             Log.Logger.ClearReceivedCalls();
-            Thread.Sleep(heartbeat.Milliseconds + 50);
+            Thread.Sleep((int) heartbeat.Milliseconds + 50);
             Log.Logger.Received().Write(LogEventLevel.Information, service_status.Serialize());
         }
 

@@ -14,7 +14,7 @@ namespace Sensemaking.Host.Monitoring
         public ServiceStatusNotifier(IMonitorServices monitor)
         {
             Monitor = monitor;
-            Timer = new Timer(e => Monitor.LogStatus(), null, TimeSpan.Zero, monitor.Heartbeat.ToTimeSpan());
+            Timer = new Timer(e => Monitor.LogStatus(), null, TimeSpan.Zero, monitor.Heartbeat.ToDuration().ToTimeSpan());
         }
     }
 

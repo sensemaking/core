@@ -14,7 +14,7 @@ namespace Sensemaking.Monitoring.Specs
         private ServiceDependency service_dependency_2;
         private IMonitor dependency_1_monitor;
         private IMonitor dependency_2_monitor;
-        private readonly Duration heartbeat = Duration.FromMilliseconds(100);
+        private readonly Period heartbeat = Period.FromMilliseconds(100);
         private ServiceMonitor service_monitor;
         private Availability overall_availability;
         private ServiceMonitor.Status the_status;

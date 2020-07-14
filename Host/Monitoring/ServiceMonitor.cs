@@ -7,16 +7,16 @@ namespace Sensemaking.Host.Monitoring
     public interface IMonitorServices
     {
         ServiceMonitor.Status GetStatus();
-        Duration Heartbeat { get; }
+        Period Heartbeat { get; }
         Availability Availability();
     }
 
     public class ServiceMonitor : IMonitorServices
     {
         private readonly ServiceDependency[] dependencies;
-        public Duration Heartbeat { get; }
+        public Period Heartbeat { get; }
 
-        public ServiceMonitor(Duration heartbeat, params ServiceDependency[] dependencies)
+        public ServiceMonitor(Period heartbeat, params ServiceDependency[] dependencies)
         {
             Heartbeat = heartbeat;
             this.dependencies = dependencies;
