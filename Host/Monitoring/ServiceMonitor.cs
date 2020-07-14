@@ -6,30 +6,31 @@ namespace Sensemaking.Host.Monitoring
 {
     public interface IMonitorServices
     {
-        ServiceMonitor.Status GetStatus();
         Period Heartbeat { get; }
+        ServiceDependency[] Dependencies { get; }
         Availability Availability();
+        ServiceMonitor.Status GetStatus();
     }
 
     public class ServiceMonitor : IMonitorServices
     {
-        private readonly ServiceDependency[] dependencies;
         public Period Heartbeat { get; }
+        public ServiceDependency[] Dependencies { get; }
 
         public ServiceMonitor(Period heartbeat, params ServiceDependency[] dependencies)
         {
             Heartbeat = heartbeat;
-            this.dependencies = dependencies;
+            Dependencies = dependencies;
         }
 
         public Availability Availability()
         {
-            return dependencies.Any() ? dependencies.Select(x => x.Monitor.Availability()).Aggregate((x, y) => x & y) : Sensemaking.Monitoring.Availability.Up();
+            return Dependencies.Any() ? Dependencies.Select(x => x.Monitor.Availability()).Aggregate((x, y) => x & y) : Sensemaking.Monitoring.Availability.Up();
         }
 
         public Status GetStatus()
         {
-            return new Status(Availability(), dependencies.Select(x => x.Monitor.Info).ToArray());
+            return new Status(Availability(), Dependencies.Select(x => x.Monitor.Info).ToArray());
         }
         
         public struct Status
