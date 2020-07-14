@@ -15,7 +15,7 @@ namespace Sensemaking.Http
         internal JsonResponse(HttpResponseMessage response)
         {
             Status = new HttpStatus(response.StatusCode, response.ReasonPhrase);
-            Headers = response.Headers.Select(header => (header.Key, string.Join(",", header.Value))).ToArray();
+            Headers = response.Content.Headers.Select(header => (header.Key, string.Join(",", header.Value))).ToArray();
         }
 
         public readonly struct HttpStatus
