@@ -36,7 +36,7 @@ namespace Sensemaking.Bdd
 
         public void And(Action action) { action.Invoke(); }
 
-        protected void trying(Action action)
+        protected virtual void trying(Action action)
         {
             try
             {
