@@ -1,7 +1,7 @@
 ﻿using Flurl.Http;
 using Sensemaking.Monitoring;
 
-namespace Sensemaking.Http.Monitoring
+namespace Sensemaking.Http.Json.Client.Monitoring
 {
     public class HttpServiceMonitor : InstanceMonitor
     {

@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Bdd\Bdd.csproj" />
-    <ProjectReference Include="..\..\Http\Http.csproj" />
+    <ProjectReference Include="..\..\Http.Json.Client\Http.Json.Client.csproj" />
   </ItemGroup>
 
 </Project>

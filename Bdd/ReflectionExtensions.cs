@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Reflection;
 
-namespace System
+namespace Sensemaking.Bdd
 {
     public static class ReflectionExtensions
     {

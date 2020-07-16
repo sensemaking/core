@@ -1,7 +1,14 @@
-﻿namespace Sensemaking.Http
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+
+namespace Sensemaking.Http
 {
     public readonly struct Problem
     {
+        public static readonly Problem Empty = new Problem();
+
         public Problem(string title, params string[] errors)
         {
             Title = title;
@@ -10,5 +17,49 @@
 
         public string Title { get; }
         public string[] Errors { get; }
+
+        #region Equality
+
+        public static bool operator ==(Problem @this, Problem that)
+        {
+            return @this.Equals(that);
+        }
+
+        public static bool operator !=(Problem @this, Problem that)
+        {
+            return !@this.Equals(that);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Problem other && Equals(other);
+        }
+
+        public bool Equals(Problem that)
+        {
+            return this.Title == that.Title && this.Errors.SequenceEqual(that.Errors);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Title, Errors);
+        }
+
+        #endregion
+    }
+
+    internal static class ProblemExtensions
+    {
+        private static readonly HttpStatusCode[] ProblemStatusCodes = { HttpStatusCode.BadRequest, HttpStatusCode.Conflict };
+
+        internal static bool IsError(this HttpStatusCode statusCode)
+        {
+            return (int)statusCode >= 400 && (int)statusCode < 600;
+        }
+
+        internal static bool IsProblem(this HttpStatusCode statusCode)
+        {
+            return ProblemStatusCodes.Contains(statusCode);
+        }
     }
 }

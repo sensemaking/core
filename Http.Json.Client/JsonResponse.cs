@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Net;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Serialization;
 
-namespace Sensemaking.Http
+namespace Sensemaking.Http.Json.Client
 {
-    public class JsonResponse
+    public partial class JsonResponse
     {
         public HttpStatus Status { get; }
         public (string Name, string Value)[] Headers { get; }
@@ -18,30 +16,21 @@ namespace Sensemaking.Http
             Headers = response.Content.Headers.Select(header => (header.Key, string.Join(",", header.Value))).ToArray();
         }
 
-        public readonly struct HttpStatus
-        {
-            internal HttpStatus(HttpStatusCode code, string reason)
-            {
-                Code = code;
-                Reason = reason;
-            }
-
-            public HttpStatusCode Code { get; }
-            public string Reason { get; }
-        }
-
-        public static implicit operator HttpStatus (JsonResponse response)
+        public static implicit operator HttpStatus (Json.Client.JsonResponse response)
         {
             return response.Status;
         }
     }
 
-    public class JsonResponse<T> : JsonResponse
+    public class JsonResponse<T> : Json.Client.JsonResponse
     {
         public T Body { get; }
           
         internal JsonResponse(string body, HttpResponseMessage response) : base(response)
         {
+            if (response.StatusCode.IsError())
+                throw new ProblemException(new HttpStatus(response.StatusCode, response.ReasonPhrase), response.StatusCode.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
+
             Body = body.Deserialize<T>();
         }
 
