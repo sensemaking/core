@@ -30,7 +30,7 @@ namespace Sensemaking.Http.Json.Client
         internal JsonResponse(string body, HttpResponseMessage response) : base(response)
         {
             if (response.StatusCode.IsError())
-                throw new ProblemException(response.StatusCode, response.StatusCode.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
+                throw new ProblemException(response.StatusCode, Headers, response.StatusCode.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
 
             Body = body.Deserialize<T>();
         }
