@@ -8,12 +8,13 @@ namespace Sensemaking.Http
         public HttpStatus(HttpStatusCode code, string reason)
         {
             Code = code;
-            Reason = reason;
+            this.reason = reason;
         }
 
         public HttpStatusCode Code { get; }
-        public string Reason { get; }
 
+        private readonly string reason;
+        public string Reason => reason ?? string.Empty;
 
         #region Equality
 
@@ -27,9 +28,9 @@ namespace Sensemaking.Http
             return !@this.Equals(that);
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object? that)
         {
-            return obj is HttpStatus other && Equals(other);
+            return that is HttpStatus status && Equals(status);
         }
 
         public bool Equals(HttpStatus that)

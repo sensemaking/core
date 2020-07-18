@@ -7,16 +7,19 @@ namespace Sensemaking.Http
 {
     public readonly struct Problem
     {
-        public static readonly Problem Empty = new Problem();
+        public static readonly Problem Empty = new Problem(string.Empty);
 
         public Problem(string title, params string[] errors)
         {
-            Title = title;
-            Errors = errors;
+            this.title = title;
+            this.errors = errors;
         }
 
-        public string Title { get; }
-        public string[] Errors { get; }
+        private readonly string title;
+        public string Title => title ?? string.Empty;
+
+        private readonly string[] errors;
+        public string[] Errors => errors ?? new string[0];
 
         #region Equality
 
@@ -30,9 +33,9 @@ namespace Sensemaking.Http
             return !@this.Equals(that);
         }
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object? that)
         {
-            return obj is Problem other && Equals(other);
+            return that is Problem problem && Equals(problem);
         }
 
         public bool Equals(Problem that)
