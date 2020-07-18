@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Serialization;
 
@@ -6,30 +7,30 @@ namespace Sensemaking.Http.Json.Client
 {
     public partial class JsonResponse
     {
-        public HttpStatus Status { get; }
+        public HttpStatusCode Status { get; }
         public (string Name, string Value)[] Headers { get; }
         public string this[string headerName] => Headers.SingleOrDefault(h => h.Name == headerName).Value ?? string.Empty;
 
         internal JsonResponse(HttpResponseMessage response)
         {
-            Status = new HttpStatus(response.StatusCode, response.ReasonPhrase);
+            Status = response.StatusCode;
             Headers = response.Content.Headers.Select(header => (header.Key, string.Join(",", header.Value))).ToArray();
         }
 
-        public static implicit operator HttpStatus (Json.Client.JsonResponse response)
+        public static implicit operator HttpStatusCode (JsonResponse response)
         {
             return response.Status;
         }
     }
 
-    public class JsonResponse<T> : Json.Client.JsonResponse
+    public class JsonResponse<T> : JsonResponse
     {
         public T Body { get; }
           
         internal JsonResponse(string body, HttpResponseMessage response) : base(response)
         {
             if (response.StatusCode.IsError())
-                throw new ProblemException(new HttpStatus(response.StatusCode, response.ReasonPhrase), response.StatusCode.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
+                throw new ProblemException(response.StatusCode, response.StatusCode.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
 
             Body = body.Deserialize<T>();
         }
