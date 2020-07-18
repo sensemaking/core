@@ -8,7 +8,21 @@ namespace System
         string[] Errors { get; }
     }
 
-    public class Validation
+    public class ValidationException : Exception, IListExceptionErrors
+    {
+        public ValidationException(params string[] errors) : base("A validation error has occured") { Errors = errors; }
+        public string[] Errors { get; }
+    }
+
+    public class ConflictException : Exception, IListExceptionErrors
+    {
+        public ConflictException(params string[] errors) : base("A conflict has occured") { Errors = errors; }
+        public string[] Errors { get; }
+    }
+
+    public class NotFoundException : Exception { public NotFoundException() : base() { } }
+
+    public static class Validation
     {
         public static void BasedOn(Action<IList<string>> validator)
         {
@@ -18,25 +32,5 @@ namespace System
             if (errors.Any())
                 throw new ValidationException(errors.ToArray());
         }
-    }
-
-    public class ValidationException : Exception, IListExceptionErrors
-    {
-        public ValidationException(params string[] errors) : base("A validation error has occured")
-        {
-            Errors = errors;
-        }
-
-        public string[] Errors { get; }
-    }
-
-    public class NotFoundException : Exception
-    {
-        public NotFoundException(string message) : base(message) { }
-    }
-
-    public class ConflictException : Exception
-    {
-        public ConflictException(string message) : base(message) { }
     }
 }
