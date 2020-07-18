@@ -17,6 +17,7 @@ namespace Sensemaking.Http
 
         #region Equality
 
+
         public static bool operator ==(HttpStatus @this, HttpStatus that)
         {
             return @this.Equals(that);
