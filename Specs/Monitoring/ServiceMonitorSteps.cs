@@ -9,12 +9,13 @@ namespace Sensemaking.Monitoring.Specs
 {
     public partial class ServiceMonitorSpecs
     {
+        private const string service_name = "My Awesome Service";
+        private static readonly Period heartbeat = Period.FromMilliseconds(100);
         private IList<ServiceDependency> service_dependencies;
         private ServiceDependency service_dependency_1;
         private ServiceDependency service_dependency_2;
         private IMonitor dependency_1_monitor;
         private IMonitor dependency_2_monitor;
-        private readonly Period heartbeat = Period.FromMilliseconds(100);
         private ServiceMonitor service_monitor;
         private Availability overall_availability;
         private ServiceMonitor.Status the_status;
@@ -39,7 +40,7 @@ namespace Sensemaking.Monitoring.Specs
 
         private void a_service_monitor()
         {
-            service_monitor = new ServiceMonitor(heartbeat, service_dependencies.ToArray());
+            service_monitor = new ServiceMonitor(service_name, heartbeat, service_dependencies.ToArray());
         }
 
         private void dependency_1_is_available()
@@ -74,14 +75,20 @@ namespace Sensemaking.Monitoring.Specs
 
         private void getting_service_availability()
         {
-            service_monitor = new ServiceMonitor(heartbeat, service_dependencies.ToArray());
+            service_monitor = new ServiceMonitor(service_name, heartbeat, service_dependencies.ToArray());
             overall_availability = service_monitor.Availability();
         }
 
         private void getting_status()
         {
-            service_monitor = new ServiceMonitor(heartbeat, service_dependencies.ToArray());
+            service_monitor = new ServiceMonitor(service_name, heartbeat, service_dependencies.ToArray());
             the_status = service_monitor.GetStatus();
+        }
+
+        private void it_has_its_monitor_info()
+        {
+            service_monitor.Info.Type.should_be("Service Monitor");
+            service_monitor.Info.Name.should_be(service_name);
         }
 
         private void it_has_its_monitoring_interval()

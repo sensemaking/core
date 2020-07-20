@@ -7,6 +7,7 @@ namespace Sensemaking.Host.Monitoring
 {
     public interface IMonitorServices
     {
+        MonitorInfo Info { get; }
         Period Heartbeat { get; }
         ServiceDependency[] Dependencies { get; }
         Availability Availability();
@@ -15,14 +16,16 @@ namespace Sensemaking.Host.Monitoring
 
     public class ServiceMonitor : IMonitorServices
     {
-        public Period Heartbeat { get; }
-        public ServiceDependency[] Dependencies { get; }
-
-        public ServiceMonitor(Period heartbeat, params ServiceDependency[] dependencies)
+        public ServiceMonitor(string serviceName, Period heartbeat, params ServiceDependency[] dependencies)
         {
+            Info = new MonitorInfo("Service Monitor", serviceName);
             Heartbeat = heartbeat;
             Dependencies = dependencies;
         }
+
+        public MonitorInfo Info { get; }
+        public Period Heartbeat { get; }
+        public ServiceDependency[] Dependencies { get; }
 
         public Availability Availability()
         {

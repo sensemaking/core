@@ -8,6 +8,13 @@ namespace Sensemaking.Monitoring.Specs
     public partial class ServiceMonitorSpecs : Specification
     {
         [Test]
+        public void it_provides_monitor_info()
+        {
+            Given(a_service_monitor);
+            Then(it_has_its_monitor_info);
+        }
+
+        [Test]
         public void it_provides_monitoring_interval()
         {
             Given(a_service_monitor);
