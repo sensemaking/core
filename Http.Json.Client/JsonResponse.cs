@@ -9,6 +9,7 @@ namespace Sensemaking.Http.Json.Client
     {
         public HttpStatusCode Status { get; }
         public (string Name, string Value)[] Headers { get; }
+        public string this[string headerName] => Headers.SingleOrDefault(h => h.Name == headerName).Value ?? string.Empty;
 
         internal JsonResponse(HttpResponseMessage response)
         {
