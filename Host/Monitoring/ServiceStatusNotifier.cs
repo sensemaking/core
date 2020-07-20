@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Serialization;
 using System.Threading;
 using Serilog;
@@ -37,6 +36,8 @@ namespace Sensemaking.Host.Monitoring
                 case ServiceMonitor.Status.Healthiness.Dead:
                     Log.Fatal(status.Serialize());
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NodaTime;
 using Sensemaking.Monitoring;
 
@@ -71,25 +72,19 @@ namespace Sensemaking.Host.Monitoring
                 Dead = 4
             }
 
-            public bool Equals(Status other)
+            public bool Equals(Status that)
             {
-                return Equals(Monitoring, other.Monitoring) && Equals(Alerts, other.Alerts);
+                return this.Monitoring == that.Monitoring && this.Alerts.SequenceEqual(that.Alerts);
             }
 
             public override bool Equals(object obj)
             {
-                if (ReferenceEquals(null, obj)) return false;
-                return obj is Status && Equals((Status) obj);
+                return obj is Status status && Equals(status);
             }
 
             public override int GetHashCode()
             {
-                unchecked
-                {
-                    var hashCode = Monitoring.GetHashCode();
-                    hashCode = (hashCode * 397) ^ Alerts.GetHashCode();
-                    return hashCode;
-                }
+                return HashCode.Combine(Monitoring, Alerts);
             }
         }
     }

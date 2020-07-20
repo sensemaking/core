@@ -5,14 +5,15 @@ using Serilog.Events;
 
 namespace Serilog.Formatting.Json
 {
-    public class JsonObjectAsMessageFormatter : ITextFormatter
+    public class ObjectsAreJsonMessagesFormatter : ITextFormatter
     {
         private readonly JsonFormatter fallback = new JsonFormatter(renderMessage: true);
 
         public void Format(LogEvent logEvent, TextWriter output)
         {
-            if (logEvent.RenderMessage().IsJson())
-                output.Write(new { Log = logEvent.RenderMessage().Deserialize<dynamic>(), logEvent.Level, At = logEvent.Timestamp }.Serialize());
+            var message = logEvent.RenderMessage();
+            if (message.IsJson())
+                output.WriteLine(new { Log = message.Deserialize<dynamic>(), logEvent.Level, At = logEvent.Timestamp }.Serialize());
             else
                 fallback.Format(logEvent, output);
         }

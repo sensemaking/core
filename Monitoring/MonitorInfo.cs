@@ -37,7 +37,7 @@ namespace Sensemaking.Monitoring
 
         public bool Equals(MonitorInfo that)
         {
-            return string.Equals(Type, that.Type) && string.Equals(Name, that.Name) && (Instances ?? Array.Empty<string>()).SequenceEqual(that.Instances ?? Array.Empty<string>());
+            return this.Type == that.Type && this.Name == that.Name && this.Instances.SequenceEqual(that.Instances);
         }
 
         public override bool Equals(object that)
@@ -47,13 +47,7 @@ namespace Sensemaking.Monitoring
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hashCode = Type.GetHashCode();
-                hashCode = (hashCode * 397) ^ Name.GetHashCode();
-                hashCode = (hashCode * 397) ^ Instances.GetHashCode();
-                return hashCode;
-            }
+            return HashCode.Combine(Type, Name, Instances);
         }
     }
 }

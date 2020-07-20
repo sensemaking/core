@@ -33,7 +33,7 @@ namespace Sensemaking.Http
             return !@this.Equals(that);
         }
 
-        public override bool Equals(object? that)
+        public override bool Equals(object that)
         {
             return that is Problem problem && Equals(problem);
         }
