@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Flurl;
 using Flurl.Http;
+using Flurl.Http.Configuration;
 
 namespace Sensemaking.Http.Json.Client
 {
@@ -75,9 +79,5 @@ namespace Sensemaking.Http.Json.Client
         {
             return new StringContent(payload.Serialize(), Encoding.UTF8, MediaType.Json);
         }
-    }
-
-    internal static class ResponseExtensions
-    {
     }
 }
