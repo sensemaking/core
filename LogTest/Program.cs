@@ -14,6 +14,7 @@ namespace LogTest
     {
         static void Main(string[] args)
         {
+            //check rule of three
             //Discuss mocking.
             //Discuss fact that we cannot force the text formatter either.
             Log.Logger = new LoggerConfiguration()
