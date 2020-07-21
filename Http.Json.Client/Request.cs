@@ -14,7 +14,6 @@ namespace Sensemaking.Http.Json.Client
 {
     public static class Request
     {
-
         static Request() => FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
 
         public static async Task<JsonResponse<T>> GetAsync<T>(this string url, params (string Name, string Value)[] headers)
