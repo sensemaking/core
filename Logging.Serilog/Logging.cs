@@ -14,7 +14,7 @@ namespace Sensemaking
             get
             {
                 if (logger == null) 
-                    throw new Exception();
+                    throw new Exception("Please provide a logger.");
                     
                 return logger;
             }
