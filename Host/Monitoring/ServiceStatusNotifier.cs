@@ -1,7 +1,6 @@
 using System;
 using System.Serialization;
 using System.Threading;
-using Serilog;
 
 namespace Sensemaking.Host.Monitoring
 {
@@ -17,7 +16,7 @@ namespace Sensemaking.Host.Monitoring
         }
     }
 
-    internal static class Logging
+    internal static class LogExtensions
     {
         internal static void LogStatus(this IMonitorServices monitor)
         {
@@ -25,16 +24,16 @@ namespace Sensemaking.Host.Monitoring
             switch (status.Health)
             {
                 case ServiceMonitor.Status.Healthiness.Alive:
-                    Log.Information(status.Serialize());
+                    Logging.Information(status);
                     break;
                 case ServiceMonitor.Status.Healthiness.Ill:
-                    Log.Warning(status.Serialize());
+                    Logging.Warning(status);
                     break;
                 case ServiceMonitor.Status.Healthiness.OnLastLegs:
-                    Log.Error(status.Serialize());
+                    Logging.Error(status);
                     break;
                 case ServiceMonitor.Status.Healthiness.Dead:
-                    Log.Fatal(status.Serialize());
+                    Logging.Fatal(status);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

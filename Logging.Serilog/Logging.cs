@@ -9,16 +9,20 @@ namespace Sensemaking
     {
         private static ILogger? logger;
 
-        private static ILogger? Logger
+        private static ILogger Logger
         {
             get
             {
                 if (logger == null) 
                     throw new Exception();
                     
-                return Logger;
+                return logger;
             }
-            set => logger = value;
+            set
+            {
+                logger = value;
+                Log.Logger = logger;
+            }
         }
 
         public static void Configure(ILogger logger)

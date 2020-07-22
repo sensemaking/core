@@ -16,6 +16,7 @@ namespace Sensemaking.Monitoring.Specs
         private static ServiceMonitor.Status service_status;
         private static readonly Period heartbeat = Period.FromMilliseconds(200);
         private IMonitorServices service_monitor;
+        private ILogger logger;
 
         protected override void before_all()
         {
@@ -26,15 +27,10 @@ namespace Sensemaking.Monitoring.Specs
         protected override void before_each()
         {
             base.before_each();
-            Log.Logger = Substitute.For<ILogger>();
+            logger = Substitute.For<ILogger>();
+            Logging.Configure(logger);
             service_monitor = null;
             service_status = ServiceMonitor.Status.Empty;
-        }
-
-        protected override void after_all()
-        {
-            Log.CloseAndFlush();
-            base.after_all();
         }
 
         private void a_service_monitor()
@@ -87,34 +83,35 @@ namespace Sensemaking.Monitoring.Specs
 
         private void status_is_logged()
         {
-            Log.Logger.Received().Write(Arg.Any<LogEventLevel>(), service_status.Serialize());
+            var e = Log.Logger.IsEnabled(LogEventLevel.Information);
+            logger.Received().Information(service_status.Serialize());
         }
 
         private void it_is_logged_again_after_heartbeat_interval()
         {
-            Log.Logger.ClearReceivedCalls();
+            logger.ClearReceivedCalls();
             Thread.Sleep((int) heartbeat.Milliseconds + 50);
-            Log.Logger.Received().Write(LogEventLevel.Information, service_status.Serialize());
+            logger.Received().Information(service_status.Serialize());
         }
 
         private void status_is_logged_as_information()
         {
-            Log.Logger.Received().Write(LogEventLevel.Information, service_status.Serialize());
+            logger.Received().Information(service_status.Serialize());
         }
 
         private void status_is_logged_as_a_warning()
         {
-            Log.Logger.Received().Write(LogEventLevel.Warning, service_status.Serialize());
+            logger.Received().Warning(service_status.Serialize());
         }
 
         private void status_is_logged_as_an_error()
         {
-            Log.Logger.Received().Write(LogEventLevel.Error, service_status.Serialize());
+            logger.Received().Error(service_status.Serialize());
         }
 
         private void status_is_logged_as_fatal()
         {
-            Log.Logger.Received().Write(LogEventLevel.Fatal, service_status.Serialize());
+            logger.Received().Fatal(service_status.Serialize());
         }
     }
 }
