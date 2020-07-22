@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>Sensemaking.Serilog</AssemblyName>
-    <RootNamespace>Serilog.Formatting.Json</RootNamespace>
+    <RootNamespace>Sensemaking</RootNamespace>
     <Nullable>enable</Nullable>
     <Description>Serilog extensions for logging objects as Json</Description>
     <RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>

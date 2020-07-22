@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Serialization;
+using Sensemaking;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -36,21 +37,5 @@ namespace LogTest
 
             Console.WriteLine("Hello World!");
         }
-    }
-
-    public static class LoggerExtensions
-    {
-        public static void Information(this ILogger logger, object obj) { logger.Information(obj.Serialize()); }
-        public static void Warning(this ILogger logger, object obj) { logger.Warning(obj.Serialize()); }
-        public static void Error(this ILogger logger, object obj) { logger.Error(obj.Serialize()); }
-        public static void Fatal(this ILogger logger, object obj) { logger.Fatal(obj.Serialize()); }
-    }
-
-    public static class Logging
-    {
-        public static void Information(object logEntry) => Log.Information(logEntry.Serialize());
-        public static void Warning(object logEntry) => Log.Warning(logEntry.Serialize());
-        public static void Error(object logEntry) => Log.Error(logEntry.Serialize());
-        public static void Fatal(object logEntry) => Log.Fatal(logEntry.Serialize());
     }
 }
