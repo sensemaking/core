@@ -32,8 +32,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Http.Json.Client", "Http.Json.Client\Http.Json.Client.csproj", "{59CC7E96-17F3-4534-8ECA-6275496BADC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogTest", "LogTest\LogTest.csproj", "{F88C45E0-9FF5-47C6-8BE6-78619944E23D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,10 +82,6 @@ Global
 		{59CC7E96-17F3-4534-8ECA-6275496BADC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59CC7E96-17F3-4534-8ECA-6275496BADC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59CC7E96-17F3-4534-8ECA-6275496BADC0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F88C45E0-9FF5-47C6-8BE6-78619944E23D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F88C45E0-9FF5-47C6-8BE6-78619944E23D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F88C45E0-9FF5-47C6-8BE6-78619944E23D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F88C45E0-9FF5-47C6-8BE6-78619944E23D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
