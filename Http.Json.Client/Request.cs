@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Serialization;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Flurl;
+using System;
 using Flurl.Http;
-using Flurl.Http.Configuration;
 
 namespace Sensemaking.Http.Json.Client
 {
     public static class Request
     {
         static Request() => FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
+
+        private static readonly (string, string) AcceptHeader = ("Accept", MediaType.Json); 
 
         public static async Task<JsonResponse<T>> GetAsync<T>(this string url, params (string Name, string Value)[] headers)
         {
@@ -64,20 +63,33 @@ namespace Sensemaking.Http.Json.Client
             return new JsonResponse(response);
         }
 
+        private static StringContent ToRequestBody(this object payload)
+        {
+            return new StringContent(payload.Serialize(), Encoding.UTF8, MediaType.Json);
+        }
+
         private static async Task<JsonResponse<T>> ToJsonResponse<T>(this HttpResponseMessage response)
         {
             var body = await response.Content.ReadAsStringAsync();
             return new JsonResponse<T>(body, response);
         }
 
-        private static (string, string)[] AddAcceptHeader(this IEnumerable<(string, string)> headers)
+        private static IFlurlRequest WithHeaders(this IFlurlRequest request, params (string Name, string Value)[] headers)
         {
-            return headers.Concat(new (string, string)[] { ("Accept", MediaType.Json) }).ToArray();
+            headers.ForEach(header => request.WithHeader(header.Name, header.Value));
+            return request;
+        }
+        
+        private static IFlurlRequest WithHeaders(this string url, params (string Name, string Value)[] headers)
+        {
+            var request = new FlurlRequest(url);
+            headers.ForEach(header => request.WithHeader(header.Name, header.Value));
+            return request;
         }
 
-        private static StringContent ToRequestBody(this object payload)
+        private static (string, string)[] AddAcceptHeader(this IEnumerable<(string, string)> headers)
         {
-            return new StringContent(payload.Serialize(), Encoding.UTF8, MediaType.Json);
+            return new [] { AcceptHeader }.Concat(headers).ToArray();
         }
     }
 }

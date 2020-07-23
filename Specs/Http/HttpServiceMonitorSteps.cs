@@ -1,5 +1,6 @@
 ﻿using Flurl.Http.Testing;
 using Sensemaking.Bdd;
+using Sensemaking.Http.Json.Client;
 using Sensemaking.Http.Json.Client.Monitoring;
 using Sensemaking.Monitoring;
 
