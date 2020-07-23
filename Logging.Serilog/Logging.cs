@@ -7,33 +7,15 @@ namespace Sensemaking
 {
     public static class Logging
     {
-        private static ILogger? logger;
-
-        private static ILogger Logger
-        {
-            get
-            {
-                if (logger == null) 
-                    throw new Exception("Please provide a logger.");
-                    
-                return logger;
-            }
-            set
-            {
-                logger = value;
-                Log.Logger = logger;
-            }
-        }
-
         public static void Configure(ILogger logger)
         {
-            Logger = logger;
+            Log.Logger = logger;
         }
 
-        public static void Information(object logEntry) => Logger.Information(logEntry.Serialize());
-        public static void Warning(object logEntry) => Logger.Warning(logEntry.Serialize());
-        public static void Error(object logEntry) => Logger.Error(logEntry.Serialize());
-        public static void Fatal(object logEntry) => Logger.Fatal(logEntry.Serialize());
+        public static void Information(object logEntry) => Log.Logger.Information(logEntry.Serialize());
+        public static void Warning(object logEntry) => Log.Logger.Warning(logEntry.Serialize());
+        public static void Error(object logEntry) => Log.Logger.Error(logEntry.Serialize());
+        public static void Fatal(object logEntry) => Log.Logger.Fatal(logEntry.Serialize());
 
         public static void Information(this ILogger logger, object obj) { logger.Information(obj.Serialize()); }
         public static void Warning(this ILogger logger, object obj) { logger.Warning(obj.Serialize()); }
