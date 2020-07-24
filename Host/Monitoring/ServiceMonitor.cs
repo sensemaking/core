@@ -69,9 +69,9 @@ namespace Sensemaking.Host.Monitoring
 
             public enum Healthiness
             {
-                Alive = 1,
-                Ill = 2,
-                OnLastLegs = 3,
+                Alive = 0,
+                Ill = 1,
+                OnLastLegs = 2,
                 Dead = 4
             }
 
