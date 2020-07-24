@@ -1,5 +1,4 @@
 using System;
-using System.Serialization;
 using System.Threading;
 using NodaTime;
 
@@ -8,8 +7,8 @@ namespace Sensemaking.Host.Monitoring
     public class ServiceStatusNotifier
     {
         private Timer Timer { get; set; }
-        internal IMonitorServices Monitor { get; }
-        internal Period Heartbeat { get; }
+        public IMonitorServices Monitor { get; }
+        public Period Heartbeat { get; }
 
         public ServiceStatusNotifier(IMonitorServices monitor, Period heartbeat)
         {
