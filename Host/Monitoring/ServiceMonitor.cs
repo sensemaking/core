@@ -72,6 +72,18 @@ namespace Sensemaking.Host.Monitoring
                 Dead = 4
             }
 
+            #region Equaltiy
+
+            public static bool operator ==(Status @this, Status that)
+            {
+                return @this.Equals(that);
+            }
+
+            public static bool operator !=(Status @this, Status that)
+            {
+                return !@this.Equals(that);
+            }
+
             public bool Equals(Status that)
             {
                 return this.Monitoring == that.Monitoring && this.Alerts.SequenceEqual(that.Alerts);
@@ -86,6 +98,8 @@ namespace Sensemaking.Host.Monitoring
             {
                 return HashCode.Combine(Monitoring, Alerts);
             }
+
+            #endregion
         }
     }
 }
