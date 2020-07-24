@@ -40,7 +40,7 @@ namespace Sensemaking.Monitoring.Specs
 
         private void a_service_monitor()
         {
-            service_monitor = new ServiceMonitor(service_name, heartbeat, service_dependencies.ToArray());
+            service_monitor = new ServiceMonitor(service_name, service_dependencies.ToArray());
         }
 
         private void dependency_1_is_available()
@@ -75,13 +75,13 @@ namespace Sensemaking.Monitoring.Specs
 
         private void getting_service_availability()
         {
-            service_monitor = new ServiceMonitor(service_name, heartbeat, service_dependencies.ToArray());
+            service_monitor = new ServiceMonitor(service_name, service_dependencies.ToArray());
             overall_availability = service_monitor.Availability();
         }
 
         private void getting_status()
         {
-            service_monitor = new ServiceMonitor(service_name, heartbeat, service_dependencies.ToArray());
+            service_monitor = new ServiceMonitor(service_name, service_dependencies.ToArray());
             the_status = service_monitor.GetStatus();
         }
 
@@ -89,11 +89,6 @@ namespace Sensemaking.Monitoring.Specs
         {
             service_monitor.Info.Type.should_be("Service Monitor");
             service_monitor.Info.Name.should_be(service_name);
-        }
-
-        private void it_has_its_monitoring_interval()
-        {
-            heartbeat.should_be(service_monitor.Heartbeat);
         }
 
         private void overall_level_of_service_is_provided()

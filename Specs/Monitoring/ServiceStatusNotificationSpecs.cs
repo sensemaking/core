@@ -7,7 +7,7 @@ namespace Sensemaking.Monitoring.Specs
     public partial class ServiceStatusNotificationSpecs : Specification
     {
         [Test]
-        public void logs_status_according_to_service_monitors_heartbeat_interval()
+        public void logs_status_according_to_heartbeat_interval()
         {
             Given(a_service_monitor);
             And(it_has_a_status);
@@ -18,7 +18,7 @@ namespace Sensemaking.Monitoring.Specs
         }
 
         [Test]
-        public void logs_status_as_information_its_health_is_alive()
+        public void logs_status_as_information_when_its_health_is_alive()
         {
             Given(a_service_monitor);
             And(its_status_is_alive);

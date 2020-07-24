@@ -15,13 +15,6 @@ namespace Sensemaking.Monitoring.Specs
         }
 
         [Test]
-        public void it_provides_monitoring_interval()
-        {
-            Given(a_service_monitor);
-            Then(it_has_its_monitoring_interval);
-        }
-
-        [Test]
         public void it_provides_overall_level_of_service_across_all_dependencies()
         {
             Given(a_service_monitor);

@@ -1,18 +1,21 @@
 using System;
 using System.Serialization;
 using System.Threading;
+using NodaTime;
 
 namespace Sensemaking.Host.Monitoring
 {
     public class ServiceStatusNotifier
     {
         private Timer Timer { get; set; }
-        public IMonitorServices Monitor { get; }
+        internal IMonitorServices Monitor { get; }
+        internal Period Heartbeat { get; }
 
-        public ServiceStatusNotifier(IMonitorServices monitor)
+        public ServiceStatusNotifier(IMonitorServices monitor, Period heartbeat)
         {
             Monitor = monitor;
-            Timer = new Timer(e => Monitor.LogStatus(), null, TimeSpan.Zero, monitor.Heartbeat.ToDuration().ToTimeSpan());
+            Heartbeat = heartbeat;
+            Timer = new Timer(e => Monitor.LogStatus(), null, TimeSpan.Zero, Heartbeat.ToDuration().ToTimeSpan());
         }
     }
 

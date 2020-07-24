@@ -1,10 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using System.Serialization;
+﻿using System.Serialization;
 using System.Threading;
 using NodaTime;
 using NSubstitute;
-using Sensemaking.Bdd;
 using Sensemaking.Host.Monitoring;
 using Serilog;
 using Serilog.Events;
@@ -36,7 +33,6 @@ namespace Sensemaking.Monitoring.Specs
         private void a_service_monitor()
         {
             service_monitor = Substitute.For<IMonitorServices>();
-            service_monitor.Heartbeat.Returns(Period.FromSeconds(20));
             service_monitor.Availability().Returns(Availability.Up());
         }
 
@@ -46,10 +42,7 @@ namespace Sensemaking.Monitoring.Specs
             service_monitor.GetStatus().Returns(service_status);
         }
 
-        private void a_heartbeat_interval()
-        {
-            service_monitor.Heartbeat.Returns(heartbeat);
-        }
+        private void a_heartbeat_interval() { }
 
         private void its_status_is_alive()
         {
@@ -77,7 +70,7 @@ namespace Sensemaking.Monitoring.Specs
 
         private void notifying_of_service_status()
         {
-            new ServiceStatusNotifier(service_monitor);
+            new ServiceStatusNotifier(service_monitor, heartbeat);
             Thread.Sleep((int) heartbeat.Milliseconds - 50);
         }
 
