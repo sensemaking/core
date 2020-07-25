@@ -3,7 +3,6 @@ using Sensemaking.Bdd;
 
 namespace Sensemaking.Monitoring.Specs
 {
-    [TestFixture]
     public partial class OverallAvailabilitySpecs : Specification
     {
         [Test]

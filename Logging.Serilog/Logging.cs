@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Serialization;
+﻿using System.Serialization;
 using Serilog;
 
 namespace Sensemaking
@@ -12,10 +10,10 @@ namespace Sensemaking
             Log.Logger = logger;
         }
 
-        public static void Information(object logEntry) => Log.Logger.Information(logEntry.Serialize());
-        public static void Warning(object logEntry) => Log.Logger.Warning(logEntry.Serialize());
-        public static void Error(object logEntry) => Log.Logger.Error(logEntry.Serialize());
-        public static void Fatal(object logEntry) => Log.Logger.Fatal(logEntry.Serialize());
+        public static void Information(object logEntry) => Log.Logger.Information(logEntry);
+        public static void Warning(object logEntry) => Log.Logger.Warning(logEntry);
+        public static void Error(object logEntry) => Log.Logger.Error(logEntry);
+        public static void Fatal(object logEntry) => Log.Logger.Fatal(logEntry);
 
         public static void Information(this ILogger logger, object obj) { logger.Information(obj.Serialize()); }
         public static void Warning(this ILogger logger, object obj) { logger.Warning(obj.Serialize()); }

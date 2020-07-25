@@ -81,7 +81,7 @@ namespace Sensemaking.Bdd
 
         protected virtual void after_all() { }
 
-        protected void isolate(Action test)
+        protected void scenario(Action test)
         {
             try
             {

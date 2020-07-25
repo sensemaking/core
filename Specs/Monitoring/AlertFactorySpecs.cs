@@ -5,7 +5,6 @@ using Sensemaking.Bdd;
 
 namespace Sensemaking.Monitoring.Specs
 {
-    [TestFixture]
     public partial class AlertFactorySpecs : Specification
     {
         [Test]

@@ -4,7 +4,6 @@ using Sensemaking.Host.Monitoring;
 
 namespace Sensemaking.Monitoring.Specs
 {
-    [TestFixture]
     public partial class ServiceMonitorSpecs : Specification
     {
         [Test]

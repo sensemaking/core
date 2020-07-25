@@ -4,7 +4,6 @@ using Sensemaking.Bdd;
 
 namespace Sensemaking.Monitoring.Specs
 {
-    [TestFixture]
     public partial class MultiInstanceMonitorSpecs : Specification
     {
         private static readonly Alert unavailable_alert =

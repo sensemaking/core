@@ -3,7 +3,6 @@ using Sensemaking.Bdd;
 
 namespace Sensemaking.Serialization.Specs
 {
-    [TestFixture]
     public partial class SerializationSpecs : Specification
     {
         [Test]

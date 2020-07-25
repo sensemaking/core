@@ -3,7 +3,6 @@ using Sensemaking.Bdd;
 
 namespace Sensemaking.Http.Specs
 {
-    [TestFixture]
     public partial class HttpServiceMonitorSpecs : Specification
     {
         [Test]
