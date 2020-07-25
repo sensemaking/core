@@ -16,11 +16,11 @@ namespace Sensemaking.Http.Specs
 
         private static readonly int execution_time = 50;
         private const string name = "Bobby McGee";
-        private static readonly AdditionalInfo additional_info = new AdditionalInfo("Some additional info.");
+        private static readonly FakeAdditionalInfo additional_info = new FakeAdditionalInfo("Some additional info.");
         private const string function_result = "The result";
             
         private Action action;
-        private Metric the_logged_metric;
+        private FakeMetric the_logged_metric;
         private Func<string> function;
         private string the_result;
 
@@ -33,7 +33,7 @@ namespace Sensemaking.Http.Specs
         protected override void before_each()
         {
             base.before_each();
-            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<Metric>());
+            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<FakeMetric>());
             action = null;
             function = null;
             the_logged_metric = null;
@@ -96,9 +96,9 @@ namespace Sensemaking.Http.Specs
         }
     }
 
-    internal class Metric
+    internal class FakeMetric
     {
-        public Metric(string type, string name, double duration, AdditionalInfo additionalInfo)
+        public FakeMetric(string type, string name, double duration, FakeAdditionalInfo additionalInfo)
         {
             Type = type;
             Name = name;
@@ -109,12 +109,12 @@ namespace Sensemaking.Http.Specs
         public string Type { get; private set; }
         public string Name { get; private set; }
         public double Duration { get; private set; }
-        public AdditionalInfo AdditionalInfo { get; private set; }
+        public FakeAdditionalInfo AdditionalInfo { get; private set; }
     }
 
-    internal class AdditionalInfo
+    internal class FakeAdditionalInfo
     {
-        public AdditionalInfo(string info)
+        public FakeAdditionalInfo(string info)
         {
             Info = info;
         }

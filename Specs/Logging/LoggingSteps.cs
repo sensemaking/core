@@ -13,8 +13,8 @@ namespace Sensemaking.Http.Specs
         private static readonly ILogger logger = Substitute.For<ILogger>();
 
         private Action<CallInfo> capture_log;
-        private Log to_log;
-        private Log was_logged;
+        private FakeLog to_log;
+        private FakeLog was_logged;
 
         protected override void before_all()
         {
@@ -25,7 +25,7 @@ namespace Sensemaking.Http.Specs
         protected override void before_each()
         {
             base.before_each();
-            capture_log = c => was_logged = c.Arg<string>().Deserialize<Log>();
+            capture_log = c => was_logged = c.Arg<string>().Deserialize<FakeLog>();
             to_log = null;
             was_logged = null;
         }
@@ -38,7 +38,7 @@ namespace Sensemaking.Http.Specs
 
         private void a_log()
         {
-            to_log = new Log("Some interesting log.");
+            to_log = new FakeLog("Some interesting log.");
         }
 
         private void logging_information()
@@ -71,9 +71,9 @@ namespace Sensemaking.Http.Specs
         }
     }
 
-    internal class Log
+    internal class FakeLog
     {
-        public Log(string message)
+        public FakeLog(string message)
         {
             Message = message;
         }
