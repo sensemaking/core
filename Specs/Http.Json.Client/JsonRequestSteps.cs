@@ -2,6 +2,7 @@
 using System;
 using System.Net.Http;
 using System.Serialization;
+using Flurl.Http;
 using Flurl.Http.Testing;
 using Sensemaking.Bdd;
 
@@ -13,6 +14,7 @@ namespace Sensemaking.Http.Json.Client.Specs
         private static readonly (string Name, string Value)[] headers = { ("host", "localhost"), ("x-custom-header", "custom-value") };
 
         private HttpTest FakeHttp;
+        private IFlurlClient client;
         private FakeBody the_body_to_respond_with;
         private JsonResponse<FakeBody> the_get_response;
 
@@ -20,6 +22,7 @@ namespace Sensemaking.Http.Json.Client.Specs
         {
             base.before_each();
             FakeHttp = new HttpTest();
+            client = null;
             the_body_to_respond_with = null;
             the_get_response = null;
         }
@@ -32,6 +35,11 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void a_url() { }
 
+        private void a_flurl_client()
+        {
+            client = new FlurlClient();
+        }
+
         private void some_headers() { }
 
         private void a_json_response_body()
@@ -42,7 +50,7 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void getting()
         {
-            the_get_response = url.GetAsync<FakeBody>(headers).Result;
+            the_get_response = (client != null ? client.GetAsync<FakeBody>(url, headers): url.GetAsync<FakeBody>(headers)).Result;
         }
 
         private void calls_the_url()

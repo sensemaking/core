@@ -19,6 +19,18 @@ namespace Sensemaking.Http.Json.Client.Specs
                 And(uses_the_headers);
                 And(provides_the_desrialized_response_body);
             });
+
+            scenario(() =>
+            {
+                Given(a_flurl_client);
+                And(some_headers);
+                And(a_json_response_body);
+                When(getting);
+                Then(calls_the_url);
+                And(it_accepts_json);
+                And(uses_the_headers);
+                And(provides_the_desrialized_response_body);
+            });
         } 
     }
 }
