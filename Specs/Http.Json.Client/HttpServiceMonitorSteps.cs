@@ -1,10 +1,9 @@
 ﻿using Flurl.Http.Testing;
 using Sensemaking.Bdd;
-using Sensemaking.Http.Json.Client;
 using Sensemaking.Http.Json.Client.Monitoring;
 using Sensemaking.Monitoring;
 
-namespace Sensemaking.Http.Specs
+namespace Sensemaking.Http.Json.Client.Specs
 {
     public partial class HttpServiceMonitorSpecs
     {

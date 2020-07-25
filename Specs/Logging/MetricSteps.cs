@@ -4,6 +4,7 @@ using System.Threading;
 using NodaTime;
 using NSubstitute;
 using NSubstitute.ClearExtensions;
+using NSubstitute.Core;
 using Sensemaking.Bdd;
 using Serilog;
 
@@ -12,13 +13,17 @@ namespace Sensemaking.Http.Specs
     public partial class MetricSpecs
     {
         private static readonly ILogger logger = Substitute.For<ILogger>();
+
         private static readonly int execution_time = 50;
         private const string name = "Bobby McGee";
         private static readonly AdditionalInfo additional_info = new AdditionalInfo("Some additional info.");
+        private const string function_result = "The result";
             
         private Action action;
-        private Metric logged_metric;
-        
+        private Metric the_logged_metric;
+        private Func<string> function;
+        private string the_result;
+
         protected override void before_all()
         {
             base.before_all();
@@ -28,8 +33,10 @@ namespace Sensemaking.Http.Specs
         protected override void before_each()
         {
             base.before_each();
+            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<Metric>());
             action = null;
-            logged_metric = null;
+            function = null;
+            the_logged_metric = null;
         }
 
         protected override void after_each()
@@ -43,31 +50,49 @@ namespace Sensemaking.Http.Specs
             action = () => Thread.Sleep(execution_time);
         }
 
-        private void logging_timings()
+        private void a_function()
         {
-            logger.When(l => l.Information(Arg.Any<string>())).Do(c => logged_metric = c.Arg<string>().Deserialize<Metric>());
+            function = () =>
+            {
+                Thread.Sleep(execution_time);
+                return function_result;
+            };
+        }
+
+        private void logging_action_timings()
+        {
             Logging.TimeThis(action, name, additional_info);
         }
 
-        private void it_is_a_metric()
+        private void logging_function_timings()
         {
-            logged_metric.Type.should_be("Metric");
+            the_result = Logging.TimeThis(function, name, additional_info);
+        }
+
+        private void a_metric_is_logged()
+        {
+            the_logged_metric.Type.should_be("Metric");
         }
 
         private void it_has_its_name()
         {
-            logged_metric.Name.should_be(name);
+            the_logged_metric.Name.should_be(name);
         }
 
-        private void it_has_its_duration()
+        private void it_has_the_duration_of_execution()
         {
-            logged_metric.Duration.should_be_greater_than(execution_time);
-            logged_metric.Duration.should_be_less_than(execution_time + 50);
+            the_logged_metric.Duration.should_be_greater_than(execution_time);
+            the_logged_metric.Duration.should_be_less_than(execution_time + 50);
         }
 
         private void it_has_any_additional_info()
         {
-            logged_metric.AdditionalInfo.Info.should_be(additional_info.Info);
+            the_logged_metric.AdditionalInfo.Info.should_be(additional_info.Info);
+        }
+
+        private void the_funtion_result_is_provided()
+        {
+            the_result.should_be(function_result);
         }
     }
 

@@ -9,9 +9,9 @@ using Flurl.Http;
 
 namespace Sensemaking.Http.Json.Client
 {
-    public static class Request
+    public static class HttpRequest
     {
-        static Request() => FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
+        static HttpRequest() => FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
 
         private static readonly (string, string) AcceptHeader = ("Accept", MediaType.Json); 
 

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Sensemaking.Bdd;
 
-namespace Sensemaking.Http.Specs
+namespace Sensemaking.Http.Json.Client.Specs
 {
     public partial class HttpServiceMonitorSpecs : Specification
     {
