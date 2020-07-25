@@ -4,21 +4,11 @@ namespace Sensemaking.Monitoring
 {
     public class Alert
     {
-        internal struct Types
-        {
-            public static string Alert => "Alert";
-            public static string Error => "Error";
-            public static string Information => "Information";
-        }
-
         public string Code { get; }
         public MonitorInfo Monitor { get; }
         public string Message { get; }
-        public string Type { get; }
 
-        internal Alert(string code, MonitorInfo monitor, string message) : this(code, monitor, message, Types.Alert) { }
-
-        protected Alert(string code, MonitorInfo monitor, string message, string type)
+        protected internal Alert(string code, MonitorInfo monitor, string message)
         {
             if (code.IsNullOrEmpty() || monitor == MonitorInfo.Empty || message.IsNullOrEmpty())
                 throw new ArgumentException("Alerts must have a code, monitor and message");
@@ -26,7 +16,6 @@ namespace Sensemaking.Monitoring
             Code = code;
             Monitor = monitor;
             Message = message;
-            Type = type;
         }
       
         public override bool Equals(object obj)

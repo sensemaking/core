@@ -1,4 +1,6 @@
-﻿using System.Serialization;
+﻿using System;
+using System.Diagnostics;
+using System.Serialization;
 using Serilog;
 
 namespace Sensemaking
@@ -19,5 +21,28 @@ namespace Sensemaking
         public static void Warning(this ILogger logger, object obj) { logger.Warning(obj.Serialize()); }
         public static void Error(this ILogger logger, object obj) { logger.Error(obj.Serialize()); }
         public static void Fatal(this ILogger logger, object obj) { logger.Fatal(obj.Serialize()); }
+       
+        public static void TimeThis(Action action, string name, object? additionalInfo = null)
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+            action();
+            timer.Stop();
+
+            Information(new { type = "Metric", name, duration = timer.Elapsed.TotalMilliseconds, additionalInfo });
+        }
+
+        public static T TimeThis<T>(Func<T> func, string name, object? additionalInfo = null)
+        {
+            var timer = new Stopwatch();
+            timer.Start();
+            var response = func();
+            timer.Stop();
+
+            Information(new { type = "Metric", name, duration = timer.Elapsed.TotalMilliseconds, additionalInfo });
+
+            return response;
+        }
+
     }
 }

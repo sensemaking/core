@@ -10,7 +10,7 @@ namespace Sensemaking.Monitoring
             public const string ServiceRedundancyLost = "0003";
             public const string InstanceUnavailable = "0004";
             public const string UnknownErrorOccured = "0005";
-            public const string UiErrorOccurred = "0098";
+            public const string UiErrorOccurred = "1001";
         }
 
         public static Alert ServiceUnavailable(MonitorInfo monitor, string message)
@@ -31,11 +31,6 @@ namespace Sensemaking.Monitoring
         public static Alert UnknownErrorOccured(MonitorInfo monitor, Exception exception, object? additionalInfo = null)
         {
             return new ExceptionAlert(Codes.UnknownErrorOccured, monitor, exception, additionalInfo);
-        }
-
-        public static Alert InformationAlert(string code, MonitorInfo monitor, string message)
-        {
-            return new InformationAlert(code, monitor, message);
         }
     }
 }

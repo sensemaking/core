@@ -36,11 +36,6 @@ namespace Sensemaking.Monitoring.Specs
             alert = AlertFactory.UnknownErrorOccured(Fake.AnInstanceMonitor.Info, exception, additional_info);
         }
 
-        private void an_information_alert()
-        {
-            alert = AlertFactory.InformationAlert("info_alert", Fake.AnInstanceMonitor.Info, message);
-        }
-
         private void it_has_an_alert_code_of(string code)
         {
             alert.Code.should_be(code);
@@ -54,11 +49,6 @@ namespace Sensemaking.Monitoring.Specs
         private void it_has_the_message_it_is_created_with()
         {
             alert.Message.should_be(message);
-        }
-
-        private void it_is_a_type_of_alert()
-        {
-            alert.Type.should_be("Alert");
         }
 
         private void it_has_the_exception_message()
@@ -76,19 +66,9 @@ namespace Sensemaking.Monitoring.Specs
             (alert as ExceptionAlert).AdditionalInfo.should_be(additional_info);
         }
 
-        private void it_is_a_type_of_error()
-        {
-            alert.Type.should_be("Error");
-        }
-
         private void it_has_the_informational_message()
         {
             alert.Message.should_be(message);
-        }
-
-        private void it_is_a_type_of_information()
-        {
-            alert.Type.should_be("Information");
         }
     }
 }
