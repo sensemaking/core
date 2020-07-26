@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System;
 using Flurl.Http;
+using Flurl.Http.Content;
 
 namespace Sensemaking.Http.Json.Client
 {
@@ -63,9 +64,9 @@ namespace Sensemaking.Http.Json.Client
             return new JsonResponse(response);
         }
 
-        private static StringContent ToRequestBody(this object payload)
+        private static CapturedJsonContent ToRequestBody(this object payload)
         {
-            return new StringContent(payload.Serialize(), Encoding.UTF8, MediaType.Json);
+            return new CapturedJsonContent(payload.Serialize());
         }
 
         private static async Task<JsonResponse<T>> ToJsonResponse<T>(this HttpResponseMessage response)
