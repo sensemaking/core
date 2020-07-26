@@ -44,7 +44,7 @@ namespace Sensemaking.Bdd
             }
             catch (Exception e)
             {
-                exception = e;
+                exception = e is AggregateException ? e.InnerException : e;
             }
         }
 

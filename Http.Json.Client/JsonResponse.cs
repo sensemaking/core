@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Serialization;
@@ -30,6 +31,9 @@ namespace Sensemaking.Http.Json.Client
         {
             if (response.StatusCode.IsError())
                 throw new ProblemException(response.StatusCode, Headers, response.StatusCode.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
+
+            if (body.IsNullOrEmpty())
+                throw new Exception("The response to a GET request did not include a body.");
 
             Body = body.Deserialize<T>();
         }

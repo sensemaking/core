@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿
+using System.Net.Http;
 using NUnit.Framework;
 using Sensemaking.Bdd;
 
@@ -116,6 +117,51 @@ namespace Sensemaking.Http.Json.Client.Specs
                 And(it_uses_the_headers);
                 And(it_accepts_json);
             });
-        } 
+        }
+
+        [Test]
+        public void informs_if_a_get_has_response_with_no_body()
+        {
+            scenario(() =>
+            {
+                Given(a_url);
+                And(some_headers);
+                When(() => trying(getting));
+                Then(() => informs("The response to a GET request did not include a body."));
+            });
+        }
+
+        [Test]
+        public void response_includes_the_status_code()
+        {
+            scenario(() =>
+            {
+                Given(a_url);
+                And(some_headers);
+                When(deleting);
+                Then(the_response_has_the_status_code);
+            });
+        }
+
+        [Test]
+        [Ignore("")]
+        public void responses_include_any_headers()
+        {
+
+        }
+
+        [Test]
+        [Ignore("")]
+        public void errors_with_no_problem_content_cause_problem_exception_without_problem_details()
+        {
+
+        }
+
+        [Test]
+        [Ignore("")]
+        public void errors_with_problem_content_cause_problem_exception_with_problem_details()
+        {
+
+        }
     }
 }

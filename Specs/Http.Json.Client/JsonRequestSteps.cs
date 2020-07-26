@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Serialization;
 using System.Text.RegularExpressions;
@@ -101,6 +102,11 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void it_accepts_json()
         {
             FakeHttp.ShouldHaveMadeACall().WithHeader("Accept", MediaType.Json);
+        }
+
+        private void the_response_has_the_status_code()
+        {
+            the_response.Status.should_be(HttpStatusCode.OK);
         }
     }
 
