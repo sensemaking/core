@@ -137,8 +137,29 @@ namespace Sensemaking.Http.Json.Client.Specs
             scenario(() =>
             {
                 Given(a_url);
-                And(some_headers);
+                And(the_response_has_a_body);
+                When(getting);
+                Then(the_response_has_the_status_code);
+            });
+
+            scenario(() =>
+            {
+                Given(a_url);
+                When(putting);
+                Then(the_response_has_the_status_code);
+            });
+
+            scenario(() =>
+            {
+                Given(a_url);
                 When(deleting);
+                Then(the_response_has_the_status_code);
+            });
+
+            scenario(() =>
+            {
+                Given(a_url);
+                When(posting);
                 Then(the_response_has_the_status_code);
             });
         }
@@ -147,14 +168,50 @@ namespace Sensemaking.Http.Json.Client.Specs
         [Ignore("")]
         public void responses_include_any_headers()
         {
-
         }
 
         [Test]
-        [Ignore("")]
-        public void errors_with_no_problem_content_cause_problem_exception_without_problem_details()
+        public void errors_cause_problem_exception()
         {
+            scenario(() =>
+            {
+                Given(a_url);
+                And(the_response_errors);
+                When(() => trying(getting));
+                Then(it_causes_a_problem_exception);
+                And(it_has_the_status_code);
+                And(it_has_any_response_headers);
+            });
 
+            scenario(() =>
+            {
+                Given(a_url);
+                And(the_response_errors);
+                When(() => trying(putting));
+                Then(it_causes_a_problem_exception);
+                And(it_has_the_status_code);
+                And(it_has_any_response_headers);
+            });
+
+            scenario(() =>
+            {
+                Given(a_url);
+                And(the_response_errors);
+                When(() => trying(deleting));
+                Then(it_causes_a_problem_exception);
+                And(it_has_the_status_code);
+                And(it_has_any_response_headers);
+            });
+
+            scenario(() =>
+            {
+                Given(a_url);
+                And(the_response_errors);
+                When(() => trying(posting));
+                Then(it_causes_a_problem_exception);
+                And(it_has_the_status_code);
+                And(it_has_any_response_headers);
+            });
         }
 
         [Test]

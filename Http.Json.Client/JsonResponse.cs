@@ -6,15 +6,15 @@ using System.Serialization;
 
 namespace Sensemaking.Http.Json.Client
 {
-    public partial class JsonResponse
+    public class JsonResponse
     {
         public HttpStatusCode Status { get; }
         public (string Name, string Value)[] Headers { get; }
 
-        internal JsonResponse(HttpResponseMessage response)
+        internal JsonResponse(HttpStatusCode status, (string, string)[] headers)
         {
-            Status = response.StatusCode;
-            Headers = response.Content.Headers.Select(header => (header.Key, string.Join(",", header.Value))).ToArray();
+            Status = status;
+            Headers = headers;
         }
 
         public static implicit operator HttpStatusCode (JsonResponse response)
@@ -26,12 +26,9 @@ namespace Sensemaking.Http.Json.Client
     public class JsonResponse<T> : JsonResponse
     {
         public T Body { get; }
-          
-        internal JsonResponse(string body, HttpResponseMessage response) : base(response)
-        {
-            if (response.StatusCode.IsError())
-                throw new ProblemException(response.StatusCode, Headers, response.StatusCode.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
 
+        internal JsonResponse(HttpStatusCode status, (string, string)[] headers, string body) : base(status, headers)
+        {
             if (body.IsNullOrEmpty())
                 throw new Exception("The response to a GET request did not include a body.");
 

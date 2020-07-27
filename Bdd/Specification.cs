@@ -5,8 +5,8 @@ namespace Sensemaking.Bdd
 {
     public abstract class Specification
     {
-        private Exception exception;
-        private ValidationException validation_error;
+        protected Exception the_exception;
+        private ValidationException the_validation_exception;
 
         [OneTimeSetUp]
         public void TestFixtureSetup() { before_all(); }
@@ -24,8 +24,8 @@ namespace Sensemaking.Bdd
 
         protected virtual void before_each()
         {
-            exception = null;
-            validation_error = null;
+            the_exception = null;
+            the_validation_exception = null;
         }
 
         public void Given(Action action) { action.Invoke(); }
@@ -44,7 +44,7 @@ namespace Sensemaking.Bdd
             }
             catch (Exception e)
             {
-                exception = e is AggregateException ? e.InnerException : e;
+                the_exception = e is AggregateException ? e.InnerException : e;
             }
         }
 
@@ -56,25 +56,25 @@ namespace Sensemaking.Bdd
             }
             catch (ValidationException e)
             {
-                validation_error = e;
+                the_validation_exception = e;
             }
         }
 
         protected virtual void informs(string message)
         {
-            if (exception == null && validation_error == null)
+            if (the_exception == null && the_validation_exception == null)
                 "it".should_fail("Exception was not provided.");
 
-            if(exception != null)
-                exception.Message.should_be(message);
+            if(the_exception != null)
+                the_exception.Message.should_be(message);
             else
-                validation_error.Errors.should_contain(message);
+                the_validation_exception.Errors.should_contain(message);
         }
 
         protected void it_is_valid()
         {
-            exception.should_be_null();
-            validation_error.should_be_null();
+            the_exception.should_be_null();
+            the_validation_exception.should_be_null();
         }
 
         protected virtual void after_each() { }

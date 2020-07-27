@@ -7,7 +7,7 @@ using Flurl.Http.Content;
 
 namespace Sensemaking.Http.Json.Client
 {
-    public static class Request
+    internal static class Request
     {
         private static readonly (string, string) AcceptHeader = ("Accept", MediaType.Json); 
 

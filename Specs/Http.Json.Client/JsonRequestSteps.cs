@@ -15,13 +15,13 @@ namespace Sensemaking.Http.Json.Client.Specs
     public partial class JsonRequestSpecs
     {
         private const string url = "https://example.com/some-url";
-        private static readonly (string Name, string Value)[] the_headers = { ("host", "localhost"), ("x-custom-header", "custom-value") };
+        private static readonly (string Name, string Value)[] the_headers = {("h1", "h1value"), ("h2", "h2value")};
+        private static readonly HttpStatusCode error_code = HttpStatusCode.InternalServerError;
 
         private HttpTest FakeHttp;
         private IFlurlClient client;
         private FakeBody the_body_to_respond_with;
         private FakeBody the_payload;
-        private JsonResponse<FakeBody> the_get_response;
         private JsonResponse the_response;
 
         protected override void before_each()
@@ -30,7 +30,6 @@ namespace Sensemaking.Http.Json.Client.Specs
             FakeHttp = new HttpTest();
             client = null;
             the_body_to_respond_with = null;
-            the_get_response = null;
             the_response = null;
         }
 
@@ -54,6 +53,11 @@ namespace Sensemaking.Http.Json.Client.Specs
             the_payload = new FakeBody("Some payload");
         }
 
+        private void the_response_errors()
+        {
+            FakeHttp.RespondWith(string.Empty, (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+        }
+
         private void the_response_has_a_body()
         {
             the_body_to_respond_with = new FakeBody("Some response");
@@ -62,27 +66,27 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void getting()
         {
-            the_get_response = (client != null ? client.GetAsync<FakeBody>(url, the_headers): url.GetAsync<FakeBody>(the_headers)).Result;
+            the_response = (client != null ? client.GetAsync<FakeBody>(url, the_headers) : url.GetAsync<FakeBody>(the_headers)).Result;
         }
 
         private void putting()
         {
-            the_response = (client != null ? client.PutAsync(url, the_payload, the_headers): url.PutAsync(the_payload, the_headers)).Result;
+            the_response = (client != null ? client.PutAsync(url, the_payload, the_headers) : url.PutAsync(the_payload, the_headers)).Result;
         }
 
         private void deleting()
         {
-            the_response = (client != null ? client.DeleteAsync(url, the_headers): url.DeleteAsync(the_headers)).Result;
+            the_response = (client != null ? client.DeleteAsync(url, the_headers) : url.DeleteAsync(the_headers)).Result;
         }
 
         private void posting()
         {
-            the_response = (client != null ? client.PostAsync(url, the_payload, the_headers): url.PostAsync(the_payload, the_headers)).Result;
+            the_response = (client != null ? client.PostAsync(url, the_payload, the_headers) : url.PostAsync(the_payload, the_headers)).Result;
         }
 
         private void it_provides_the_desrialized_response_body()
         {
-            the_get_response.Body.Value.should_be(the_body_to_respond_with.Value);
+            (the_response as JsonResponse<FakeBody>).Body.Value.should_be(the_body_to_respond_with.Value);
         }
 
         private void it_calls_the_url_using(HttpMethod verb)
@@ -108,6 +112,22 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void the_response_has_the_status_code()
         {
             the_response.Status.should_be(HttpStatusCode.OK);
+        }
+
+        private void it_causes_a_problem_exception()
+        {
+            the_exception.should_be_instance_of<ProblemException>();
+            informs("A problem has occured while making an http request.");
+        }
+
+        private void it_has_the_status_code()
+        {
+            (the_exception as ProblemException).Status.should_be(error_code);
+        }
+
+        private void it_has_any_response_headers()
+        {
+            (the_exception as ProblemException).Headers.should_be(the_headers);
         }
     }
 
