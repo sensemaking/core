@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 
 namespace Sensemaking.Http
 {
@@ -53,16 +54,14 @@ namespace Sensemaking.Http
 
     internal static class ProblemExtensions
     {
-        private static readonly HttpStatusCode[] ProblemStatusCodes = { HttpStatusCode.BadRequest, HttpStatusCode.Conflict };
-
         internal static bool IsError(this HttpStatusCode statusCode)
         {
             return (int)statusCode >= 400 && (int)statusCode < 600;
         }
 
-        internal static bool IsProblem(this HttpStatusCode statusCode)
+        internal static bool IsProblem(this HttpResponseMessage response)
         {
-            return ProblemStatusCodes.Contains(statusCode);
+            return response.Content.Headers.ContentType.MediaType == MediaType.JsonProblem;
         }
     }
 }

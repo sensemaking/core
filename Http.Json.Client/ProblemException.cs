@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 
 namespace Sensemaking.Http.Json.Client

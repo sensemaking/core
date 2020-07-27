@@ -2,7 +2,10 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Serialization;
+using System.Text;
 using System.Text.RegularExpressions;
 using Flurl.Http;
 using Flurl.Http.Content;
@@ -17,6 +20,7 @@ namespace Sensemaking.Http.Json.Client.Specs
         private const string url = "https://example.com/some-url";
         private static readonly (string Name, string Value)[] the_headers = {("h1", "h1value"), ("h2", "h2value")};
         private static readonly HttpStatusCode error_code = HttpStatusCode.InternalServerError;
+        private static readonly Problem the_problem = new Problem("a problem","an error");
 
         private HttpTest FakeHttp;
         private IFlurlClient client;
@@ -53,15 +57,22 @@ namespace Sensemaking.Http.Json.Client.Specs
             the_payload = new FakeBody("Some payload");
         }
 
+        private void the_response_has_a_body()
+        {
+            the_body_to_respond_with = new FakeBody("Some response");
+            FakeHttp.RespondWith(new StringContent(the_body_to_respond_with.Serialize(), Encoding.UTF8, MediaType.Json));
+        }
+
         private void the_response_errors()
         {
             FakeHttp.RespondWith(string.Empty, (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
-        private void the_response_has_a_body()
+        private void the_response_errors_with_a_problem()
         {
-            the_body_to_respond_with = new FakeBody("Some response");
-            FakeHttp.RespondWith(new CapturedJsonContent(the_body_to_respond_with.Serialize()));
+            var content = new CapturedJsonContent(the_problem.Serialize());
+            content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.JsonProblem);
+            FakeHttp.RespondWith(content, (int)error_code);
         }
 
         private void getting()
@@ -128,6 +139,11 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void it_has_any_response_headers()
         {
             (the_exception as ProblemException).Headers.should_be(the_headers);
+        }
+
+        private void it_should_have_the_problem()
+        {
+            (the_exception as ProblemException).Problem.should_be(the_problem);
         }
     }
 

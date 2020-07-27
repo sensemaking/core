@@ -24,9 +24,9 @@ namespace Sensemaking.Http.Json.Client
         {
             var headers = response.Headers.Select(header => (header.Key, string.Join(",", header.Value))).ToArray();
             var body = await response.Content.ReadAsStringAsync();
-        
+
             if (response.StatusCode.IsError())
-                throw new ProblemException(response.StatusCode, headers, response.StatusCode.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
+                throw new ProblemException(response.StatusCode, headers, response.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
 
             return (response.StatusCode, headers, body);
         }

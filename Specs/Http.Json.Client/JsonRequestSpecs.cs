@@ -165,7 +165,6 @@ namespace Sensemaking.Http.Json.Client.Specs
         }
 
         [Test]
-        [Ignore("")]
         public void responses_include_any_headers()
         {
         }
@@ -215,10 +214,39 @@ namespace Sensemaking.Http.Json.Client.Specs
         }
 
         [Test]
-        [Ignore("")]
         public void errors_with_problem_content_cause_problem_exception_with_problem_details()
         {
+           scenario(() =>
+           {
+               Given(a_url);
+               And(the_response_errors_with_a_problem);
+               When(() => trying(getting));
+               Then(it_should_have_the_problem);
+           });
 
+           scenario(() =>
+           {
+               Given(a_url);
+               And(the_response_errors_with_a_problem);
+               When(() => trying(putting));
+               Then(it_should_have_the_problem);
+           });
+
+           scenario(() =>
+           {
+               Given(a_url);
+               And(the_response_errors_with_a_problem);
+               When(() => trying(deleting));
+               Then(it_should_have_the_problem);
+           });
+
+           scenario(() =>
+           {
+               Given(a_url);
+               And(the_response_errors_with_a_problem);
+               When(() => trying(posting));
+               Then(it_should_have_the_problem);
+           });
         }
     }
 }
