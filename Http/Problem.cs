@@ -54,9 +54,9 @@ namespace Sensemaking.Http
 
     internal static class ProblemExtensions
     {
-        internal static bool IsError(this HttpStatusCode statusCode)
+        internal static bool IsError(this HttpResponseMessage response)
         {
-            return (int)statusCode >= 400 && (int)statusCode < 600;
+            return (int) response.StatusCode >= 400 && (int) response.StatusCode < 600;
         }
 
         internal static bool IsProblem(this HttpResponseMessage response)

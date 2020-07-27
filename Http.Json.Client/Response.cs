@@ -33,7 +33,7 @@ namespace Sensemaking.Http.Json.Client
                 body = await response.Content.ReadAsStringAsync();
             }
 
-            if (response.StatusCode.IsError())
+            if (response.IsError())
                 throw new ProblemException(response.StatusCode, headers, response.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
 
             return (response.StatusCode, headers, (body, contentHeaders));
