@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Serialization;
 using System.Text.RegularExpressions;
 using Flurl.Http;
+using Flurl.Http.Content;
 using Flurl.Http.Testing;
 using Microsoft.VisualBasic.CompilerServices;
 using Sensemaking.Bdd;
@@ -56,7 +57,7 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void the_response_has_a_body()
         {
             the_body_to_respond_with = new FakeBody("Some response");
-            FakeHttp.RespondWith(new StringContent(the_body_to_respond_with.Serialize()));
+            FakeHttp.RespondWith(new CapturedJsonContent(the_body_to_respond_with.Serialize()));
         }
 
         private void getting()

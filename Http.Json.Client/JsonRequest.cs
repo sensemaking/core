@@ -14,8 +14,6 @@ namespace Sensemaking.Http.Json.Client
     {
         static JsonRequest() => FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
 
-        private static readonly (string, string) AcceptHeader = ("Accept", MediaType.Json); 
-
         public static async Task<JsonResponse<T>> GetAsync<T>(this string url, params (string Name, string Value)[] headers)
         {
             var response = await url.WithHeaders(headers.AddAcceptHeader()).GetAsync();
@@ -62,35 +60,6 @@ namespace Sensemaking.Http.Json.Client
         {
             var response = await client.Request(url).WithHeaders(headers.AddAcceptHeader()).PostAsync(payload.ToRequestBody());
             return new JsonResponse(response);
-        }
-
-        private static CapturedJsonContent ToRequestBody(this object payload)
-        {
-            return new CapturedJsonContent(payload.Serialize());
-        }
-
-        private static async Task<JsonResponse<T>> ToJsonResponse<T>(this HttpResponseMessage response)
-        {
-            var body = await response.Content.ReadAsStringAsync();
-            return new JsonResponse<T>(body, response);
-        }
-
-        private static IFlurlRequest WithHeaders(this IFlurlRequest request, params (string Name, string Value)[] headers)
-        {
-            headers.ForEach(header => request.WithHeader(header.Name, header.Value));
-            return request;
-        }
-        
-        private static IFlurlRequest WithHeaders(this string url, params (string Name, string Value)[] headers)
-        {
-            var request = new FlurlRequest(url);
-            headers.ForEach(header => request.WithHeader(header.Name, header.Value));
-            return request;
-        }
-
-        private static (string, string)[] AddAcceptHeader(this IEnumerable<(string, string)> headers)
-        {
-            return new [] { AcceptHeader }.Concat(headers).ToArray();
         }
     }
 }
