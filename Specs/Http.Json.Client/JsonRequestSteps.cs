@@ -19,9 +19,9 @@ namespace Sensemaking.Http.Json.Client.Specs
     public partial class JsonRequestSpecs
     {
         private const string url = "https://example.com/some-url";
-        private static readonly (string Name, string Value)[] the_headers = {("h1", "h1value"), ("h2", "h2value")};
+        private static readonly (string Name, string Value)[] the_headers = { ("h1", "h1value"), ("h2", "h2value") };
         private static readonly HttpStatusCode error_code = HttpStatusCode.InternalServerError;
-        private static readonly Problem the_problem = new Problem("a problem","an error");
+        private static readonly Problem the_problem = new Problem("a problem", "an error");
 
         private HttpTest FakeHttp;
         private IFlurlClient client;
@@ -69,16 +69,21 @@ namespace Sensemaking.Http.Json.Client.Specs
             FakeHttp.RespondWith(new CapturedJsonContent(new FakeBody("Some response").Serialize()), headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
-        private void the_response_errors()
+        private void the_response_has_headers()
         {
-            FakeHttp.RespondWith(string.Empty, (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(string.Empty, headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
-        private void the_response_errors_with_a_problem()
+        private void the_response_errors()
+        {
+            FakeHttp.RespondWith(string.Empty, (int)error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+        }
+
+        private void the_response_errors_with_a_problem_and_headers()
         {
             var content = new CapturedJsonContent(the_problem.Serialize());
             content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.JsonProblem);
-            FakeHttp.RespondWith(content, (int)error_code);
+            FakeHttp.RespondWith(content, (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
         private void getting()
@@ -147,17 +152,17 @@ namespace Sensemaking.Http.Json.Client.Specs
             informs("A problem has occured while making an http request.");
         }
 
-        private void it_has_the_status_code()
+        private void the_exception_has_the_status_code()
         {
             (the_exception as ProblemException).Status.should_be(error_code);
         }
 
-        private void it_has_any_response_headers()
+        private void the_exception_has_any_response_headers()
         {
             (the_exception as ProblemException).Headers.should_be(the_headers);
         }
 
-        private void it_should_have_the_problem()
+        private void the_exception_should_have_the_problem()
         {
             (the_exception as ProblemException).Problem.should_be(the_problem);
         }
