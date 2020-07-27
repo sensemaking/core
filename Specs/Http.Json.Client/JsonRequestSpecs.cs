@@ -167,6 +167,14 @@ namespace Sensemaking.Http.Json.Client.Specs
         [Test]
         public void responses_include_any_headers()
         {
+           scenario(() =>
+           {
+               Given(a_url);
+               And(the_response_has_a_body_and_headers);
+               When(() => trying(getting));
+               Then(it_should_have_the_headers);
+               Then(it_should_have_the_content_headers);
+           });
         }
 
         [Test]

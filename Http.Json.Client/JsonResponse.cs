@@ -25,13 +25,15 @@ namespace Sensemaking.Http.Json.Client
 
     public class JsonResponse<T> : JsonResponse
     {
+        public (string Name, string Value)[] ContentHeaders { get; }
         public T Body { get; }
 
-        internal JsonResponse(HttpStatusCode status, (string, string)[] headers, string body) : base(status, headers)
+        internal JsonResponse(HttpStatusCode status, (string, string)[] headers, string body, (string,string)[] contentHeaders) : base(status, headers)
         {
             if (body.IsNullOrEmpty())
                 throw new Exception("The response to a GET request did not include a body.");
 
+            ContentHeaders = contentHeaders;
             Body = body.Deserialize<T>();
         }
 

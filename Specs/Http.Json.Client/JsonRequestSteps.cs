@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -60,7 +61,12 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void the_response_has_a_body()
         {
             the_body_to_respond_with = new FakeBody("Some response");
-            FakeHttp.RespondWith(new StringContent(the_body_to_respond_with.Serialize(), Encoding.UTF8, MediaType.Json));
+            FakeHttp.RespondWith(new CapturedJsonContent(the_body_to_respond_with.Serialize()));
+        }
+
+        private void the_response_has_a_body_and_headers()
+        {
+            FakeHttp.RespondWith(new CapturedJsonContent(new FakeBody("Some response").Serialize()), headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
         private void the_response_errors()
@@ -123,6 +129,15 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void the_response_has_the_status_code()
         {
             the_response.Status.should_be(HttpStatusCode.OK);
+        }
+
+        private void it_should_have_the_headers()
+        {
+            the_response.Headers.should_be(the_headers);
+        }
+        private void it_should_have_the_content_headers()
+        {
+            (the_response as JsonResponse<FakeBody>).ContentHeaders.should_be(FakeHttp.CallLog[0].Response.Content.Headers.Select(h => (h.Key, string.Join(",", h.Value))));
         }
 
         private void it_causes_a_problem_exception()
