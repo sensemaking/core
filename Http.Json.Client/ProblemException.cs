@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace Sensemaking.Http.Json.Client
 {
     public class ProblemException : Exception
     {
-        internal ProblemException(HttpStatusCode status, (string, string)[] headers, Problem problem) : base("A problem has occured while making an http request.")
+        internal ProblemException(HttpStatusCode status, IEnumerable<(string, string)> headers, Problem problem) : base("A problem has occured while making an http request.")
         {
             Status = status;
-            Headers = headers;
+            Headers = headers.ToArray();
             Problem = problem;
         }
 

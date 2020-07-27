@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,12 +12,12 @@ namespace Sensemaking.Http.Json.Client
     public class JsonResponse
     {
         public HttpStatusCode Status { get; }
-        public (string Name, string Value)[] Headers { get; }
+        public IReadOnlyList<(string Name, string Value)> Headers { get; }
 
-        internal JsonResponse(HttpStatusCode status, (string, string)[] headers)
+        internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers)
         {
             Status = status;
-            Headers = headers;
+            Headers = new ReadOnlyCollection<(string Name, string Value)>(headers.ToList());
         }
 
         public static implicit operator HttpStatusCode (JsonResponse response)
@@ -25,14 +28,14 @@ namespace Sensemaking.Http.Json.Client
 
     public class JsonResponse<T> : JsonResponse
     {
-        public (T Body, (string, string)[] Headers) Content { get; }
+        public (T Body, IReadOnlyList<(string, string)> Headers) Content { get; }
 
-        internal JsonResponse(HttpStatusCode Status, (string, string)[] Headers, (string Body, (string,string)[] Headers) Content) : base(Status, Headers)
+        internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers, (string Body, IEnumerable<(string,string)> Headers) content) : base(status, headers)
         {
-            if (Content.Body.IsNullOrEmpty())
+            if (content.Body.IsNullOrEmpty())
                 throw new Exception("The response to a GET request did not include a body.");
 
-            this.Content = (Content.Body.Deserialize<T>(), Content.Headers);
+            this.Content = (content.Body.Deserialize<T>(), new ReadOnlyCollection<(string, string)>( content.Headers.ToList() ));
         }
 
         public static implicit operator T (JsonResponse<T> response)

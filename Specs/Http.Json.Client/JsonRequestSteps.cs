@@ -71,12 +71,12 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void the_response_has_headers()
         {
-            FakeHttp.RespondWith(string.Empty, headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
         private void the_response_errors()
         {
-            FakeHttp.RespondWith(string.Empty, (int)error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(status: (int)error_code, headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
         private void the_response_errors_with_a_problem_and_headers()
