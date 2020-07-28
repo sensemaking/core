@@ -61,7 +61,7 @@ namespace Sensemaking.Http
 
         internal static bool IsProblem(this HttpResponseMessage response)
         {
-            return response.Content?.Headers.ContentType.MediaType == MediaType.JsonProblem;
+            return response.Content.Headers.ContentType?.MediaType == MediaType.JsonProblem;
         }
     }
 }
