@@ -26,6 +26,7 @@ namespace Sensemaking.Http.Json.Client.Specs
         private HttpTest FakeHttp;
         private IFlurlClient client;
         private FakeBody the_body_to_respond_with;
+        private HttpStatusCode the_status_to_respond_with;
         private FakeBody the_payload;
         private JsonResponse the_response;
 
@@ -35,6 +36,7 @@ namespace Sensemaking.Http.Json.Client.Specs
             FakeHttp = new HttpTest();
             client = null;
             the_body_to_respond_with = null;
+            the_status_to_respond_with = HttpStatusCode.OK;
             the_response = null;
         }
 
@@ -64,19 +66,47 @@ namespace Sensemaking.Http.Json.Client.Specs
             FakeHttp.RespondWith(new CapturedJsonContent(the_body_to_respond_with.Serialize()));
         }
 
-        private void the_response_has_a_body_and_headers()
+        private void the_response_has_a_body_using_a_json_sub_type()
+        {
+            the_body_to_respond_with = new FakeBody("Some response");
+            var content = new CapturedJsonContent(the_body_to_respond_with.Serialize());
+            content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.Siren);
+            FakeHttp.RespondWith(content);
+        }
+        
+        private void the_response_has_no_body()
+        {
+            the_body_to_respond_with = new FakeBody("Some response");
+            the_status_to_respond_with = HttpStatusCode.NoContent;
+            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) the_status_to_respond_with);
+        }
+
+        private void the_response_has_headers_and_a_body()
         {
             FakeHttp.RespondWith(new CapturedJsonContent(new FakeBody("Some response").Serialize()), headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
-        private void the_response_has_headers()
+        private void the_response_has_headers_and_no_body()
         {
-            FakeHttp.RespondWith(string.Empty, headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            the_status_to_respond_with = HttpStatusCode.NoContent;
+            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) the_status_to_respond_with, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+        }
+
+        private void the_response_has_a_non_json_body()
+        {
+            FakeHttp.RespondWith(new StringContent("Some response"));
+        }
+
+        private void the_response_has_no_body_but_has_a_content_type()
+        {
+            var content = new ByteArrayContent(new byte[0]);
+            content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.JsonProblem);
+            FakeHttp.RespondWith(content, (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
         private void the_response_errors()
         {
-            FakeHttp.RespondWith(string.Empty, (int)error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
         }
 
         private void the_response_errors_with_a_problem_and_headers()
@@ -133,7 +163,7 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void the_response_has_the_status_code()
         {
-            the_response.Status.should_be(HttpStatusCode.OK);
+            the_response.Status.should_be(the_status_to_respond_with);
         }
 
         private void it_should_have_the_headers()
