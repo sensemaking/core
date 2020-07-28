@@ -10,12 +10,12 @@ namespace Sensemaking.Http.Json.Client
     public class JsonResponse
     {
         public HttpStatusCode Status { get; }
-        public IReadOnlyList<(string Name, string Value)> Headers { get; }
+        public (string Name, string Value)[] Headers { get; }
 
         internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers)
         {
             Status = status;
-            Headers = new ReadOnlyCollection<(string Name, string Value)>(headers.ToList());
+            Headers = headers.ToArray();
         }
 
         public static implicit operator HttpStatusCode (JsonResponse response)
@@ -26,14 +26,14 @@ namespace Sensemaking.Http.Json.Client
 
     public class JsonResponse<T> : JsonResponse
     {
-        public (T Body, IReadOnlyList<(string, string)> Headers) Content { get; }
+        public (T Body, (string, string)[] Headers) Content { get; }
 
         internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers, (string Body, IEnumerable<(string,string)> Headers) content) : base(status, headers)
         {
             if (content.Body.IsNullOrEmpty())
                 throw new Exception("The response to a GET request did not include a body.");
 
-            this.Content = (content.Body.Deserialize<T>(), new ReadOnlyCollection<(string, string)>( content.Headers.ToList() ));
+            this.Content = (content.Body.Deserialize<T>(), content.Headers.ToArray());
         }
 
         public static implicit operator T (JsonResponse<T> response)
