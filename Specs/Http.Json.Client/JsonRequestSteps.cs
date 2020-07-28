@@ -108,7 +108,7 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void it_provides_the_desrialized_response_body()
         {
-            (the_response as JsonResponse<FakeBody>).Content.Body.Value.should_be(the_body_to_respond_with.Value);
+            (the_response as JsonResponse<FakeBody>).Body.Value.should_be(the_body_to_respond_with.Value);
         }
 
         private void it_calls_the_url_using(HttpMethod verb)
@@ -139,11 +139,6 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void it_should_have_the_headers()
         {
             the_response.Headers.should_be(the_headers);
-        }
-
-        private void it_should_have_the_content_headers()
-        {
-            (the_response as JsonResponse<FakeBody>).Content.Headers.should_be(FakeHttp.CallLog[0].Response.Content.Headers.Select(h => (h.Key, string.Join(",", h.Value))));
         }
 
         private void it_causes_a_problem_exception()

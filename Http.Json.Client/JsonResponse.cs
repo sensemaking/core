@@ -26,19 +26,19 @@ namespace Sensemaking.Http.Json.Client
 
     public class JsonResponse<T> : JsonResponse
     {
-        public (T Body, (string, string)[] Headers) Content { get; }
+        public T Body { get; }
 
-        internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers, (string Body, IEnumerable<(string,string)> Headers) content) : base(status, headers)
+        internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers, string body) : base(status, headers)
         {
-            if (content.Body.IsNullOrEmpty())
+            if (body.IsNullOrEmpty())
                 throw new Exception("The response to a GET request did not include a body.");
 
-            this.Content = (content.Body.Deserialize<T>(), content.Headers.ToArray());
+            this.Body = body.Deserialize<T>();
         }
 
         public static implicit operator T (JsonResponse<T> response)
         {
-            return response.Content.Body;
+            return response.Body;
         }
     }
 }

@@ -173,7 +173,6 @@ namespace Sensemaking.Http.Json.Client.Specs
                And(the_response_has_a_body_and_headers);
                When(() => trying(getting));
                Then(it_should_have_the_headers);
-               And(it_should_have_the_content_headers);
            });
             
            scenario(() =>
