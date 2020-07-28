@@ -22,16 +22,11 @@ namespace Sensemaking.Http.Json.Client
             return new JsonResponse(status, headers);
         }
 
-        private static async Task<(HttpStatusCode,IEnumerable<(string, string)>, (string, IEnumerable<(string, string)>))> ParseContent(this HttpResponseMessage response)
+        private static async Task<(HttpStatusCode, IEnumerable<(string, string)>, (string, IEnumerable<(string, string)>))> ParseContent(this HttpResponseMessage response)
         {
             var headers = response.Headers.Select(header => (header.Key, string.Join(",", header.Value)));
-            var contentHeaders = Enumerable.Empty<(string, string)>();
-            var body = string.Empty;
-            if (response.Content != null)
-            {
-                contentHeaders = response.Content.Headers.Select(header => (header.Key, string.Join(",", header.Value)));
-                body = await response.Content.ReadAsStringAsync();
-            }
+            var contentHeaders = response.Content.Headers.Select(header => (header.Key, string.Join(",", header.Value)));
+            var body = await response.Content.ReadAsStringAsync();
 
             if (response.IsError())
                 throw new ProblemException(response.StatusCode, headers, response.IsProblem() ? body.Deserialize<Problem>() : Problem.Empty);
