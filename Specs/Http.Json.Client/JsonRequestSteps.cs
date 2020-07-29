@@ -19,7 +19,7 @@ namespace Sensemaking.Http.Json.Client.Specs
     public partial class JsonRequestSpecs
     {
         private const string url = "https://example.com/some-url";
-        private static readonly (string Name, string Value)[] the_headers = { ("h1", "h1value"), ("h2", "h2value") };
+        private static readonly (string Name, string Value)[] the_headers = {("h1", "h1value"), ("h2", "h2value")};
         private static readonly HttpStatusCode error_code = HttpStatusCode.InternalServerError;
         private static readonly Problem the_problem = new Problem("a problem", "an error");
 
@@ -46,14 +46,18 @@ namespace Sensemaking.Http.Json.Client.Specs
             base.after_each();
         }
 
-        private void a_url() { }
+        private void a_url()
+        {
+        }
 
         private void a_flurl_client()
         {
             client = new FlurlClient();
         }
 
-        private void some_headers() { }
+        private void some_headers()
+        {
+        }
 
         private void a_payload()
         {
@@ -83,13 +87,13 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void the_response_has_headers_and_a_body()
         {
-            FakeHttp.RespondWith(new CapturedJsonContent(new FakeBody("Some response").Serialize()), headers: new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(new CapturedJsonContent(new FakeBody("Some response").Serialize()), headers: new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void the_response_has_headers_and_no_body()
         {
             the_status_to_respond_with = HttpStatusCode.NoContent;
-            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) the_status_to_respond_with, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) the_status_to_respond_with, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void the_response_has_a_non_json_body()
@@ -101,19 +105,19 @@ namespace Sensemaking.Http.Json.Client.Specs
         {
             var content = new ByteArrayContent(new byte[0]);
             content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.JsonProblem);
-            FakeHttp.RespondWith(content, (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(content, (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void the_response_errors()
         {
-            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void the_response_errors_with_a_problem_and_headers()
         {
             var content = new CapturedJsonContent(the_problem.Serialize());
             content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.JsonProblem);
-            FakeHttp.RespondWith(content, (int) error_code, new { h1 = the_headers[0].Value, h2 = the_headers[1].Value });
+            FakeHttp.RespondWith(content, (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void getting()
@@ -176,9 +180,9 @@ namespace Sensemaking.Http.Json.Client.Specs
             the_exception.should_be_instance_of<ProblemException>();
             var problem = (the_exception as ProblemException);
             problem.ToString().should_contain($"A problem has occured while making an http request:{Environment.NewLine}" +
-                $"\tStatus: {problem.Status}{Environment.NewLine}" +
-                $"\tProblem: {problem.Problem.Title}{Environment.NewLine}" +
-                string.Join($"{Environment.NewLine}\t", problem.Problem.Errors) + Environment.NewLine);
+                                              $"\tStatus: {problem.Status}{Environment.NewLine}" +
+                                              $"\tProblem: {problem.Problem.Title}{Environment.NewLine}" +
+                                              string.Join($"{Environment.NewLine}\t", problem.Problem.Errors) + Environment.NewLine);
         }
 
         private void the_exception_has_the_status_code()
@@ -194,13 +198,6 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void the_exception_should_have_the_problem()
         {
             (the_exception as ProblemException).Problem.should_be(the_problem);
-        }
-
-        private void a_problem_exception()
-        {
-            a_url();
-            the_response_errors_with_a_problem_and_headers();
-            trying(getting);
         }
     }
 
