@@ -174,7 +174,11 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void it_causes_a_problem_exception()
         {
             the_exception.should_be_instance_of<ProblemException>();
-            informs("A problem has occured while making an http request");
+            var problem = (the_exception as ProblemException);
+            problem.ToString().should_contain($"A problem has occured while making an http request:{Environment.NewLine}" +
+                $"\tStatus: {problem.Status}{Environment.NewLine}" +
+                $"\tProblem: {problem.Problem.Title}{Environment.NewLine}" +
+                string.Join($"{Environment.NewLine}\t", problem.Problem.Errors) + Environment.NewLine);
         }
 
         private void the_exception_has_the_status_code()
@@ -197,15 +201,6 @@ namespace Sensemaking.Http.Json.Client.Specs
             a_url();
             the_response_errors_with_a_problem_and_headers();
             trying(getting);
-        }
-
-        private void it_includes_status_and_problem_details_in_its_description()
-        {
-            var problem = (the_exception as ProblemException);
-            problem.ToString().should_contain($"{problem.Message}:{Environment.NewLine}" +
-                $"\tStatus: {problem.Status}{Environment.NewLine}" +
-                $"\tProblem: {problem.Problem.Title}{Environment.NewLine}" +
-                string.Join($"{Environment.NewLine}\t", problem.Problem.Errors) + Environment.NewLine);
         }
     }
 
