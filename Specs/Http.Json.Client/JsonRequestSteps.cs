@@ -73,7 +73,7 @@ namespace Sensemaking.Http.Json.Client.Specs
             content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.Siren);
             FakeHttp.RespondWith(content);
         }
-        
+
         private void the_response_has_no_body()
         {
             the_body_to_respond_with = new FakeBody("Some response");
@@ -174,7 +174,7 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void it_causes_a_problem_exception()
         {
             the_exception.should_be_instance_of<ProblemException>();
-            informs("A problem has occured while making an http request.");
+            informs("A problem has occured while making an http request");
         }
 
         private void the_exception_has_the_status_code()
@@ -190,6 +190,22 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void the_exception_should_have_the_problem()
         {
             (the_exception as ProblemException).Problem.should_be(the_problem);
+        }
+
+        private void a_problem_exception()
+        {
+            a_url();
+            the_response_errors_with_a_problem_and_headers();
+            trying(getting);
+        }
+
+        private void it_includes_status_and_problem_details_in_its_description()
+        {
+            var problem = (the_exception as ProblemException);
+            problem.ToString().should_contain($"{problem.Message}:{Environment.NewLine}" +
+                $"\tStatus: {problem.Status}{Environment.NewLine}" +
+                $"\tProblem: {problem.Problem.Title}{Environment.NewLine}" +
+                string.Join($"{Environment.NewLine}\t", problem.Problem.Errors) + Environment.NewLine);
         }
     }
 

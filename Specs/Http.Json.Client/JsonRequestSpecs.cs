@@ -317,5 +317,12 @@ namespace Sensemaking.Http.Json.Client.Specs
                 Then(the_exception_should_have_the_problem);
             });
         }
+
+        [Test]
+        public void problem_exception_description_includes_status_and_problem_details()
+        {
+            Given(a_problem_exception);
+            Then(it_includes_status_and_problem_details_in_its_description);
+        }
     }
 }
