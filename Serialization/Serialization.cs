@@ -1,12 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NodaTime;
 using NodaTime.Serialization.JsonNet;
-using static Newtonsoft.Json.JsonConvert;
 
 namespace System.Serialization
 {
@@ -57,12 +52,17 @@ namespace System.Serialization
 
         public static T Deserialize<T>(this string json, params JsonConverter[] converters)
         {
-            return DeserializeObject<T>(json, GetSettings(converters))!;
+            return JsonConvert.DeserializeObject<T>(json, GetSettings(converters))!;
+        }
+
+        public static object Deserialize(this string json, Type type, params JsonConverter[] converters)
+        {
+            return JsonConvert.DeserializeObject(json, type, GetSettings(converters))!;
         }
 
         public static string Serialize(this object entity, params JsonConverter[] converters)
         {
-            return SerializeObject(entity, Formatting.None, GetSettings(converters));
+            return JsonConvert.SerializeObject(entity, Formatting.None, GetSettings(converters));
         }
 
         public static JsonSerializerSettings GetSettings(params JsonConverter[] converters)
