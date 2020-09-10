@@ -18,9 +18,9 @@ namespace Sensemaking.Host.Monitoring
         }
     }
 
-    internal static class LogExtensions
+    public static class LogExtensions
     {
-        internal static void LogStatus(this IMonitorServices monitor)
+        public static void LogStatus(this IMonitorServices monitor)
         {
             var status = monitor.GetStatus();
             switch (status.Health)

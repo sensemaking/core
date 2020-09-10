@@ -43,6 +43,5 @@ namespace Sensemaking
 
             return response;
         }
-
     }
 }
