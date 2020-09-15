@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Immutable;
 using System.Net;
 using System.Serialization;
 
@@ -10,12 +9,12 @@ namespace Sensemaking.Http.Json.Client
     public class JsonResponse
     {
         public HttpStatusCode Status { get; }
-        public (string Name, string Value)[] Headers { get; }
+        public ImmutableArray<(string Name, string Value)> Headers { get; }
 
         internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers)
         {
             Status = status;
-            Headers = headers.ToArray();
+            Headers = headers.ToImmutableArray();
         }
 
         public static implicit operator HttpStatusCode (JsonResponse response)
