@@ -65,11 +65,19 @@ namespace Sensemaking.Bdd
         {
             if (the_exception == null && the_validation_exception == null)
                 "it".should_fail("Exception was not provided.");
-
-            if(the_exception != null)
+            
+            if (the_exception != null)
                 the_exception.Message.should_be(message);
             else
                 the_validation_exception.Errors.should_contain(message);
+        }
+
+        protected virtual void informs<T>(string message) where T : Exception
+        {
+            informs(message);
+
+            if (!(the_exception is T) && !(the_validation_exception is T))
+                "it".should_fail($"Exception was {(the_exception != null ? the_exception.GetType() : the_validation_exception.GetType())} but should have been {typeof(T)}.");
         }
 
         protected void it_is_valid()
