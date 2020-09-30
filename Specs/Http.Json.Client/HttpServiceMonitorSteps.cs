@@ -46,8 +46,7 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         public void it_is_not_available()
         {
-            Availability expected_availability =
-                Availability.Down(AlertFactory.ServiceUnavailable(info, "Remote service is down."));
+            var expected_availability = Availability.Down(AlertFactory.ServiceUnavailable(info, "Remote service is down."));
             the_availability.Status.should_be(expected_availability.Status);
         }
 

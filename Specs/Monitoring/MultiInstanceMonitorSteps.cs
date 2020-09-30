@@ -47,8 +47,8 @@ namespace Sensemaking.Monitoring.Specs
 
         private void multi_instance_monitor_cannot_be_used()
         {
-            Action action = () => new MultiInstanceMonitor(instance_monitors);
-            action.should_throw<ArgumentException>("Service monitors can only monitor across instance monitors.");
+            trying(() => new MultiInstanceMonitor(instance_monitors));
+            informs("Service monitors can only monitor across instance monitors.");
         }
 
         private void monitor_info_has_name_and_type()

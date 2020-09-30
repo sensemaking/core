@@ -7,24 +7,6 @@ namespace Sensemaking.Bdd
 {
     public static class AssertionExtensions
     {
-        public static Exception should_throw<T>(this Action code, string message = "") where T : Exception
-        {
-            T exception = null;
-            try
-            {
-                code();
-            }
-            catch (T ex)
-            {
-                exception = ex;
-            }
-
-            if (exception == null)
-                Assert.Fail($"{typeof(T).Name} should have been thrown");
-
-            return exception;
-        }
-
         public static void should_pass(this object o)
         {
             Assert.Pass();
@@ -75,7 +57,7 @@ namespace Sensemaking.Bdd
             if(iCareAboutOrdering)
                 actual.SequenceEqual(expected).should_be_true("The two enumerables were expected to be the same");
             else
-                actual.OrderBy(a => a.GetHashCode()).SequenceEqual(expected.OrderBy(e => e.GetHashCode())).should_be_true("The two enumerables were expected to be the same");
+                actual.OrderBy(a => a?.GetHashCode()).SequenceEqual(expected.OrderBy(e => e?.GetHashCode())).should_be_true("The two enumerables were expected to be the same");
         }
 
         public static void should_be<T, U>(this IEnumerable<T> actual, IEnumerable<U> expected, Func<T, U, bool> predicate)

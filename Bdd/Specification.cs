@@ -66,10 +66,8 @@ namespace Sensemaking.Bdd
             if (the_exception == null && the_validation_exception == null)
                 "it".should_fail("Exception was not provided.");
             
-            if (the_exception != null)
-                the_exception.Message.should_be(message);
-            else
-                the_validation_exception.Errors.should_contain(message);
+            the_exception?.Message.should_be(message);
+            the_validation_exception?.Errors.should_contain(message);
         }
 
         protected virtual void informs<T>(string message) where T : Exception

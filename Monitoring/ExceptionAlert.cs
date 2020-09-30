@@ -26,10 +26,7 @@ namespace Sensemaking.Monitoring
 
         public override int GetHashCode()
         {
-            var hash = base.GetHashCode();
-            hash = hash * 23 + (AdditionalInfo != null ? AdditionalInfo.GetHashCode() : 0);
-            hash = hash * 23 + ExceptionDetail.GetHashCode();
-            return hash;
+            return HashCode.Combine(AdditionalInfo, ExceptionDetail);
         }
     }
 }
