@@ -31,19 +31,21 @@ namespace Sensemaking.Host.Monitoring
 
         public Status GetStatus()
         {
-            return new Status(Availability(), Dependencies.Select(x => x.Monitor.Info).ToArray());
+            return new Status(Info, Availability(), Dependencies.Select(x => x.Monitor.Info).ToArray());
         }
         
         public struct Status
         {
             public static readonly Status Empty = new Status();
 
+            public MonitorInfo Monitor { get; }
             public MonitorInfo[] Monitoring { get; }
             public Alert[] Alerts { get; }
             public Healthiness Health { get; }
 
-            internal Status(Availability availability, params MonitorInfo[] dependencyMonitors)
+            internal Status(MonitorInfo monitor, Availability availability, params MonitorInfo[] dependencyMonitors)
             {
+                Monitor = monitor;
                 Monitoring = dependencyMonitors;
                 Alerts = availability.Alerts;
                 Health = GetHealth(availability);

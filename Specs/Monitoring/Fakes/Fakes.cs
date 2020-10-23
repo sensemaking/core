@@ -8,11 +8,11 @@ namespace Sensemaking.Monitoring.Specs
         public static Monitor AMonitor = new Monitor();
         public static InstanceMonitor AnInstanceMonitor = new InstanceMonitor();
         public static InstanceMonitor AnAlertingInstanceMonitor(string alertMessage) => new InstanceMonitor(alertMessage);
-        public static ServiceMonitor.Status AliveServiceMonitorStatus => new ServiceMonitor.Status(Availability.Up(), AMonitor.Info);
-        public static ServiceMonitor.Status DeadServiceMonitorStatus => new ServiceMonitor.Status(Availability.Down(AlertFactory.InstanceUnavailable(AMonitor.Info, "Ooops")), AMonitor.Info);
+        public static ServiceMonitor.Status AliveServiceMonitorStatus => new ServiceMonitor.Status(AMonitor.Info, Availability.Up(), AnInstanceMonitor.Info);
+        public static ServiceMonitor.Status DeadServiceMonitorStatus => new ServiceMonitor.Status(AMonitor.Info, Availability.Down(AlertFactory.InstanceUnavailable(AnInstanceMonitor.Info, "Ooops")), AnInstanceMonitor.Info);
 
-        public static ServiceMonitor.Status IllServiceMonitorStatus => new ServiceMonitor.Status(Availability.Up() |
-                                                                                                 Availability.Down(AlertFactory.InstanceUnavailable(AMonitor.Info, "Ooops")), AMonitor.Info);
+        public static ServiceMonitor.Status IllServiceMonitorStatus => new ServiceMonitor.Status(AMonitor.Info, Availability.Up() |
+                                                                                                 Availability.Down(AlertFactory.InstanceUnavailable(AnInstanceMonitor.Info, "Ooops")), AnInstanceMonitor.Info);
 
         public static ServiceMonitor.Status OnLastLegsServiceMonitorStatus
         {
@@ -20,7 +20,7 @@ namespace Sensemaking.Monitoring.Specs
             {
                 var availability = Availability.Up();
                 availability.Add(AlertFactory.ServiceRedundancyLost(AMonitor.Info, "Oooops"));
-                return new ServiceMonitor.Status(availability, AMonitor.Info);
+                return new ServiceMonitor.Status(AMonitor.Info, availability, AnInstanceMonitor.Info);
             }
         }
 
