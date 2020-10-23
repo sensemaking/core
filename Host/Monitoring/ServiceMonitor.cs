@@ -15,6 +15,8 @@ namespace Sensemaking.Host.Monitoring
 
     public class ServiceMonitor : IMonitorServices
     {
+        public ServiceMonitor(string serviceName, params IMonitor[] dependencyMonitors) : this(serviceName, dependencyMonitors.Select(m => new ServiceDependency(m)).ToArray()) { }
+
         public ServiceMonitor(string serviceName, params ServiceDependency[] dependencies)
         {
             Info = new MonitorInfo("Service Monitor", serviceName);
