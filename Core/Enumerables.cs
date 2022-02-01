@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace System
 {
@@ -16,6 +17,19 @@ namespace System
             var index = 0;
             foreach (var x in source)
                 action.Invoke(x, index++);
+        }
+        
+        public static async Task ForEach<T>(this IEnumerable<T> source, Func<T, Task> action)
+        {
+            foreach (var x in source)
+                await action.Invoke(x);
+        }
+
+        public static async Task ForEach<T>(this IEnumerable<T> source, Func<T, int, Task> action)
+        {
+            var index = 0;
+            foreach (var x in source)
+                await action.Invoke(x, index++);
         }
 
         public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> source, int count)
