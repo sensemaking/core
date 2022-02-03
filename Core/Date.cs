@@ -3,36 +3,18 @@ using NodaTime.Extensions;
 
 namespace System
 {
+    public static class TimeZones
+    {
+        public static readonly DateTimeZone Utc = DateTimeZone.Utc;
+        public static readonly DateTimeZone TheUk = DateTimeZoneProviders.Tzdb["Europe/London"];
+    }
+
     public static class Date
     {
-        private static ZonedClock TheUk => SystemClock.Instance.InZone(DateTimeZoneProviders.Tzdb["Europe/London"]);
-        public static Func<LocalDate> Today = () => TheUk.GetCurrentDate();
-        public static Func<LocalDateTime> Now = () => TheUk.GetCurrentLocalDateTime();
-
-        public static bool FallsWithin(this LocalDate date, LocalDate start, LocalDate end)
-        {
-            return start <= date && end >= date;
-        }
-
-        public static uint Age(this LocalDate date)
-        {
-            var age = Date.Today().Year - date.Year;
-            return (uint)(!date.PlusYears(age).IsFuture() || age == 0 ? age : age - 1);
-        }
-
-        public static bool IsFuture(this LocalDate date)
-        {
-            return Date.Today() < date;
-        }
-
-        public static bool IsFuture(this LocalDateTime date)
-        {
-            return Date.Now().Date < date.Date;
-        }
-
-        public static LocalDate ToLocalDate(this DateTime dateTime)
-        {
-            return new LocalDate(dateTime.Year, dateTime.Month, dateTime.Day);
-        }
+        private static readonly ZonedClock Utc = SystemClock.Instance.InZone(DateTimeZone.Utc);
+        public static Func<LocalDate> Today = () => Utc.GetCurrentDate();
+        public static Func<LocalDateTime> Now = () => Utc.GetCurrentLocalDateTime();
+        public static Func<DateTimeZone, LocalDate> TodayIn = (timeZone) => Utc.GetCurrentInstant().InZone(timeZone).Date;
+        public static Func<DateTimeZone, LocalDateTime> NowIn = (timeZone) => Utc.GetCurrentInstant().InZone(timeZone).LocalDateTime;
     }
 }
