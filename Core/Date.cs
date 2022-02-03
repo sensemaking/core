@@ -12,9 +12,9 @@ namespace System
     public static class Date
     {
         private static readonly ZonedClock Utc = SystemClock.Instance.InZone(DateTimeZone.Utc);
-        public static Func<LocalDate> Today = () => Utc.GetCurrentDate();
-        public static Func<LocalDateTime> Now = () => Utc.GetCurrentLocalDateTime();
-        public static Func<DateTimeZone, LocalDate> TodayIn = (timeZone) => Utc.GetCurrentInstant().InZone(timeZone).Date;
-        public static Func<DateTimeZone, LocalDateTime> NowIn = (timeZone) => Utc.GetCurrentInstant().InZone(timeZone).LocalDateTime;
+        public static Func<OffsetDate> Today = () => Utc.GetCurrentOffsetDateTime().ToOffsetDate();
+        public static Func<OffsetDateTime> Now = () => Utc.GetCurrentOffsetDateTime();
+        public static Func<DateTimeZone, OffsetDate> TodayIn = (timeZone) => Utc.GetCurrentInstant().InZone(timeZone).ToOffsetDateTime().ToOffsetDate();
+        public static Func<DateTimeZone, OffsetDateTime> NowIn = (timeZone) => Utc.GetCurrentInstant().InZone(timeZone).ToOffsetDateTime();
     }
 }

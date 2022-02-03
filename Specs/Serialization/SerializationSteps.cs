@@ -49,11 +49,11 @@ namespace Sensemaking.Serialization.Specs
 
         private static readonly DeserializedObject the_object = new DeserializedObject()
         {
-            Date = Date.Today(),
-            DateWithATime = Date.Today().PlusDays(-1),
+            Date = Date.Today().Date,
+            DateWithATime = Date.Today().Date.PlusDays(-1),
             NullDate = null,
-            NonNullNullableDate = Date.Today().PlusDays(-2),
-            NonNullNullableDateWithATime = Date.Today().PlusDays(-3),
+            NonNullNullableDate = Date.Today().Date.PlusDays(-2),
+            NonNullNullableDateWithATime = Date.Today().Date.PlusDays(-3),
             StringEnumValue = RemoveWhitespaceStringEnumConverterSpecs.FakeEnum.Wobble
         };
 
