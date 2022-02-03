@@ -59,6 +59,11 @@ namespace Sensemaking.Bdd
             {
                 the_validation_exception = e;
             }
+            catch (AggregateException e)
+            {
+                if(e.InnerException is ValidationException validationException)
+                    the_validation_exception = validationException;
+            }
         }
 
         protected virtual void informs(string message)
