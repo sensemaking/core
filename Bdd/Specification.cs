@@ -63,10 +63,12 @@ namespace Sensemaking.Bdd
             {
                 if(e.InnerException is ValidationException validationException)
                     the_validation_exception = validationException;
+                else
+                    the_exception = e.InnerException;
             }
             catch (Exception e)
             {
-                the_exception = e is AggregateException ? e.InnerException : e;
+                the_exception = e;
             }
         }
 
