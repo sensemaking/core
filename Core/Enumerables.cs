@@ -12,9 +12,9 @@ namespace System
                 action.Invoke(x);
         }
 
-        public static void ForEach<T>(this IEnumerable<T> source, Action<T, uint> action)
+        public static void ForEach<T>(this IEnumerable<T> source, Action<T, int> action)
         {
-            var index = (uint) 0;
+            var index = 0;
             foreach (var x in source)
                 action.Invoke(x, index++);
         }
@@ -25,9 +25,9 @@ namespace System
                 await action.Invoke(x);
         }
 
-        public static async Task ForEach<T>(this IEnumerable<T> source, Func<T, uint, Task> action)
+        public static async Task ForEach<T>(this IEnumerable<T> source, Func<T, int, Task> action)
         {
-            var index = (uint) 0;
+            var index = 0;
             foreach (var x in source)
                 await action.Invoke(x, index++);
         }
