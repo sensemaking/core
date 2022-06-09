@@ -18,7 +18,7 @@ namespace Sensemaking.Http.Json.Client.Monitoring
         {
             try
             {
-                return url.WithHeaders(headers).GetAsync().Result.IsSuccessStatusCode ?
+                return url.WithHeaders(headers).GetAsync().Result.ResponseMessage.IsSuccessStatusCode ?
                     Sensemaking.Monitoring.Availability.Up() :
                     Sensemaking.Monitoring.Availability.Down(AlertFactory.ServiceUnavailable(Info, $"Service at {url} is down."));
             }

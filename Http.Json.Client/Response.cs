@@ -7,20 +7,21 @@ using System.Net.Http;
 using System.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Flurl.Http;
 
 namespace Sensemaking.Http.Json.Client
 {
     internal static class Response
     {
-        internal static async Task<JsonResponse<T>> ToJsonResponse<T>(this HttpResponseMessage response)
+        internal static async Task<JsonResponse<T>> ToJsonResponse<T>(this IFlurlResponse response)
         {
-            var (status, headers, body) = await response.ParseContent();
+            var (status, headers, body) = await response.ResponseMessage.ParseContent();
             return new JsonResponse<T>(status, headers, body);
         }
 
-        internal static async Task<JsonResponse> ToJsonResponse(this HttpResponseMessage response)
+        internal static async Task<JsonResponse> ToJsonResponse(this IFlurlResponse response)
         {
-            var (status, headers, _) = await response.ParseContent();
+            var (status, headers, _) = await response.ResponseMessage.ParseContent();
             return new JsonResponse(status, headers);
         }
 

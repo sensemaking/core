@@ -1,12 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System;
+﻿using System.Threading.Tasks;
 using Flurl.Http;
-using Flurl.Http.Content;
 
 namespace Sensemaking.Http.Json.Client
 {

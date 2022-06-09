@@ -1,17 +1,11 @@
-﻿
-using System;
-using System.Linq;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Mime;
 using System.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
 using Flurl.Http;
 using Flurl.Http.Content;
 using Flurl.Http.Testing;
-using Microsoft.VisualBasic.CompilerServices;
 using Sensemaking.Bdd;
 
 namespace Sensemaking.Http.Json.Client.Specs
@@ -67,7 +61,7 @@ namespace Sensemaking.Http.Json.Client.Specs
         private void the_response_has_a_body()
         {
             the_body_to_respond_with = new FakeBody("Some response");
-            FakeHttp.RespondWith(new CapturedJsonContent(the_body_to_respond_with.Serialize()));
+            FakeHttp.RespondWith(() => new CapturedJsonContent(the_body_to_respond_with.Serialize()));
         }
 
         private void the_response_has_a_body_using_a_json_sub_type()
@@ -75,49 +69,49 @@ namespace Sensemaking.Http.Json.Client.Specs
             the_body_to_respond_with = new FakeBody("Some response");
             var content = new CapturedJsonContent(the_body_to_respond_with.Serialize());
             content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.Siren);
-            FakeHttp.RespondWith(content);
+            FakeHttp.RespondWith(() => content).RespondWith();
         }
 
         private void the_response_has_no_body()
         {
             the_body_to_respond_with = new FakeBody("Some response");
             the_status_to_respond_with = HttpStatusCode.NoContent;
-            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) the_status_to_respond_with);
+            FakeHttp.RespondWith(() => new ByteArrayContent(Array.Empty<byte>()), (int) the_status_to_respond_with);
         }
 
         private void the_response_has_headers_and_a_body()
         {
-            FakeHttp.RespondWith(new CapturedJsonContent(new FakeBody("Some response").Serialize()), headers: new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
+            FakeHttp.RespondWith(() => new CapturedJsonContent(new FakeBody("Some response").Serialize()), headers: new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void the_response_has_headers_and_no_body()
         {
             the_status_to_respond_with = HttpStatusCode.NoContent;
-            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) the_status_to_respond_with, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
+            FakeHttp.RespondWith(() => new ByteArrayContent(Array.Empty<byte>()), (int) the_status_to_respond_with, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void the_response_has_a_non_json_body()
         {
-            FakeHttp.RespondWith(new StringContent("Some response"));
+            FakeHttp.RespondWith("Some response");
         }
 
         private void the_response_has_no_body_but_has_a_content_type()
         {
-            var content = new ByteArrayContent(new byte[0]);
+            var content = new ByteArrayContent(Array.Empty<byte>());
             content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.JsonProblem);
-            FakeHttp.RespondWith(content, (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
+            FakeHttp.RespondWith(() => content, (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void the_response_errors()
         {
-            FakeHttp.RespondWith(new ByteArrayContent(new byte[0]), (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
+            FakeHttp.RespondWith(() => new ByteArrayContent(Array.Empty<byte>()), (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void the_response_errors_with_a_problem_and_headers()
         {
             var content = new CapturedJsonContent(the_problem.Serialize());
             content.Headers.ContentType = new MediaTypeHeaderValue(MediaType.JsonProblem);
-            FakeHttp.RespondWith(content, (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
+            FakeHttp.RespondWith(() => content, (int) error_code, new {h1 = the_headers[0].Value, h2 = the_headers[1].Value});
         }
 
         private void getting()
