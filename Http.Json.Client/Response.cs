@@ -38,7 +38,7 @@ namespace Sensemaking.Http.Json.Client
                 throw new Exception("The response has a body but it is not Json.");
 
             if (response.IsError())
-                throw new ProblemException(response.StatusCode, headers, response.IsProblem() ? body.Deserialize<Problem>() : new Problem("Target did not provide a json problem. It's body has been serialised.", body));
+                throw new ProblemException(response.StatusCode, headers, response.IsProblem() ? body.Deserialize<Problem>() : new Problem("Target did not provide a json problem. Error is it's serialised response body.", body));
 
             return (response.StatusCode, headers, body);
         }
