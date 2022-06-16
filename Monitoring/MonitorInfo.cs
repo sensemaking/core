@@ -7,9 +7,9 @@ namespace Sensemaking.Monitoring
     {
         public static MonitorInfo Empty = new MonitorInfo();
 
-        public string Type { get; }
-        public string Name { get; }
-        public string[] Instances { get; }
+        public string Type { get; private set; }
+        public string Name { get; private set; }
+        public string[] Instances { get; private set; }
 
         internal MonitorInfo(MonitorInfo monitorInfo, params string[] instances) : this(monitorInfo.Type, monitorInfo.Name, instances) { }
 

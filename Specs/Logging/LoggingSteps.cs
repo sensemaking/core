@@ -11,23 +11,23 @@ namespace Sensemaking.Http.Specs
 {
     public partial class LoggingSpecs
     {
-        private static readonly MonitorInfo monitor = new MonitorInfo("Api", "Fake Api Monitor");
+        private static readonly MonitorInfo monitor_info = new MonitorInfo("Api", "Fake Api Monitor");
         private static readonly ILogger logger = Substitute.For<ILogger>();
 
         private Action<CallInfo> capture_log;
         private FakeLog to_log;
-        private FakeLog was_logged;
+        private FakeLogEntry was_logged;
 
         protected override void before_all()
         {
             base.before_all();
-            Logging.Configure(logger);
+            Logging.Configure(monitor_info, logger);
         }
 
         protected override void before_each()
         {
             base.before_each();
-            capture_log = c => was_logged = c.Arg<string>().Deserialize<FakeLog>();
+            capture_log = c => was_logged = c.Arg<string>().Deserialize<FakeLogEntry>();
             to_log = null;
             was_logged = null;
         }
@@ -38,9 +38,7 @@ namespace Sensemaking.Http.Specs
             logger.ClearSubstitute();
         }
 
-        private void a_monitor_info()
-        {
-        }
+        private void a_monitor_info() { }
 
         private void a_log()
         {
@@ -71,10 +69,21 @@ namespace Sensemaking.Http.Specs
             Logging.Fatal(to_log);
         }
 
+        private void it_has_its_monitor_info()
+        {
+            was_logged.Monitor.should_be(monitor_info);
+        }
+
         private void it_logs_as_json()
         {
-            was_logged.Message.should_be(to_log.Message);
+            was_logged.LogEntry.Message.should_be(to_log.Message);
         }
+    }
+
+    internal class FakeLogEntry
+    {
+        public MonitorInfo Monitor { get; set; }
+        public FakeLog LogEntry { get; set; }
     }
 
     internal class FakeLog

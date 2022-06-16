@@ -6,6 +6,7 @@ using NSubstitute;
 using NSubstitute.ClearExtensions;
 using NSubstitute.Core;
 using Sensemaking.Bdd;
+using Sensemaking.Monitoring;
 using Serilog;
 
 namespace Sensemaking.Http.Specs
@@ -20,20 +21,20 @@ namespace Sensemaking.Http.Specs
         private const string function_result = "The result";
             
         private Action action;
-        private FakeMetric the_logged_metric;
+        private FakeMetricEntry the_logged_metric;
         private Func<string> function;
         private string the_result;
 
         protected override void before_all()
         {
             base.before_all();
-            Logging.Configure(logger);
+            Logging.Configure(new MonitorInfo("Fake", "Fake"), logger);
         }
 
         protected override void before_each()
         {
             base.before_each();
-            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<FakeMetric>());
+            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<FakeMetricEntry>());
             action = null;
             function = null;
             the_logged_metric = null;
@@ -71,29 +72,35 @@ namespace Sensemaking.Http.Specs
 
         private void a_metric_is_logged()
         {
-            the_logged_metric.Type.should_be("Metric");
+            the_logged_metric.LogEntry.Type.should_be("Metric");
         }
 
         private void it_has_its_name()
         {
-            the_logged_metric.Name.should_be(name);
+            the_logged_metric.LogEntry.Name.should_be(name);
         }
 
         private void it_has_the_duration_of_execution()
         {
-            the_logged_metric.Duration.should_be_greater_than(execution_time);
-            the_logged_metric.Duration.should_be_less_than(execution_time + 50);
+            the_logged_metric.LogEntry.Duration.should_be_greater_than(execution_time);
+            the_logged_metric.LogEntry.Duration.should_be_less_than(execution_time + 50);
         }
 
         private void it_has_any_additional_info()
         {
-            the_logged_metric.AdditionalInfo.Info.should_be(additional_info.Info);
+            the_logged_metric.LogEntry.AdditionalInfo.Info.should_be(additional_info.Info);
         }
 
         private void the_funtion_result_is_provided()
         {
             the_result.should_be(function_result);
         }
+    }
+
+    internal class FakeMetricEntry
+    {
+        public MonitorInfo Monitor { get; set; }
+        public FakeMetric LogEntry { get; set; }
     }
 
     internal class FakeMetric

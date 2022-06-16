@@ -12,7 +12,7 @@ namespace Sensemaking.Http.Specs
             Given(a_monitor_info);
             And(a_log);
             When(logging_information);
-            Then(it_logs_as_json);
+            Then(it_has_its_monitor_info);
             And(it_logs_as_json);
         }    
  
@@ -22,7 +22,8 @@ namespace Sensemaking.Http.Specs
             Given(a_monitor_info);
             And(a_log);
             When(logging_warning);
-            Then(it_logs_as_json);
+            Then(it_has_its_monitor_info);
+            And(it_logs_as_json);
         }
 
         [Test]
@@ -31,7 +32,8 @@ namespace Sensemaking.Http.Specs
             Given(a_monitor_info);
             And(a_log);
             When(logging_error);
-            Then(it_logs_as_json);
+            Then(it_has_its_monitor_info);
+            And(it_logs_as_json);
         }
 
         [Test]
@@ -40,7 +42,8 @@ namespace Sensemaking.Http.Specs
             Given(a_monitor_info);
             And(a_log);
             When(logging_fatal);
-            Then(it_logs_as_json);
+            Then(it_has_its_monitor_info);
+            And(it_logs_as_json);
         }
     }
 }

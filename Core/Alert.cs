@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sensemaking
+﻿namespace System
 {
     public class Alert<T>
     {

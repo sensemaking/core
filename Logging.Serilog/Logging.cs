@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Serialization;
+using Sensemaking.Monitoring;
 using Serilog;
 
 namespace Sensemaking
 {
     public static class Logging
     {
-        public static void Configure(ILogger logger)
+        private static MonitorInfo monitor;
+
+        public static void Configure(MonitorInfo monitor, ILogger logger)
         {
+            Logging.monitor = monitor;
             Log.Logger = logger;
         }
 
@@ -17,11 +21,11 @@ namespace Sensemaking
         public static void Error(object logEntry) => Log.Logger.Error(logEntry);
         public static void Fatal(object logEntry) => Log.Logger.Fatal(logEntry);
 
-        public static void Information(this ILogger logger, object obj) { logger.Information(obj.Serialize()); }
-        public static void Warning(this ILogger logger, object obj) { logger.Warning(obj.Serialize()); }
-        public static void Error(this ILogger logger, object obj) { logger.Error(obj.Serialize()); }
-        public static void Fatal(this ILogger logger, object obj) { logger.Fatal(obj.Serialize()); }
-       
+        public static void Information(this ILogger logger, object obj) { logger.Information(obj.GetLogEntry()); }
+        public static void Warning(this ILogger logger, object obj) { logger.Warning(obj.GetLogEntry()); }
+        public static void Error(this ILogger logger, object obj) { logger.Error(obj.GetLogEntry()); }
+        public static void Fatal(this ILogger logger, object obj) { logger.Fatal(obj.GetLogEntry()); }
+
         public static void TimeThis(Action action, string name, object? additionalInfo = null)
         {
             var timer = new Stopwatch();
@@ -42,6 +46,11 @@ namespace Sensemaking
             Information(new { type = "Metric", name, duration = timer.Elapsed.TotalMilliseconds, additionalInfo });
 
             return response;
+        }
+
+        private static string GetLogEntry(this object log)
+        {
+            return new { Monitor = monitor, LogEntry = log }.Serialize();
         }
     }
 }
