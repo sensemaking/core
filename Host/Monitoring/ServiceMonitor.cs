@@ -42,7 +42,7 @@ namespace Sensemaking.Host.Monitoring
 
             public MonitorInfo Monitor { get; }
             public MonitorInfo[] Monitoring { get; }
-            public Alert[] Alerts { get; }
+            public MonitoringAlert[] Alerts { get; }
             public Healthiness Health { get; }
 
             internal Status(MonitorInfo monitor, Availability availability, params MonitorInfo[] dependencyMonitors)

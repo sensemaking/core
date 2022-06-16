@@ -22,7 +22,7 @@ namespace Sensemaking.Monitoring.Specs
             instance_monitor = monitor;
         }
 
-        private void unavailable(Alert alert)
+        private void unavailable(MonitoringAlert alert)
         {
             var monitor = Substitute.For<IMonitor>();
             monitor.Availability().Returns(Availability.Down(alert));
@@ -55,7 +55,7 @@ namespace Sensemaking.Monitoring.Specs
             @true.should_be(available);
         }
 
-        private void alerts(Alert alert)
+        private void alerts(MonitoringAlert alert)
         {
             availability.Alerts.should_contain(alert);
         }

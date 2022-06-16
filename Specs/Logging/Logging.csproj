@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Bdd\Bdd.csproj" />
     <ProjectReference Include="..\..\Logging.Serilog\Logging.Serilog.csproj" />
+    <ProjectReference Include="..\..\Monitoring\Monitoring.csproj" />
   </ItemGroup>
 
 </Project>

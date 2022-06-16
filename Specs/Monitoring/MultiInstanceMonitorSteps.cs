@@ -29,9 +29,9 @@ namespace Sensemaking.Monitoring.Specs
             instance_monitors.Add(Fake.AnInstanceMonitor);
         }
 
-        private void unavailable_instance(Alert alert)
+        private void unavailable_instance(MonitoringAlert alert)
         {
-            instance_monitors.Add(Fake.AnAlertingInstanceMonitor(alert.Message));
+            instance_monitors.Add(Fake.AnAlertingInstanceMonitor(alert.AlertInfo));
         }
 
         public void getting_availability()
@@ -39,12 +39,7 @@ namespace Sensemaking.Monitoring.Specs
             multi_instance_monitor = new MultiInstanceMonitor(instance_monitors);
             service_availability = multi_instance_monitor.Availability();
         }
-
-        public void comparing_seperate_service_availability()
-        {
-            service_availability = instance_monitors.Select(x => x.Availability()).Aggregate((a, b) => a & b);
-        }
-
+    
         private void multi_instance_monitor_cannot_be_used()
         {
             trying(() => new MultiInstanceMonitor(instance_monitors));
@@ -80,7 +75,7 @@ namespace Sensemaking.Monitoring.Specs
             service_availability.Status.should_be(Availability.State.Reduced);
         }
 
-        private void alerts(Alert alert)
+        private void alerts(MonitoringAlert alert)
         {
             service_availability.Alerts.should_contain(alert);
         }

@@ -53,7 +53,7 @@ namespace Sensemaking.Monitoring.Specs
             }
 
             private bool IsAvailable { get; set; }
-            private Alert Alert { get; set; }
+            private MonitoringAlert Alert { get; set; }
         }
     }
 }

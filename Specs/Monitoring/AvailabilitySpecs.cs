@@ -5,7 +5,7 @@ namespace Sensemaking.Monitoring.Specs
 {
     public partial class AvailabilitySpecs : Specification
     {
-        private static readonly Alert unavailable_alert =
+        private static readonly MonitoringAlert unavailable_alert =
             AlertFactory.ServiceUnavailable(Fake.AnInstanceMonitor.Info, "It's down Bob");
 
         [Test]

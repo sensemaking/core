@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -7,20 +8,20 @@ namespace Sensemaking.Monitoring
     public class Availability
     {
         public State Status { get; }
-        private List<Alert> AlertList { get; } = new List<Alert>();
-        public Alert[] Alerts => AlertList.ToArray();
+        private List<MonitoringAlert> AlertList { get; } = new List<MonitoringAlert>();
+        public MonitoringAlert[] Alerts => AlertList.ToArray();
 
         public static Availability Up()
         {
             return new Availability(State.Full);
         }
 
-        public static Availability Down(Alert downAlert)
+        public static Availability Down(MonitoringAlert downAlert)
         {
             return new Availability(State.None, downAlert);
         }
 
-        private Availability(State state, params Alert[] alerts)
+        private Availability(State state, params MonitoringAlert[] alerts)
         {
             Status = state;
             AlertList.AddRange(alerts);
@@ -62,7 +63,7 @@ namespace Sensemaking.Monitoring
         public static Availability operator |(Availability @this, Availability that)
         {
             var newState = @this.Status == @that.Status ? @this.Status : State.Reduced;
-            var alerts = new Alert[0];
+            var alerts = Array.Empty<MonitoringAlert>();
 
             switch (newState)
             {
@@ -77,20 +78,20 @@ namespace Sensemaking.Monitoring
             return new Availability(newState, alerts);
         }
 
-        internal void Add(Alert alert)
+        internal void Add(MonitoringAlert alert)
         {
             AlertList.Add(alert);
         }
 
-        private static Alert[] GetReducedAvailabilityAlerts(IEnumerable<Alert> alerts)
+        private static MonitoringAlert[] GetReducedAvailabilityAlerts(IEnumerable<MonitoringAlert> alerts)
         {
-            return alerts.Select(x => AlertFactory.InstanceUnavailable(x.Monitor, x.Message)).ToArray();
+            return alerts.Select(x => AlertFactory.InstanceUnavailable(x.Monitor, x.AlertInfo)).ToArray();
         }
 
-        private static Alert[] CollapseNoAvailabilityAlerts(IEnumerable<Alert> alerts)
+        private static MonitoringAlert[] CollapseNoAvailabilityAlerts(IEnumerable<MonitoringAlert> alerts)
         {
             var instances = alerts.SelectMany(x => x.Monitor.Instances).ToArray();
-            return new [] { AlertFactory.ServiceUnavailable(new MonitorInfo(alerts.First().Monitor, instances), alerts.First().Message) };
+            return new [] { AlertFactory.ServiceUnavailable(new MonitorInfo(alerts.First().Monitor, instances), alerts.First().AlertInfo) };
         }
 
         public enum State

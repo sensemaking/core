@@ -8,7 +8,7 @@ namespace Sensemaking.Monitoring.Specs
         private const string message = "Some exceedingly interesting message.";
         private static readonly Exception exception = new Exception(message);
         private static readonly object additional_info = new {cheese = "Gruyere"};
-        private Alert alert;
+        private MonitoringAlert alert;
 
         protected override void before_each()
         {
@@ -48,12 +48,12 @@ namespace Sensemaking.Monitoring.Specs
 
         private void it_has_the_message_it_is_created_with()
         {
-            alert.Message.should_be(message);
+            alert.AlertInfo.should_be(message);
         }
 
         private void it_has_the_exception_message()
         {
-            alert.Message.should_be(exception.Message);
+            alert.AlertInfo.should_be(exception.Message);
         }
 
         private void it_has_the_exception_detail()
@@ -68,7 +68,7 @@ namespace Sensemaking.Monitoring.Specs
 
         private void it_has_the_informational_message()
         {
-            alert.Message.should_be(message);
+            alert.AlertInfo.should_be(message);
         }
     }
 }

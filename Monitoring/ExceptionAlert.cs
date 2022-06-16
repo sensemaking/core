@@ -2,7 +2,7 @@
 
 namespace Sensemaking.Monitoring
 {
-    public class ExceptionAlert : Alert
+    public class ExceptionAlert : MonitoringAlert
     {
         public object? AdditionalInfo { get; }
         public string ExceptionDetail { get; }

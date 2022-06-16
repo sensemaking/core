@@ -6,10 +6,10 @@ namespace Sensemaking.Monitoring.Specs
 {
     public partial class MultiInstanceMonitorSpecs : Specification
     {
-        private static readonly Alert unavailable_alert =
+        private static readonly MonitoringAlert unavailable_alert =
             AlertFactory.ServiceUnavailable(Fake.AnInstanceMonitor.Info, "It's down Bob");
 
-        private static readonly Alert unavailable_alert_2 =
+        private static readonly MonitoringAlert unavailable_alert_2 =
             AlertFactory.ServiceUnavailable(Fake.AnInstanceMonitor.Info, "It's down Bill");
 
         [Test]
@@ -58,7 +58,7 @@ namespace Sensemaking.Monitoring.Specs
             Given(available_instance);
             And(() => unavailable_instance(unavailable_alert));
             When(getting_availability);
-            Then(() => alerts(AlertFactory.InstanceUnavailable(unavailable_alert.Monitor, unavailable_alert.Message)));
+            Then(() => alerts(AlertFactory.InstanceUnavailable(unavailable_alert.Monitor, unavailable_alert.AlertInfo)));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Sensemaking.Monitoring.Specs
             Then(() => alerts(AlertFactory.ServiceUnavailable(new MonitorInfo(unavailable_alert.Monitor.Type,
                     unavailable_alert.Monitor.Name,
                     unavailable_alert.Monitor.Instances.Concat(unavailable_alert_2.Monitor.Instances).ToArray()),
-                unavailable_alert.Message)));
+                unavailable_alert.AlertInfo)));
         }
 
         [Test]

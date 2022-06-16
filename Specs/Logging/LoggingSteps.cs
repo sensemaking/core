@@ -4,12 +4,14 @@ using NSubstitute;
 using NSubstitute.ClearExtensions;
 using NSubstitute.Core;
 using Sensemaking.Bdd;
+using Sensemaking.Monitoring;
 using Serilog;
 
 namespace Sensemaking.Http.Specs
 {
     public partial class LoggingSpecs
     {
+        private static readonly MonitorInfo monitor = new MonitorInfo("Api", "Fake Api Monitor");
         private static readonly ILogger logger = Substitute.For<ILogger>();
 
         private Action<CallInfo> capture_log;
@@ -34,6 +36,10 @@ namespace Sensemaking.Http.Specs
         {
             base.after_each();
             logger.ClearSubstitute();
+        }
+
+        private void a_monitor_info()
+        {
         }
 
         private void a_log()
