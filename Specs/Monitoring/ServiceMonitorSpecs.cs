@@ -24,16 +24,6 @@ namespace Sensemaking.Monitoring.Specs
         }
 
         [Test]
-        public void status_provides_service_monitor_info()
-        {
-            Given(a_service_monitor);
-            And(dependency_1_is_available);
-            And(dependency_2_is_unavailable);
-            When(getting_status);
-            Then(it_has_service_monitor_info);
-        }
-
-        [Test]
         public void status_provides_monitoring_info_for_all_internal_monitors()
         {
             Given(a_service_monitor);

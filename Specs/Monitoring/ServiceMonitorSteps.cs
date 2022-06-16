@@ -98,11 +98,6 @@ namespace Sensemaking.Monitoring.Specs
             overall_availability.Alerts.should_be(availability.Alerts);
         }
 
-        private void it_has_service_monitor_info()
-        {
-            the_status.Monitor.should_be(service_monitor.Info);
-        }
-
         private void it_has_monitoring_info_for_each_dependency()
         {
             the_status.Monitoring.should_be(new[] {dependency_1_monitor.Info, dependency_2_monitor.Info});

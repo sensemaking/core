@@ -40,14 +40,12 @@ namespace Sensemaking.Host.Monitoring
         {
             public static readonly Status Empty = new Status();
 
-            public MonitorInfo Monitor { get; }
             public MonitorInfo[] Monitoring { get; }
             public MonitoringAlert[] Alerts { get; }
             public Healthiness Health { get; }
 
             internal Status(MonitorInfo monitor, Availability availability, params MonitorInfo[] dependencyMonitors)
             {
-                Monitor = monitor;
                 Monitoring = dependencyMonitors;
                 Alerts = availability.Alerts;
                 Health = GetHealth(availability);
