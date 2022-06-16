@@ -31,14 +31,9 @@ namespace Sensemaking.Monitoring.Specs
             alert = AlertFactory.InstanceUnavailable(Fake.AnInstanceMonitor.Info, message);
         }
 
-        private void an_unknown_error_alert()
+        private void it_has_an_alert_name_of(string name)
         {
-            alert = AlertFactory.UnknownErrorOccured(Fake.AnInstanceMonitor.Info, exception, additional_info);
-        }
-
-        private void it_has_an_alert_code_of(string code)
-        {
-            alert.Code.should_be(code);
+            alert.Name.should_be(name);
         }
 
         private void it_has_the_monitor_it_was_created_with()

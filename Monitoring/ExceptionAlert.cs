@@ -7,7 +7,7 @@ namespace Sensemaking.Monitoring
         public object? AdditionalInfo { get; }
         public string ExceptionDetail { get; }
 
-        public ExceptionAlert(string code, MonitorInfo monitor, Exception ex, object? additionalInfo = null) : base(code, monitor, ex.Message)
+        public ExceptionAlert(string name, MonitorInfo monitor, Exception ex, object? additionalInfo = null) : base(monitor, name, ex.Message)
         {
             if (ex == null)
                 throw new ArgumentException("ExceptionAlerts must have an exception");

@@ -57,7 +57,7 @@ namespace Sensemaking.Host.Monitoring
             {
                 if (availability)
                 {
-                    if (availability.Alerts.Any(alert => alert.Code == AlertFactory.Codes.ServiceRedundancyLost))
+                    if (availability.Alerts.Any(alert => alert.Name == MonitoringAlerts.ServiceRedundancyLost))
                         return Healthiness.OnLastLegs;
 
                     if (availability.Alerts.Any())
