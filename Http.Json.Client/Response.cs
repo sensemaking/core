@@ -35,7 +35,7 @@ namespace Sensemaking.Http.Json.Client
                 throw new Exception("The response has a Content-Type but no body.");
 
             if(!body.IsNullOrEmpty() && (contentType == null || !Regex.IsMatch(contentType.MediaType, @"application\/([\S]+\+)*json")))
-                throw new Exception("The response has a body but it is not Json.");
+                throw new Exception("The response does not have a Json content type.");
 
             if (response.IsError())
                 throw new ProblemException(response.StatusCode, headers, response.IsProblem() ? body.Deserialize<Problem>() : new Problem("Target did not provide a json problem. Error is it's serialised response body.", body));

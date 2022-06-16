@@ -225,7 +225,7 @@ namespace Sensemaking.Http.Json.Client.Specs
                 Given(a_url);
                 And(the_response_has_a_non_json_body);
                 When(() => trying(getting));
-                Then(() => informs("The response has a body but it is not Json."));
+                Then(() => informs("The response does not have a Json content type."));
             });
         }
 
