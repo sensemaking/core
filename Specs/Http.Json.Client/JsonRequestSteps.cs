@@ -18,7 +18,6 @@ namespace Sensemaking.Http.Json.Client.Specs
         private static readonly Problem the_problem = new Problem("a problem", "an error");
 
         private HttpTest FakeHttp;
-        private IFlurlClient client;
         private FakeBody the_body_to_respond_with;
         private HttpStatusCode the_status_to_respond_with;
         private FakeBody the_payload;
@@ -28,7 +27,6 @@ namespace Sensemaking.Http.Json.Client.Specs
         {
             base.before_each();
             FakeHttp = new HttpTest();
-            client = null;
             the_body_to_respond_with = null;
             the_status_to_respond_with = HttpStatusCode.OK;
             the_response = null;
@@ -42,11 +40,6 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void a_url()
         {
-        }
-
-        private void a_flurl_client()
-        {
-            client = new FlurlClient();
         }
 
         private void some_headers()
@@ -116,22 +109,32 @@ namespace Sensemaking.Http.Json.Client.Specs
 
         private void getting()
         {
-            the_response = (client != null ? client.GetAsync<FakeBody>(url, the_headers) : url.GetAsync<FakeBody>(the_headers)).Result;
+            the_response = url.GetAsync<FakeBody>(the_headers).Result;
         }
 
         private void putting()
         {
-            the_response = (client != null ? client.PutAsync(url, the_payload, the_headers) : url.PutAsync(the_payload, the_headers)).Result;
+            the_response = url.PutAsync(the_payload, the_headers).Result;
+        }
+
+        private void putting_expecting_a_response_body()
+        {
+            the_response = url.PutAsync<FakeBody>(the_payload, the_headers).Result;
         }
 
         private void deleting()
         {
-            the_response = (client != null ? client.DeleteAsync(url, the_headers) : url.DeleteAsync(the_headers)).Result;
+            the_response = url.DeleteAsync(the_headers).Result;
         }
 
         private void posting()
         {
-            the_response = (client != null ? client.PostAsync(url, the_payload, the_headers) : url.PostAsync(the_payload, the_headers)).Result;
+            the_response = url.PostAsync(the_payload, the_headers).Result;
+        }
+
+        private void posting_expecting_a_response_body()
+        {
+            the_response = url.PostAsync<FakeBody>(the_payload, the_headers).Result;
         }
 
         private void it_provides_the_desrialized_response_body()
