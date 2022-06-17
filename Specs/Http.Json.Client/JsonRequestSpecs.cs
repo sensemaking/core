@@ -24,6 +24,19 @@ namespace Sensemaking.Http.Json.Client.Specs
 
             scenario(() =>
             {
+                Given(a_flurl_client);
+                And(a_url);
+                And(some_headers);
+                And(the_response_has_a_body);
+                When(getting);
+                Then(() => it_calls_the_url_using(HttpMethod.Get));
+                And(it_uses_the_headers);
+                And(it_accepts_json);
+                And(it_provides_the_desrialized_response_body);
+            });
+
+            scenario(() =>
+            {
                 Given(a_url);
                 And(the_response_has_a_body_using_a_json_sub_type);
                 When(getting);
@@ -60,6 +73,35 @@ namespace Sensemaking.Http.Json.Client.Specs
                 And(it_accepts_json);
                 And(it_provides_the_desrialized_response_body);
             });
+            
+            scenario(() =>
+            {
+                Given(a_flurl_client);
+                And(a_url);
+                And(some_headers);
+                And(a_payload);
+                And(the_response_has_no_body);
+                When(putting);
+                Then(() => it_calls_the_url_using(HttpMethod.Put));
+                And(it_passes_the_payload_as_json);
+                And(it_uses_the_headers);
+                And(it_accepts_json);
+            });
+            
+            scenario(() =>
+            {
+                Given(a_flurl_client);
+                And(a_url);
+                And(some_headers);
+                And(a_payload);
+                And(the_response_has_a_body);
+                When(putting_expecting_a_response_body);
+                Then(() => it_calls_the_url_using(HttpMethod.Put));
+                And(it_passes_the_payload_as_json);
+                And(it_uses_the_headers);
+                And(it_accepts_json);
+                And(it_provides_the_desrialized_response_body);
+            });
         }
 
         [Test]
@@ -68,6 +110,18 @@ namespace Sensemaking.Http.Json.Client.Specs
             scenario(() =>
             {
                 Given(a_url);
+                And(some_headers);
+                And(the_response_has_no_body);
+                When(deleting);
+                Then(() => it_calls_the_url_using(HttpMethod.Delete));
+                And(it_uses_the_headers);
+                And(it_accepts_json);
+            });
+
+            scenario(() =>
+            {
+                Given(a_flurl_client);
+                And(a_url);
                 And(some_headers);
                 And(the_response_has_no_body);
                 When(deleting);
@@ -96,6 +150,35 @@ namespace Sensemaking.Http.Json.Client.Specs
             scenario(() =>
             {
                 Given(a_url);
+                And(some_headers);
+                And(a_payload);
+                And(the_response_has_a_body);
+                When(posting_expecting_a_response_body);
+                Then(() => it_calls_the_url_using(HttpMethod.Post));
+                And(it_passes_the_payload_as_json);
+                And(it_uses_the_headers);
+                And(it_accepts_json);
+                And(it_provides_the_desrialized_response_body);
+            });
+
+            scenario(() =>
+            {
+                Given(a_flurl_client);
+                And(a_url);
+                And(some_headers);
+                And(a_payload);
+                And(the_response_has_no_body);
+                When(posting);
+                Then(() => it_calls_the_url_using(HttpMethod.Post));
+                And(it_passes_the_payload_as_json);
+                And(it_uses_the_headers);
+                And(it_accepts_json);
+            });
+
+            scenario(() =>
+            {
+                Given(a_flurl_client);
+                And(a_url);
                 And(some_headers);
                 And(a_payload);
                 And(the_response_has_a_body);
