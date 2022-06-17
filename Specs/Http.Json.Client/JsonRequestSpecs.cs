@@ -1,9 +1,8 @@
-﻿
-using System.Net.Http;
+﻿using System.Net.Http;
 using NUnit.Framework;
 using Sensemaking.Bdd;
 
-namespace Sensemaking.Http.Json.Client.Specs
+namespace Sensemaking.Specs
 {
     public partial class JsonRequestSpecs : Specification
     {

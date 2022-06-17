@@ -7,7 +7,7 @@ using NodaTime;
 using Sensemaking.Bdd;
 using JsonSerializer = System.Serialization.JsonSerializer;
 
-namespace Sensemaking.Serialization.Specs
+namespace Sensemaking.Specs
 {
     public partial class SerializationSpecs
     {
@@ -70,20 +70,16 @@ namespace Sensemaking.Serialization.Specs
             deserializedByJsonSerializer = null;
         }
 
-        private void a_json_payload()
-        {
-        }
+        private void a_json_payload() { }
 
-        private void an_object()
-        {
-        }
+        private void an_object() { }
 
         private void deserializing()
         {
-            using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Sensemaking.Serialization.Specs.Payload.json")))
+            using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Sensemaking.Specs.Payload.json")))
                 deserializedByExtensionMethod = reader.ReadToEnd().Deserialize<DeserializedObject>();
 
-            using (var reader = new JsonTextReader(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Sensemaking.Serialization.Specs.Payload.json"))))
+            using (var reader = new JsonTextReader(new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Sensemaking.Specs.Payload.json"))))
                 deserializedByJsonSerializer = new JsonSerializer().Deserialize<DeserializedObject>(reader);
         }
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using Sensemaking.Host.Monitoring;
+using Sensemaking.Monitoring;
 
-namespace Sensemaking.Monitoring.Specs
+namespace Sensemaking.Specs
 {
     internal class Fake
     {

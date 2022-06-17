@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Sensemaking.Bdd;
+using Sensemaking.Monitoring;
 
-namespace Sensemaking.Monitoring.Specs
+namespace Sensemaking.Specs
 {
     public partial class OverallAvailabilitySpecs
     {

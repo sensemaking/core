@@ -3,10 +3,10 @@ using System.Threading;
 using NodaTime;
 using NSubstitute;
 using Sensemaking.Host.Monitoring;
+using Sensemaking.Monitoring;
 using Serilog;
-using Serilog.Events;
 
-namespace Sensemaking.Monitoring.Specs
+namespace Sensemaking.Specs
 {
     public partial class ServiceStatusNotificationSpecs
     {
@@ -75,34 +75,34 @@ namespace Sensemaking.Monitoring.Specs
 
         private void status_is_logged()
         {
-            logger.Received().Information( new { Monitor = service_monitor.Info, LogEntry = service_status }.Serialize());
+            logger.Received().Information(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
         }
 
         private void it_is_logged_again_after_heartbeat_interval()
         {
             logger.ClearReceivedCalls();
             Thread.Sleep((int) heartbeat.Milliseconds + 50);
-            logger.Received().Information( new { Monitor = service_monitor.Info, LogEntry = service_status }.Serialize());
+            logger.Received().Information(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
         }
 
         private void status_is_logged_as_information()
         {
-            logger.Received().Information( new { Monitor = service_monitor.Info, LogEntry = service_status }.Serialize());
+            logger.Received().Information(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
         }
 
         private void status_is_logged_as_a_warning()
         {
-            logger.Received().Warning( new { Monitor = service_monitor.Info, LogEntry = service_status }.Serialize());
+            logger.Received().Warning(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
         }
 
         private void status_is_logged_as_an_error()
         {
-            logger.Received().Error( new { Monitor = service_monitor.Info, LogEntry = service_status }.Serialize());
+            logger.Received().Error(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
         }
 
         private void status_is_logged_as_fatal()
         {
-            logger.Received().Fatal( new { Monitor = service_monitor.Info, LogEntry = service_status }.Serialize());
+            logger.Received().Fatal(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
         }
     }
 }

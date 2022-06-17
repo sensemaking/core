@@ -7,8 +7,10 @@ using Flurl.Http;
 using Flurl.Http.Content;
 using Flurl.Http.Testing;
 using Sensemaking.Bdd;
+using Sensemaking.Http;
+using Sensemaking.Http.Json.Client;
 
-namespace Sensemaking.Http.Json.Client.Specs
+namespace Sensemaking.Specs
 {
     public partial class JsonRequestSpecs
     {

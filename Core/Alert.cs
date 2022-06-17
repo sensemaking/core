@@ -11,8 +11,8 @@
             AlertInfo = alertInfo;
         }
 
-        public string Name { get; }
-        public T AlertInfo { get; }
+        public string Name { get; private set; }
+        public T AlertInfo { get; private set; }
         
         public override bool Equals(object obj)
         {

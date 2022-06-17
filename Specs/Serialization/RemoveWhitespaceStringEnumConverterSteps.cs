@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using Sensemaking.Bdd;
 
-namespace Sensemaking.Serialization.Specs
+namespace Sensemaking.Specs
 {
     public partial class RemoveWhitespaceStringEnumConverterSpecs
     {

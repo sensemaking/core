@@ -3,7 +3,7 @@ using Sensemaking.Bdd;
 using Sensemaking.Http.Json.Client.Monitoring;
 using Sensemaking.Monitoring;
 
-namespace Sensemaking.Http.Json.Client.Specs
+namespace Sensemaking.Specs
 {
     public partial class HttpServiceMonitorSpecs
     {

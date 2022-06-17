@@ -1,10 +1,9 @@
-﻿using System.Threading;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Sensemaking.Bdd;
 
-namespace Sensemaking.Http.Specs
+namespace Sensemaking.Specs
 {
-    public partial class LoggingSpecs : Specification
+    public partial class LogSpecs : Specification
     { 
         [Test]
         public void logs_information_as_json()
@@ -12,9 +11,9 @@ namespace Sensemaking.Http.Specs
             Given(a_monitor_info);
             And(a_log);
             When(logging_information);
-            Then(it_has_its_monitor_info);
-            And(it_logs_as_json);
-        }    
+            Then(the_logging_monitor_is_logged);
+            And(the_entry_is_logged);
+        }
  
         [Test]
         public void logs_warning_as_json()
@@ -22,8 +21,8 @@ namespace Sensemaking.Http.Specs
             Given(a_monitor_info);
             And(a_log);
             When(logging_warning);
-            Then(it_has_its_monitor_info);
-            And(it_logs_as_json);
+            Then(the_logging_monitor_is_logged);
+            And(the_entry_is_logged);
         }
 
         [Test]
@@ -32,8 +31,8 @@ namespace Sensemaking.Http.Specs
             Given(a_monitor_info);
             And(a_log);
             When(logging_error);
-            Then(it_has_its_monitor_info);
-            And(it_logs_as_json);
+            Then(the_logging_monitor_is_logged);
+            And(the_entry_is_logged);
         }
 
         [Test]
@@ -42,8 +41,8 @@ namespace Sensemaking.Http.Specs
             Given(a_monitor_info);
             And(a_log);
             When(logging_fatal);
-            Then(it_has_its_monitor_info);
-            And(it_logs_as_json);
+            Then(the_logging_monitor_is_logged);
+            And(the_entry_is_logged);
         }
     }
 }

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Sensemaking.Monitoring.Specs</AssemblyName>
-    <RootNamespace>Sensemaking.Monitoring.Specs</RootNamespace>
+    <RootNamespace>Sensemaking.Specs</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

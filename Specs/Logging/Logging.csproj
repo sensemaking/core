@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>Sensemaking.Http.Specs</AssemblyName>
-    <RootNamespace>Sensemaking.Http.Specs</RootNamespace>
+    <AssemblyName>Sensemaking.Logging.Specs</AssemblyName>
+    <RootNamespace>Sensemaking.Specs</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

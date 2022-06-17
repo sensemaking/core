@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Sensemaking.Http.Json.Client.Specs</AssemblyName>
-    <RootNamespace>Sensemaking.Http.Json.Client.Specs</RootNamespace>
+    <RootNamespace>Sensemaking.Specs</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

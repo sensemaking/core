@@ -4,8 +4,9 @@ using NodaTime;
 using NSubstitute;
 using Sensemaking.Bdd;
 using Sensemaking.Host.Monitoring;
+using Sensemaking.Monitoring;
 
-namespace Sensemaking.Monitoring.Specs
+namespace Sensemaking.Specs
 {
     public partial class ServiceMonitorSpecs
     {

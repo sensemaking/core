@@ -1,40 +1,39 @@
 ﻿using System;
 using System.Serialization;
 using System.Threading;
-using NodaTime;
 using NSubstitute;
 using NSubstitute.ClearExtensions;
-using NSubstitute.Core;
 using Sensemaking.Bdd;
 using Sensemaking.Monitoring;
 using Serilog;
 
-namespace Sensemaking.Http.Specs
+namespace Sensemaking.Specs
 {
     public partial class MetricSpecs
     {
+        private static readonly MonitorInfo monitor_info = new MonitorInfo("Api", "Fake Api Monitor");
         private static readonly ILogger logger = Substitute.For<ILogger>();
 
         private static readonly int execution_time = 50;
         private const string name = "Bobby McGee";
         private static readonly FakeAdditionalInfo additional_info = new FakeAdditionalInfo("Some additional info.");
         private const string function_result = "The result";
-            
+
         private Action action;
-        private FakeMetricEntry the_logged_metric;
+        private MetricLogEntry<FakeAdditionalInfo> the_logged_metric;
         private Func<string> function;
         private string the_result;
 
         protected override void before_all()
         {
             base.before_all();
-            Logging.Configure(new MonitorInfo("Fake", "Fake"), logger);
+            Logging.Configure(monitor_info, logger);
         }
 
         protected override void before_each()
         {
             base.before_each();
-            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<FakeMetricEntry>());
+            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<MetricLogEntry<FakeAdditionalInfo>>());
             action = null;
             function = null;
             the_logged_metric = null;
@@ -45,6 +44,8 @@ namespace Sensemaking.Http.Specs
             base.after_each();
             logger.ClearSubstitute();
         }
+
+        private void a_monitor_info() { }
 
         private void an_action()
         {
@@ -70,53 +71,36 @@ namespace Sensemaking.Http.Specs
             the_result = Logging.TimeThis(function, name, additional_info);
         }
 
+        private void the_logging_monitor_is_logged()
+        {
+            the_logged_metric.Monitor.should_be(monitor_info);
+        }
+
         private void a_metric_is_logged()
         {
-            the_logged_metric.LogEntry.Type.should_be("Metric");
+            the_logged_metric.Type.should_be(LogEntryTypes.Metric);
         }
 
-        private void it_has_its_name()
+        private void its_name_is_logged()
         {
-            the_logged_metric.LogEntry.Name.should_be(name);
+            the_logged_metric.Name.should_be(name);
         }
 
-        private void it_has_the_duration_of_execution()
+        private void the_duration_of_execution_is_logged()
         {
-            the_logged_metric.LogEntry.Duration.should_be_greater_than(execution_time);
-            the_logged_metric.LogEntry.Duration.should_be_less_than(execution_time + 50);
+            the_logged_metric.Duration.should_be_greater_than(execution_time);
+            the_logged_metric.Duration.should_be_less_than(execution_time + 50);
         }
 
-        private void it_has_any_additional_info()
+        private void any_additional_info_is_logged()
         {
-            the_logged_metric.LogEntry.AdditionalInfo.Info.should_be(additional_info.Info);
+            the_logged_metric.Entry.Info.should_be(additional_info.Info);
         }
 
         private void the_funtion_result_is_provided()
         {
             the_result.should_be(function_result);
         }
-    }
-
-    internal class FakeMetricEntry
-    {
-        public MonitorInfo Monitor { get; set; }
-        public FakeMetric LogEntry { get; set; }
-    }
-
-    internal class FakeMetric
-    {
-        public FakeMetric(string type, string name, double duration, FakeAdditionalInfo additionalInfo)
-        {
-            Type = type;
-            Name = name;
-            Duration = duration;
-            AdditionalInfo = additionalInfo;
-        }
-
-        public string Type { get; private set; }
-        public string Name { get; private set; }
-        public double Duration { get; private set; }
-        public FakeAdditionalInfo AdditionalInfo { get; private set; }
     }
 
     internal class FakeAdditionalInfo

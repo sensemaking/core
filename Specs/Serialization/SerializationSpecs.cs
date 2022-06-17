@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Sensemaking.Bdd;
 
-namespace Sensemaking.Serialization.Specs
+namespace Sensemaking.Specs
 {
     public partial class SerializationSpecs : Specification
     {

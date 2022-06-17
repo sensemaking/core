@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Sensemaking.Bdd;
 
-namespace Sensemaking.Monitoring.Specs
+namespace Sensemaking.Specs
 {
     public partial class OverallAvailabilitySpecs : Specification
     {

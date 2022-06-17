@@ -7,16 +7,16 @@ using Sensemaking.Bdd;
 using Sensemaking.Monitoring;
 using Serilog;
 
-namespace Sensemaking.Http.Specs
+namespace Sensemaking.Specs
 {
-    public partial class LoggingSpecs
+    public partial class AlertSpecs
     {
         private static readonly MonitorInfo monitor_info = new MonitorInfo("Api", "Fake Api Monitor");
         private static readonly ILogger logger = Substitute.For<ILogger>();
 
         private Action<CallInfo> capture_log;
-        private FakeLog to_log;
-        private FakeLogEntry was_logged;
+        private Alert<string> to_log;
+        private LogEntry<Alert<string>> the_logged_alert;
 
         protected override void before_all()
         {
@@ -27,9 +27,9 @@ namespace Sensemaking.Http.Specs
         protected override void before_each()
         {
             base.before_each();
-            capture_log = c => was_logged = c.Arg<string>().Deserialize<FakeLogEntry>();
+            capture_log = c => the_logged_alert = c.Arg<string>().Deserialize<LogEntry<Alert<string>>>();
             to_log = null;
-            was_logged = null;
+            the_logged_alert = null;
         }
 
         protected override void after_each()
@@ -42,7 +42,7 @@ namespace Sensemaking.Http.Specs
 
         private void a_log()
         {
-            to_log = new FakeLog("Some interesting log.");
+            to_log = new Alert<string>("Arrrrggggggghhh", "Bad alerty shizzle.");
         }
 
         private void logging_information()
@@ -69,30 +69,24 @@ namespace Sensemaking.Http.Specs
             Logging.Fatal(to_log);
         }
 
-        private void it_has_its_monitor_info()
+        private void an_alert_is_logged()
         {
-            was_logged.Monitor.should_be(monitor_info);
+            the_logged_alert.Type.should_be(LogEntryTypes.Alert);
         }
 
-        private void it_logs_as_json()
+        private void the_logging_monitor_is_logged()
         {
-            was_logged.LogEntry.Message.should_be(to_log.Message);
-        }
-    }
-
-    internal class FakeLogEntry
-    {
-        public MonitorInfo Monitor { get; set; }
-        public FakeLog LogEntry { get; set; }
-    }
-
-    internal class FakeLog
-    {
-        public FakeLog(string message)
-        {
-            Message = message;
+            the_logged_alert.Monitor.should_be(monitor_info);
         }
 
-        public string Message { get; set; }
+        private void its_name_is_logged()
+        {
+            the_logged_alert.Entry.Name.should_be(to_log.Name);
+        }
+
+        private void any_alert_information_is_logged()
+        {
+            the_logged_alert.Entry.AlertInfo.should_be(to_log.AlertInfo);
+        }
     }
 }
