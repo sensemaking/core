@@ -8,11 +8,11 @@ namespace Sensemaking
 {
     public static class Logging
     {
-        private static MonitorInfo monitor;
+        internal static MonitorInfo Monitor;
 
         public static void Configure(MonitorInfo monitor, ILogger logger)
         {
-            Logging.monitor = monitor;
+            Logging.Monitor = monitor;
             Log.Logger = logger;
         }
 
@@ -38,7 +38,7 @@ namespace Sensemaking
             action();
             timer.Stop();
 
-            Log.Logger.WriteInformation(new MetricLogEntry<object?>(monitor, name, timer.Elapsed.TotalMilliseconds, additionalInfo));
+            Log.Logger.WriteInformation(new MetricLogEntry<object?>(Monitor, name, timer.Elapsed.TotalMilliseconds, additionalInfo));
         }
 
         public static T TimeThis<T>(Func<T> func, string name, object? additionalInfo = null)
@@ -48,7 +48,7 @@ namespace Sensemaking
             var response = func();
             timer.Stop();
 
-            Log.Logger.WriteInformation(new MetricLogEntry<object?>(monitor, name, timer.Elapsed.TotalMilliseconds, additionalInfo));
+            Log.Logger.WriteInformation(new MetricLogEntry<object?>(Monitor, name, timer.Elapsed.TotalMilliseconds, additionalInfo));
             return response;
         }
 
@@ -56,7 +56,7 @@ namespace Sensemaking
         {
             var isAlert = entry.GetType().IsGenericType && entry.GetType().GetGenericTypeDefinition() == typeof(Alert<>);
 
-            return new LogEntry<object?>(monitor, isAlert ? LogEntryTypes.Alert : LogEntryTypes.Log, entry);
+            return new LogEntry<object?>(Monitor, isAlert ? LogEntryTypes.Alert : LogEntryTypes.Log, entry);
         }
     }
 

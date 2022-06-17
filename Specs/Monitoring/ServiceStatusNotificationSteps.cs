@@ -2,6 +2,7 @@
 using System.Threading;
 using NodaTime;
 using NSubstitute;
+using Sensemaking.Bdd;
 using Sensemaking.Host.Monitoring;
 using Sensemaking.Monitoring;
 using Serilog;
@@ -75,34 +76,34 @@ namespace Sensemaking.Specs
 
         private void status_is_logged()
         {
-            logger.Received().Information(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
+            logger.should_have_logged_as_information(service_status);
         }
 
         private void it_is_logged_again_after_heartbeat_interval()
         {
             logger.ClearReceivedCalls();
             Thread.Sleep((int) heartbeat.Milliseconds + 50);
-            logger.Received().Information(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
+            logger.should_have_logged_as_information(service_status);
         }
 
         private void status_is_logged_as_information()
         {
-            logger.Received().Information(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
+            logger.should_have_logged_as_information(service_status);
         }
 
         private void status_is_logged_as_a_warning()
         {
-            logger.Received().Warning(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
+            logger.should_have_logged_as_warning(service_status);
         }
 
         private void status_is_logged_as_an_error()
         {
-            logger.Received().Error(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
+            logger.should_have_logged_as_error(service_status);
         }
 
         private void status_is_logged_as_fatal()
         {
-            logger.Received().Fatal(new LogEntry<ServiceMonitor.Status>(service_monitor.Info, LogEntryTypes.Log, service_status).Serialize());
+            logger.should_have_logged_as_fatal(service_status);
         }
     }
 }
