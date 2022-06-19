@@ -38,7 +38,10 @@ namespace Sensemaking.Http.Json.Client
                 throw new Exception("The response does not have a Json content type.");
 
             if (response.IsError())
-                throw new ProblemException(response.StatusCode, headers, response.IsProblem() ? body.Deserialize<Problem>() : new Problem("Target did not provide a json problem. Error is it's serialised response body.", body));
+                throw new ProblemException(response.StatusCode, headers, response.IsProblem() 
+                    ? body.Deserialize<Problem>() 
+                    : new Problem("Endpoint did not provide a json problem. Error is any serialised response body that may have been provided.",
+                        !body.IsNullOrEmpty() ? new [] { body } : Array.Empty<string>()));
 
             return (response.StatusCode, headers, body);
         }

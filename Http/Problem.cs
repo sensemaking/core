@@ -18,7 +18,7 @@ namespace Sensemaking.Http
         public string Title => title ?? string.Empty;
 
         private readonly string[] errors;
-        public string[] Errors => errors ?? new string[0];
+        public string[] Errors => errors ?? Array.Empty<string>();
 
         #region Equality
 
