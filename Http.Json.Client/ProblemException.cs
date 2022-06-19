@@ -21,6 +21,5 @@ namespace Sensemaking.Http.Json.Client
         public HttpStatusCode Status { get; }
         public Problem Problem { get; }
         public (string Name, string Value)[] Headers { get; }
-        public bool HasProblem() => Problem != Problem.Empty;
     }
 }
