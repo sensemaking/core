@@ -40,9 +40,14 @@ namespace Sensemaking.Specs
 
         private void a_monitor_info() { }
 
-        private void a_log()
+        private void an_alert()
         {
             to_log = new Alert<string>("Arrrrggggggghhh", "Bad alerty shizzle.");
+        }
+
+        private void a_monitoring_alert()
+        {
+            to_log = AlertFactory.InstanceUnavailable(monitor_info, "It's down right now.");
         }
 
         private void logging_information()
@@ -51,19 +56,19 @@ namespace Sensemaking.Specs
             Logging.Information(to_log);
         }
 
-        private void logging_warning()
+        private void logging_warnings()
         {
             logger.When(l => l.Warning(Arg.Any<string>())).Do(capture_log);
             Logging.Warning(to_log);
         }
 
-        private void logging_error()
+        private void logging_errors()
         {
             logger.When(l => l.Error(Arg.Any<string>())).Do(capture_log);
             Logging.Error(to_log);
         }
 
-        private void logging_fatal()
+        private void logging_fatalities()
         {
             logger.When(l => l.Fatal(Arg.Any<string>())).Do(capture_log);
             Logging.Fatal(to_log);

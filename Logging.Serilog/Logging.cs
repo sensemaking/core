@@ -54,9 +54,20 @@ namespace Sensemaking
 
         private static LogEntry<object?> GetLogEntry(this object entry)
         {
-            var isAlert = entry.GetType().IsGenericType && entry.GetType().GetGenericTypeDefinition() == typeof(Alert<>);
-
-            return new LogEntry<object?>(Monitor, isAlert ? LogEntryTypes.Alert : LogEntryTypes.Log, entry);
+            return new LogEntry<object?>(Monitor, entry.IsAlert() ? LogEntryTypes.Alert : LogEntryTypes.Log, entry);
+        }
+        
+        private static bool IsAlert(this object entry)
+        {
+            var type = entry.GetType();
+            while (type != null)
+            {
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Alert<>))
+                    return true;
+        
+                type = type.BaseType;
+            }
+            return false;
         }
     }
 

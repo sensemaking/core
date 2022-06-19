@@ -6,7 +6,7 @@ namespace Sensemaking.Specs
     public partial class LogSpecs : Specification
     { 
         [Test]
-        public void logs_information_as_json()
+        public void logs_information()
         {
             Given(a_monitor_info);
             And(a_log);
@@ -16,7 +16,7 @@ namespace Sensemaking.Specs
         }
  
         [Test]
-        public void logs_warning_as_json()
+        public void logs_warnings()
         {
             Given(a_monitor_info);
             And(a_log);
@@ -26,7 +26,7 @@ namespace Sensemaking.Specs
         }
 
         [Test]
-        public void logs_error_as_json()
+        public void logs_errors()
         {
             Given(a_monitor_info);
             And(a_log);
@@ -36,7 +36,7 @@ namespace Sensemaking.Specs
         }
 
         [Test]
-        public void logs_fatal_as_json()
+        public void logs_fatalities()
         {
             Given(a_monitor_info);
             And(a_log);
