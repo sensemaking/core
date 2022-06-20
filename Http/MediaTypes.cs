@@ -8,7 +8,7 @@
         public const string JsonProblem = "application/problem+json";
     }
 
-    public static class Charsets
+    public static class Charset
     {
         public const string Utf8 = "charset=UTF-8";
         public const string Utf16 = "charset=UTF-16";
