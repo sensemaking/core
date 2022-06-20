@@ -6,6 +6,7 @@
         public const string Json = "application/json";
         public const string Siren = "application/vnd.siren+json";
         public const string JsonProblem = "application/problem+json";
+        public const string FormUrlEncoded = "application/x-www-form-urlencoded";
     }
 
     public static class Charset
