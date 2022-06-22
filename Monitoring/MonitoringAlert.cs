@@ -9,7 +9,6 @@ namespace Sensemaking.Monitoring
         public const string ServiceUnavailable = "ServiceUnavailable";
     }
 
-
     public class MonitoringAlert : Alert<string>
         {
             public MonitorInfo Monitor { get; }

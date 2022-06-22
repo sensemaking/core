@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Serialization;
 using NSubstitute;
-using Sensemaking.Monitoring;
 using Serilog;
 
 namespace Sensemaking.Bdd
