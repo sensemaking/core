@@ -8,12 +8,5 @@ namespace System
         {
             return string.IsNullOrWhiteSpace(source);
         }
-
-        public static bool IsBase64(this string? source)
-        {
-            source = source?.Trim();
-            return  !source.IsNullOrEmpty() && (source!.Length % 4 == 0) && Regex.IsMatch(source, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
-
-        }
     }
 }

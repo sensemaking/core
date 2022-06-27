@@ -58,5 +58,10 @@ namespace System
             for (var i = 0; i < source; i++)
                 action(i);
         }
+
+        public static bool IsEmpty<T>(this T[] source)
+        {
+            return source.Length == 0;
+        }
     }
 }
