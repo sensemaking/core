@@ -91,7 +91,7 @@ namespace Sensemaking.Host.Monitoring
                 return this.Monitoring == that.Monitoring && this.Alerts.SequenceEqual(that.Alerts);
             }
 
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
                 return obj is Status status && Equals(status);
             }

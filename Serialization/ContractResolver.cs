@@ -21,7 +21,7 @@ namespace System.Serialization
             var provider = base.CreateMemberValueProvider(member);
             var propertyType = (member as PropertyInfo)?.PropertyType;
 
-            return propertyType != null && propertyType.IsArray ? new NullToEmptyArrayProvider(provider, propertyType.GetElementType()) : provider;
+            return propertyType != null && propertyType.IsArray && propertyType.GetElementType() != null ? new NullToEmptyArrayProvider(provider, propertyType.GetElementType()!) : provider;
         }
 
         private class NullToEmptyArrayProvider : IValueProvider

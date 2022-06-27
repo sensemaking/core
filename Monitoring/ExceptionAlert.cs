@@ -16,9 +16,9 @@ namespace Sensemaking.Monitoring
             ExceptionDetail = ex.ToString();
         }
       
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (!(obj is ExceptionAlert that))
+            if (obj is not ExceptionAlert that)
                 return false;
 
             return base.Equals(obj) && this.AdditionalInfo == that.AdditionalInfo && this.ExceptionDetail == that.ExceptionDetail;

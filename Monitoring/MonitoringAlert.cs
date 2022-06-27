@@ -21,9 +21,9 @@ namespace Sensemaking.Monitoring
                 Monitor = monitor;
             }
 
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
-                if(!(obj is MonitoringAlert that))
+                if(obj is not MonitoringAlert that)
                     return false;
 
                 return base.Equals(that) && this.Monitor == that.Monitor;

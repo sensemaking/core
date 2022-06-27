@@ -34,7 +34,7 @@ namespace Sensemaking.Http.Json.Client
             if(body.IsNullOrEmpty() && contentType != null)
                 throw new Exception("The response has a Content-Type but no body.");
 
-            if(!body.IsNullOrEmpty() && (contentType == null || !Regex.IsMatch(contentType.MediaType, @"application\/([\S]+\+)*json")))
+            if(!body.IsNullOrEmpty() && (contentType?.MediaType == null || !Regex.IsMatch(contentType.MediaType, @"application\/([\S]+\+)*json")))
                 throw new Exception("The response does not have a Json content type.");
 
             if (response.IsError())

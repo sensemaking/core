@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Sensemaking.Monitoring
@@ -40,7 +41,7 @@ namespace Sensemaking.Monitoring
             return this.Type == that.Type && this.Name == that.Name && this.Instances.SequenceEqual(that.Instances);
         }
 
-        public override bool Equals(object that)
+        public override bool Equals(object? that)
         {
             return that is MonitorInfo monitorInfo && Equals(monitorInfo);
         }

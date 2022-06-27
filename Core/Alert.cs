@@ -12,11 +12,11 @@
         }
 
         public string Name { get; private set; }
-        public T AlertInfo { get; private set; }
+        public T AlertInfo { get; private set; }        
         
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (!(obj is Alert<T> that))
+            if (obj is not Alert<T> that)
                 return false;
 
             return this.Name == that.Name && this.AlertInfo!.Equals(that.AlertInfo);
