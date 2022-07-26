@@ -20,6 +20,12 @@ namespace System
         public string[] Errors { get; }
     }
 
+    public class LegalException : Exception, IListExceptionErrors
+    {
+        public LegalException(params string[] errors) : base("A legal exception has occured") { Errors = errors; }
+        public string[] Errors { get; }
+    }
+
     public class NotFoundException : Exception { public NotFoundException() : base() { } }
 
     public static class Validation
