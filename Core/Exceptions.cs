@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace System
 {
-    public interface IListExceptionErrors
+    public interface IListExceptionErrors 
     {
         string[] Errors { get; }
     }

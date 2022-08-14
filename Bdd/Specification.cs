@@ -7,7 +7,7 @@ namespace Sensemaking.Bdd
     public abstract class Specification
     {
         protected Exception the_exception;
-        private ValidationException the_validation_exception;
+        private IListExceptionErrors the_exception_with_errors;
 
         [OneTimeSetUp]
         public void TestFixtureSetup() { before_all(); }
@@ -26,7 +26,7 @@ namespace Sensemaking.Bdd
         protected virtual void before_each()
         {
             the_exception = null;
-            the_validation_exception = null;
+            the_exception_with_errors = null;
         }
 
         public void Given(Action action) { action.Invoke(); }
@@ -55,44 +55,43 @@ namespace Sensemaking.Bdd
             {
                 action();
             }
-            catch (ValidationException e)
-            {
-                the_validation_exception = e;
-            }
             catch (AggregateException e)
             {
-                if(e.InnerException is ValidationException validationException)
-                    the_validation_exception = validationException;
+                if(e.InnerException is IListExceptionErrors exceptionWIthErrors)
+                    the_exception_with_errors = exceptionWIthErrors;
                 else
                     the_exception = e.InnerException;
             }
             catch (Exception e)
             {
-                the_exception = e;
+                if(e is IListExceptionErrors exceptionWithErrors)
+                    the_exception_with_errors = exceptionWithErrors;
+                else
+                    the_exception = e;
             }
         }
 
         protected virtual void informs(string message)
         {
-            if (the_exception == null && the_validation_exception == null)
+            if (the_exception == null && the_exception_with_errors == null)
                 "it".should_fail("Exception was not provided.");
             
             the_exception?.Message.should_be(message);
-            the_validation_exception?.Errors.should_contain(message);
+            the_exception_with_errors?.Errors.should_contain(message);
         }
 
         protected virtual void informs<T>(string message) where T : Exception
         {
             informs(message);
 
-            if (!(the_exception is T) && !(the_validation_exception is T))
-                "it".should_fail($"Exception was {(the_exception != null ? the_exception.GetType() : the_validation_exception.GetType())} but should have been {typeof(T)}.");
+            if (!(the_exception is T) && !(the_exception_with_errors is T))
+                "it".should_fail($"Exception was {(the_exception != null ? the_exception.GetType() : the_exception_with_errors.GetType())} but should have been {typeof(T)}.");
         }
 
         protected void it_is_valid()
         {
             the_exception.should_be_null();
-            the_validation_exception.should_be_null();
+            the_exception_with_errors.should_be_null();
         }
 
         protected virtual void after_each() { }
