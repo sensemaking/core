@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using NUnit.Framework;
 using Sensemaking.Bdd;
 
@@ -270,7 +271,7 @@ namespace Sensemaking.Specs
                 Given(a_url);
                 And(the_response_has_no_body);
                 When(() => trying(getting));
-                Then(() => informs("The response to a GET request did not include a body."));
+                Then(() => informs<Exception>("The response to a GET request did not include a body."));
             });
         }
 
@@ -282,7 +283,7 @@ namespace Sensemaking.Specs
                 Given(a_url);
                 And(the_response_has_a_non_json_body);
                 When(() => trying(getting));
-                Then(() => informs("The response does not have a Json content type."));
+                Then(() => informs<Exception>("The response does not have a Json content type."));
             });
         }
 
@@ -292,7 +293,7 @@ namespace Sensemaking.Specs
             Given(a_url);
             And(the_response_has_no_body_but_has_a_content_type);
             When(() => trying(getting));
-            Then(() => informs("The response has a Content-Type but no body."));
+            Then(() => informs<Exception>("The response has a Content-Type but no body."));
         }
 
         [Test]

@@ -184,7 +184,7 @@ namespace Sensemaking.Specs
         {
             the_exception.should_be_instance_of<ProblemException>();
             var problem = (the_exception as ProblemException);
-            informs($"A problem has occured while making an http request:{Environment.NewLine}" +
+            informs<Exception>($"A problem has occured while making an http request:{Environment.NewLine}" +
                 $"\tStatus: {problem.Status}{Environment.NewLine}" +
                 $"\tProblem: {problem.Problem.Title}{Environment.NewLine}" +
                 string.Join($"{Environment.NewLine}\t", problem.Problem.Errors) + Environment.NewLine);

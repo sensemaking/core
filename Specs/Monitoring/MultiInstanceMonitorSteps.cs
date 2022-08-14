@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sensemaking.Bdd;
 using Sensemaking.Monitoring;
@@ -43,7 +44,7 @@ namespace Sensemaking.Specs
         private void multi_instance_monitor_cannot_be_used()
         {
             trying(() => new MultiInstanceMonitor(instance_monitors));
-            informs("Service monitors can only monitor across instance monitors.");
+            informs<ArgumentException>("Service monitors can only monitor across instance monitors.");
         }
 
         private void monitor_info_has_name_and_type()

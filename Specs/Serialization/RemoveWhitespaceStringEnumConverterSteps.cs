@@ -101,7 +101,7 @@ namespace Sensemaking.Specs
 
         private void json_with_an_object_enum_value()
         {
-            the_value = new {Property = "Boomshakala"};
+            the_value = new { Property = "Boomshakala" };
         }
 
         private void converting()
@@ -126,14 +126,6 @@ namespace Sensemaking.Specs
             the_result.should_be_null();
         }
 
-        protected override void informs(string message)
-        {
-            if (the_serialization_exception == null)
-                "it".should_fail("Exception was not provided.");
-
-            the_serialization_exception.Errors.should_contain(message);
-        }
-
         [Flags]
         internal enum FakeEnum
         {
@@ -145,14 +137,7 @@ namespace Sensemaking.Specs
         private void catch_serialisation_exception(Action action)
         {
             json_reader.Value.Returns(the_value);
-            try
-            {
-                action();
-            }
-            catch (SerializationException ex)
-            {
-                the_serialization_exception = ex;
-            }
+            trying(action);
         }
     }
 }
