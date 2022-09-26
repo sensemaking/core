@@ -38,7 +38,7 @@ namespace Sensemaking
             action();
             timer.Stop();
 
-            Log.Logger.WriteInformation(new MetricLogEntry<object?>(Monitor, name, timer.Elapsed.TotalMilliseconds, additionalInfo));
+            Log.Logger.WriteInformation(new Metric<object?>(Monitor, name, timer.Elapsed.TotalMilliseconds, additionalInfo));
         }
 
         public static T TimeThis<T>(Func<T> func, string name, object? additionalInfo = null)
@@ -48,7 +48,7 @@ namespace Sensemaking
             var response = func();
             timer.Stop();
 
-            Log.Logger.WriteInformation(new MetricLogEntry<object?>(Monitor, name, timer.Elapsed.TotalMilliseconds, additionalInfo));
+            Log.Logger.WriteInformation(new Metric<object?>(Monitor, name, timer.Elapsed.TotalMilliseconds, additionalInfo));
             return response;
         }
 
@@ -71,7 +71,7 @@ namespace Sensemaking
         }
     }
 
-    public class LogEntry<T>
+    internal class LogEntry<T>
     {
         public LogEntry(MonitorInfo monitor, LogEntryTypes type, T entry)
         {
@@ -85,9 +85,9 @@ namespace Sensemaking
         public T Entry { get; private set; }
     }
 
-    internal class MetricLogEntry<T> : LogEntry<T>
+    internal class Metric<T> : LogEntry<T>
     {
-        public MetricLogEntry(MonitorInfo monitor, string name, double durationInMilliseconds, T additionalInfo) : base(monitor, LogEntryTypes.Metric, additionalInfo)
+        public Metric(MonitorInfo monitor, string name, double durationInMilliseconds, T additionalInfo) : base(monitor, LogEntryTypes.Metric, additionalInfo)
         {
             Name = name;
             Duration = durationInMilliseconds;

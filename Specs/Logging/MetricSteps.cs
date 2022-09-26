@@ -20,7 +20,7 @@ namespace Sensemaking.Specs
         private const string function_result = "The result";
 
         private Action action;
-        private MetricLogEntry<FakeAdditionalInfo> the_logged_metric;
+        private Metric<FakeAdditionalInfo> the_logged_metric;
         private Func<string> function;
         private string the_result;
 
@@ -33,7 +33,7 @@ namespace Sensemaking.Specs
         protected override void before_each()
         {
             base.before_each();
-            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<MetricLogEntry<FakeAdditionalInfo>>());
+            logger.When(l => l.Information(Arg.Any<string>())).Do(c => the_logged_metric = c.Arg<string>().Deserialize<Metric<FakeAdditionalInfo>>());
             action = null;
             function = null;
             the_logged_metric = null;
