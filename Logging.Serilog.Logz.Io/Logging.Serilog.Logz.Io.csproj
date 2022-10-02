@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <AssemblyName>Sensemaking.Serilog.Logz.Io</AssemblyName>
@@ -12,6 +13,7 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="Serilog" Version="2.12.0" />
       <PackageReference Include="Serilog.Sinks.Logz.Io" Version="6.0.0" />
