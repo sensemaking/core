@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specs", "Specs", "{80C4010E-2A53-4810-A8B0-F2FD2405AFFE}"
 EndProject
@@ -30,9 +30,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Http.Json.Client", "Http.Json.Client\Http.Json.Client.csproj", "{59CC7E96-17F3-4534-8ECA-6275496BADC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Specs\Logging\Logging.csproj", "{2F63DB83-8ECA-450D-98C4-21C8963FDEEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging", "Specs\Logging\Logging.csproj", "{2F63DB83-8ECA-450D-98C4-21C8963FDEEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Http.Json.Client", "Specs\Http.Json.Client\Http.Json.Client.csproj", "{DF40E494-8E9F-42E3-BC45-2D8810AE9686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging.Serilog.Logz.Io", "Logging.Serilog.Logz.Io\Logging.Serilog.Logz.Io.csproj", "{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +90,10 @@ Global
 		{DF40E494-8E9F-42E3-BC45-2D8810AE9686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF40E494-8E9F-42E3-BC45-2D8810AE9686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF40E494-8E9F-42E3-BC45-2D8810AE9686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

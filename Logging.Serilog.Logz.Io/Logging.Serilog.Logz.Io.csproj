@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AssemblyName>Sensemaking.Serilog.Logz.Io</AssemblyName>
+        <RootNamespace>Sensemaking</RootNamespace>
+        <Nullable>enable</Nullable>
+        <Description>Factory for creating logz.io sink for Serilog</Description>
+        <RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>
+        <Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">1.0.$(GITHUB_RUN_NUMBER)</Version>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <OutputPath>bin\</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="2.12.0" />
+      <PackageReference Include="Serilog.Sinks.Logz.Io" Version="6.0.0" />
+    </ItemGroup>
+</Project>
