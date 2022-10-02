@@ -4,7 +4,7 @@
         <AssemblyName>Sensemaking.Serilog.Logz.Io</AssemblyName>
         <RootNamespace>Sensemaking</RootNamespace>
         <Nullable>enable</Nullable>
-        <Description>Factory for creating logz.io sink for Serilog</Description>
+        <Description>Factory for creating logz.io sink for Serilog logging</Description>
         <RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>
         <Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">1.0.$(GITHUB_RUN_NUMBER)</Version>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
