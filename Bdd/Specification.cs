@@ -61,6 +61,15 @@ namespace Sensemaking.Bdd
                 exceptionWithErrors.Errors.should_contain(message);
         }
 
+        protected virtual void causes<T>() where T : Exception
+        {
+            if (the_exception == null)
+                "it".should_fail("Exception was not provided.");
+
+            if (the_exception is not T)
+                "it".should_fail($"Exception was {the_exception.GetType()} but should have been {typeof(T)}.");
+        }
+
         protected void it_is_valid()
         {
             the_exception.should_be_null();
