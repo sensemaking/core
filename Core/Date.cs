@@ -17,4 +17,4 @@ namespace System
         public static Func<DateTimeZone, OffsetDate> TodayIn = (timeZone) => Utc.GetCurrentInstant().InZone(timeZone).ToOffsetDateTime().ToOffsetDate();
         public static Func<DateTimeZone, OffsetDateTime> NowIn = (timeZone) => Utc.GetCurrentInstant().InZone(timeZone).ToOffsetDateTime();
     }
-}
+    }

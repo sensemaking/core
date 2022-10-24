@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging", "Specs\Logging\Lo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Http.Json.Client", "Specs\Http.Json.Client\Http.Json.Client.csproj", "{DF40E494-8E9F-42E3-BC45-2D8810AE9686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging.Serilog.Logz.Io", "Logging.Serilog.Logz.Io\Logging.Serilog.Logz.Io.csproj", "{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging.Serilog.Logz.Io", "Logging.Serilog.Logz.Io\Logging.Serilog.Logz.Io.csproj", "{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Specs\Core\Core.csproj", "{00FD084F-4956-4B7B-B9EC-6111153CDAD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +96,10 @@ Global
 		{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBED6842-02FD-4B5E-A6BF-2021D731EDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00FD084F-4956-4B7B-B9EC-6111153CDAD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00FD084F-4956-4B7B-B9EC-6111153CDAD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00FD084F-4956-4B7B-B9EC-6111153CDAD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00FD084F-4956-4B7B-B9EC-6111153CDAD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{2DE7FF7F-7025-4215-B548-E647B576957D} = {80C4010E-2A53-4810-A8B0-F2FD2405AFFE}
 		{2F63DB83-8ECA-450D-98C4-21C8963FDEEA} = {80C4010E-2A53-4810-A8B0-F2FD2405AFFE}
 		{DF40E494-8E9F-42E3-BC45-2D8810AE9686} = {80C4010E-2A53-4810-A8B0-F2FD2405AFFE}
+		{00FD084F-4956-4B7B-B9EC-6111153CDAD4} = {80C4010E-2A53-4810-A8B0-F2FD2405AFFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28E19399-157F-4673-9ACE-7C4603BC3161}
