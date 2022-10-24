@@ -8,12 +8,12 @@ namespace Sensemaking.Specs
     public partial class MoneySpecs : Specification
     {
         [Test]
-        public void provides_currency_amount_formatted_to_4dp()
+        public void provides_currency_amount_formatted_to_2dp()
         {
             Given(a_monetary_amount);
             When(getting_amounts);
-            Then(currency_is_in_pounds);
-            And(formatted_to_two_decimal_places);
+            Then(it_is_formatted_to_2dp);
+            And(can_be_in_chosen_currency);
         }
 
         [Test]

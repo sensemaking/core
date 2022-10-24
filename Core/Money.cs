@@ -20,7 +20,12 @@ public struct Money
 
     public override string ToString()
     {
-        return Amount.ToString("C2", new CultureInfo("en-GB"));
+        return Amount.ToString("F2");
+    }
+
+    public string ToString(CultureInfo culture)
+    {
+        return Amount.ToString("C2", culture);
     }
 
     private decimal Amount { get; set; }

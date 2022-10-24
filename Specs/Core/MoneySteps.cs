@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using Sensemaking.Bdd;
 
 namespace Sensemaking.Specs
 {
     public partial class MoneySpecs
     {
+        private static readonly CultureInfo chosen_currency = new("en-GB");
         private decimal monetary_amount;
         private uint monetary_pence;
+        private string string_amount;
         private string currency_amount;
         private decimal value_from_amount;
         private decimal value_from_pence;
@@ -19,6 +23,7 @@ namespace Sensemaking.Specs
             base.before_each();
             monetary_amount = 0m;
             monetary_pence = 0;
+            string_amount = string.Empty;
             currency_amount = string.Empty;
             value_from_amount = 0m;
             pence = 0;
@@ -46,7 +51,8 @@ namespace Sensemaking.Specs
         {
             trying(() =>
             {
-                currency_amount = new Money(monetary_amount).ToString();
+                string_amount = new Money(monetary_amount).ToString();
+                currency_amount = new Money(monetary_amount).ToString(chosen_currency);
                 Money money = monetary_amount;
                 value_from_amount = money;
                 value_from_pence = new Money(monetary_pence).Pence;
@@ -65,14 +71,14 @@ namespace Sensemaking.Specs
             calculated = new Money(monetary_amount) + new Money(monetary_amount);
         }
 
-        private void currency_is_in_pounds()
+        private void it_is_formatted_to_2dp()
         {
-            currency_amount.Substring(0, 1).should_be("£");
+            decimal.Parse(string_amount).should_be(Math.Round(monetary_amount, 2));
         }
 
-        private void formatted_to_two_decimal_places()
+        private void can_be_in_chosen_currency()
         {
-            decimal.Parse(currency_amount.Substring(1)).should_be(Math.Round(monetary_amount, 2));
+            currency_amount.Substring(0, 1).should_be("£");
         }
 
         private void its_value_is_same_as_monetary_amount()
