@@ -14,6 +14,11 @@ public struct Money
         Amount = amount;
     }
 
+    public Money(double amount) : this(Convert.ToDecimal(amount))
+    {
+    }
+
+
     public Money(uint amount) : this(amount / 100m) { }
 
     public Money(int amount) : this(amount / 100m) { }

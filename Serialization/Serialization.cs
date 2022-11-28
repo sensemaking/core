@@ -52,7 +52,7 @@ namespace System.Serialization
 
         public static T Deserialize<T>(this string json, params JsonConverter[] converters)
         {
-            return JsonConvert.DeserializeObject<T>(json, GetSettings(converters))!;
+                return JsonConvert.DeserializeObject<T>(json, GetSettings(converters))!;
         }
 
         public static object Deserialize(this string json, Type type, params JsonConverter[] converters)
@@ -69,9 +69,11 @@ namespace System.Serialization
         {
             var settings = new JsonSerializerSettings { ContractResolver = new ContractResolver(), DefaultValueHandling = DefaultValueHandling.Populate,
                 Formatting = Formatting.None, ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor};
+            settings.Converters.Add(new RemoveWhitespaceStringEnumConverter());
+            settings.Converters.Add(new MoneyConverter());
+            settings.Converters.Add(new NullableMoneyConverter());
             settings.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
             settings.Converters.CustomiseNodaTimeConvertion();
-            settings.Converters.Add(new RemoveWhitespaceStringEnumConverter());
             additionalConverters.ForEach(settings.Converters.Add);
             converters.ForEach(settings.Converters.Add);
             return settings;

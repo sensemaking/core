@@ -22,6 +22,14 @@ namespace Sensemaking.Specs
         }
 
         [Test]
+        public void deserializes_money()
+        {
+            Given(a_json_payload);
+            When(deserializing);
+            Then(money_is_deserialized);
+        }
+
+        [Test]
         public void deserializes_dates_and_date_times_to_local_dates()
         {
             Given(a_json_payload);

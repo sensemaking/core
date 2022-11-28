@@ -34,6 +34,9 @@ namespace Sensemaking.Specs
         {
             public int[] EmptyArrayFromNull { get; set; }
             public string[] EmptyArrayFromMissing { get; set; }
+            public Money Money { get; set; }
+            public Money? NullMoney { get; set; }
+            public Money? NonNullMoney { get; set; }
             public LocalDate Date { get; set; }
             public LocalDate DateWithATime { get; set; }
             public LocalDate? NullDate { get; set; }
@@ -47,8 +50,11 @@ namespace Sensemaking.Specs
         private DeserializedObject deserializedByExtensionMethod;
         private DeserializedObject deserializedByJsonSerializer;
 
-        private static readonly DeserializedObject the_object = new DeserializedObject()
+        private static readonly DeserializedObject the_object = new()
         {
+            Money = new Money(12.23m),
+            NonNullMoney = new Money(34.45m),
+            NullMoney = null,
             Date = Date.Today().Date,
             DateWithATime = Date.Today().Date.PlusDays(-1),
             NullDate = null,
@@ -60,7 +66,7 @@ namespace Sensemaking.Specs
         protected override void before_all()
         {
             base.before_all();
-            System.Serialization.Serialization.Configure(new Returns254Converter());
+            Serialization.Configure(new Returns254Converter());
         }
 
         protected override void before_each()
@@ -87,6 +93,16 @@ namespace Sensemaking.Specs
         {
             var serialize = the_object.Serialize();
             deserializedByExtensionMethod = serialize.Deserialize<DeserializedObject>();
+        }
+
+        private void money_is_deserialized()
+        {
+            deserializedByExtensionMethod.Money.should_be(new Money(12.23m));
+            deserializedByExtensionMethod.NonNullMoney.should_be(new Money(34.45m));
+            deserializedByExtensionMethod.NullMoney.should_be_null();
+            deserializedByJsonSerializer.Money.should_be(new Money(12.23m));
+            deserializedByJsonSerializer.NonNullMoney.should_be(new Money(34.45m));
+            deserializedByJsonSerializer.NullMoney.should_be_null();
         }
 
         private void dates_values_are_serialized_to_local_dates()
@@ -148,6 +164,9 @@ namespace Sensemaking.Specs
 
         private void the_object_is_reanimated()
         {
+            deserializedByExtensionMethod.Money.should_be(the_object.Money);
+            deserializedByExtensionMethod.NonNullMoney.should_be(the_object.NonNullMoney);
+            deserializedByExtensionMethod.NullMoney.should_be(the_object.NullMoney);
             deserializedByExtensionMethod.Date.should_be(the_object.Date);
             deserializedByExtensionMethod.DateWithATime.should_be(the_object.DateWithATime);
             deserializedByExtensionMethod.NullDate.should_be(the_object.NullDate);
