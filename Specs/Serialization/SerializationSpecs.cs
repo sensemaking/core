@@ -20,6 +20,14 @@ namespace Sensemaking.Specs
             When(deserializing);
             Then(null_arrays_properties_are_deserialized_into_empty_arrays);
         }
+    
+        [Test]
+        public void deserializes_null_into_empty_immutable_arrays()
+        {
+            Given(a_json_payload);
+            When(deserializing);
+            Then(null_immutable_arrays_properties_are_deserialized_into_empty_arrays);
+        }
 
         [Test]
         public void deserializes_money()

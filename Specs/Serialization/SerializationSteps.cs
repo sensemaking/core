@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.IO;
 using System.Reflection;
 using System.Serialization;
@@ -34,6 +35,8 @@ namespace Sensemaking.Specs
         {
             public int[] EmptyArrayFromNull { get; set; }
             public string[] EmptyArrayFromMissing { get; set; }
+            public ImmutableArray<string> EmptyImmutableArrayFromNull { get; set; }
+            public ImmutableArray<int> EmptyImmutableArrayFromMissing { get; set; }
             public Money Money { get; set; }
             public Money? NullMoney { get; set; }
             public Money? NonNullMoney { get; set; }
@@ -95,6 +98,27 @@ namespace Sensemaking.Specs
             deserializedByExtensionMethod = serialize.Deserialize<DeserializedObject>();
         }
 
+        private void private_setter_properties_are_deserialized()
+        {
+            deserializedByExtensionMethod.APrivateSetterNumber.should_be(1);
+            deserializedByJsonSerializer.APrivateSetterNumber.should_be(1);
+        }
+
+        private void null_arrays_properties_are_deserialized_into_empty_arrays()
+        {
+            deserializedByExtensionMethod.EmptyArrayFromNull.should_be_empty();
+            deserializedByJsonSerializer.EmptyArrayFromNull.should_be_empty();
+
+            deserializedByExtensionMethod.EmptyArrayFromMissing.should_be_empty();
+            deserializedByJsonSerializer.EmptyArrayFromMissing.should_be_empty();
+        }
+
+        private void null_immutable_arrays_properties_are_deserialized_into_empty_arrays()
+        {
+            deserializedByExtensionMethod.EmptyImmutableArrayFromNull.should_be_empty();
+            deserializedByJsonSerializer.EmptyImmutableArrayFromMissing.should_be_empty();
+        }
+
         private void money_is_deserialized()
         {
             deserializedByExtensionMethod.Money.should_be(new Money(12.23m));
@@ -133,21 +157,6 @@ namespace Sensemaking.Specs
         {
             deserializedByExtensionMethod.NullDate.should_be_null();
             deserializedByJsonSerializer.NullDate.should_be_null();
-        }
-
-        private void private_setter_properties_are_deserialized()
-        {
-            deserializedByExtensionMethod.APrivateSetterNumber.should_be(1);
-            deserializedByJsonSerializer.APrivateSetterNumber.should_be(1);
-        }
-
-        private void null_arrays_properties_are_deserialized_into_empty_arrays()
-        {
-            deserializedByExtensionMethod.EmptyArrayFromNull.should_be_empty();
-            deserializedByJsonSerializer.EmptyArrayFromNull.should_be_empty();
-
-            deserializedByExtensionMethod.EmptyArrayFromMissing.should_be_empty();
-            deserializedByJsonSerializer.EmptyArrayFromMissing.should_be_empty();
         }
 
         private void removes_whitespace_from_string_enums()
