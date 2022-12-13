@@ -18,10 +18,11 @@ public struct Money
     {
     }
 
+    public Money(uint amount) : this(Convert.ToDecimal(amount)) { }
 
-    public Money(uint amount) : this(amount / 100m) { }
+    public Money(int amount) : this(Convert.ToDecimal(amount)) { }
 
-    public Money(int amount) : this(amount / 100m) { }
+    public Money(long amount) : this(Convert.ToDecimal(amount)) { }
 
     public override string ToString()
     {
@@ -64,11 +65,6 @@ public struct Money
     public static implicit operator Money(decimal amount)
     {
         return new Money(amount);
-    }
-
-    public static implicit operator uint(Money money)
-    {
-        return Convert.ToUInt32(money.Pence);
     }
 
     public static implicit operator Money(uint amount)

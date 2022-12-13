@@ -50,12 +50,23 @@ namespace Sensemaking.Specs
         }
 
         [Test]
-        public void can_be_created_from_pence()
+        public void can_be_created_from_pounds()
         {
-            Given(a_monetary_amount_in_pence);
-            When(getting_amounts);
-            Then(its_value_is_same_as_monetary_pence);
+            scenario(() =>
+            {
+                Given(a_monetary_amount_in_pounds);
+                When(getting_amounts);
+                Then(its_value_is_same_as_monetary_pounds);
+            });
+
+            scenario(() =>
+            {
+                Given(a_large_monetary_amount_in_pounds);
+                When(getting_amounts);
+                Then(its_value_is_same_as_large_monetary_pounds);
+            });
         }
+              
 
         [Test]
         public void negative_monetary_cannot_be_used()

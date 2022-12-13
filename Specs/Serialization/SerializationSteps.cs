@@ -38,8 +38,10 @@ namespace Sensemaking.Specs
             public ImmutableArray<string> EmptyImmutableArrayFromNull { get; set; }
             public ImmutableArray<int> EmptyImmutableArrayFromMissing { get; set; }
             public Money Money { get; set; }
-            public Money? NullMoney { get; set; }
+            public Money MoneyAsInteger { get; set; }
+            public Money MoneyAsLong { get; set; }
             public Money? NonNullMoney { get; set; }
+            public Money? NullMoney { get; set; }
             public LocalDate Date { get; set; }
             public LocalDate DateWithATime { get; set; }
             public LocalDate? NullDate { get; set; }
@@ -56,6 +58,8 @@ namespace Sensemaking.Specs
         private static readonly DeserializedObject the_object = new()
         {
             Money = new Money(12.23m),
+            MoneyAsInteger = new Money(11),
+            MoneyAsLong = new Money(11111111111),
             NonNullMoney = new Money(34.45m),
             NullMoney = null,
             Date = Date.Today().Date,
@@ -122,9 +126,13 @@ namespace Sensemaking.Specs
         private void money_is_deserialized()
         {
             deserializedByExtensionMethod.Money.should_be(new Money(12.23m));
+            deserializedByExtensionMethod.MoneyAsInteger.should_be(new Money(11));
+            deserializedByExtensionMethod.MoneyAsLong.should_be(new Money(11111111111));
             deserializedByExtensionMethod.NonNullMoney.should_be(new Money(34.45m));
             deserializedByExtensionMethod.NullMoney.should_be_null();
             deserializedByJsonSerializer.Money.should_be(new Money(12.23m));
+            deserializedByJsonSerializer.MoneyAsInteger.should_be(new Money(11));
+            deserializedByJsonSerializer.MoneyAsLong.should_be(new Money(11111111111));
             deserializedByJsonSerializer.NonNullMoney.should_be(new Money(34.45m));
             deserializedByJsonSerializer.NullMoney.should_be_null();
         }
@@ -174,6 +182,8 @@ namespace Sensemaking.Specs
         private void the_object_is_reanimated()
         {
             deserializedByExtensionMethod.Money.should_be(the_object.Money);
+            deserializedByExtensionMethod.MoneyAsInteger.should_be(the_object.MoneyAsInteger);
+            deserializedByExtensionMethod.MoneyAsLong.should_be(the_object.MoneyAsLong);
             deserializedByExtensionMethod.NonNullMoney.should_be(the_object.NonNullMoney);
             deserializedByExtensionMethod.NullMoney.should_be(the_object.NullMoney);
             deserializedByExtensionMethod.Date.should_be(the_object.Date);

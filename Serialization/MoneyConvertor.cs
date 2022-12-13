@@ -18,6 +18,8 @@ namespace System.Serialization
                 string stringAmount => new Money(decimal.Parse(stringAmount)),
                 decimal decimalAmount => new Money(decimalAmount),
                 double doubleAmount => new Money(doubleAmount),
+                int intAmount => new Money(intAmount),
+                long longAmount => new Money(longAmount),
                 _ => throw new SerializationException($"Cannot convert {reader.Value?.GetType()} , {reader.Value} to Money")
             };
         }
@@ -37,6 +39,8 @@ namespace System.Serialization
                 string stringAmount => new Money(decimal.Parse(stringAmount)),
                 decimal decimalAmount => new Money(decimalAmount),
                 double doubleAmount => new Money(doubleAmount),
+                int intAmount => new Money(intAmount),
+                long longAmount => new Money(longAmount),
                 null => null,
                 _ => throw new SerializationException($"Cannot convert {reader.Value?.GetType()} , {reader.Value} to Money")
             };

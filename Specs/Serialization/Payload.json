@@ -1,8 +1,10 @@
 ﻿{
 	"emptyArrayFromNull": null,
-    "money": 12.23,
-    "nonNullMoney": 34.45,
-    "nullMoney": null,
+	"money": 12.23,
+	"nonNullMoney": 34.45,
+	"moneyAsInteger": 11,
+	"moneyAsLong": 11111111111,
+	"nullMoney": null,
 	"date": "1992-05-01",
 	"dateWithATime": "1994-02-06T00:00:00",
 	"nonNullNullableDate": "1990-11-24",
