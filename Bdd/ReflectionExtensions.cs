@@ -5,12 +5,12 @@ namespace Sensemaking.Bdd
 {
     public static class ReflectionExtensions
     {
-        public static T GetReflectedValue<T>(this object source, string propertyName) 
+        public static T get_reflected_value<T>(this object source, string propertyName) 
         {
             return (T) source.GetType().GetInfo(propertyName)?.GetValue(source, null);  
         }
 
-        public static void SetReflectedValue(this object source, string propertyName, object value)
+        public static void set_reflected_value(this object source, string propertyName, object value)
         {
             source.GetType().GetInfo(propertyName)?.SetValue(source, value);
         }
