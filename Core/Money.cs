@@ -5,12 +5,6 @@ public struct Money
 {
     public Money(decimal amount)
     {
-        Validation.BasedOn(errors =>
-            {
-                if(amount < 0m)
-                    errors.Add("Amount cannot be negative");
-            }
-        );
         Amount = amount;
     }
 

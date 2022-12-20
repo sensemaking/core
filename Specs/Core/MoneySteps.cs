@@ -72,7 +72,7 @@ namespace Sensemaking.Specs
 
         private void subtracting()
         {
-            calculated = new Money(monetary_amount + 1.6745m) - new Money(monetary_amount);
+            calculated = new Money(0) - new Money(0.01m);
         }
 
         private void adding()
@@ -117,7 +117,7 @@ namespace Sensemaking.Specs
 
         private void result_is_the_difference_of_the_monetary_amounts()
         {
-            ((decimal) calculated).should_be(1.6745m);
+            ((decimal) calculated).should_be(-0.01m);
         }
     }
 }

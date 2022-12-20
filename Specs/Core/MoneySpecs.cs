@@ -66,14 +66,5 @@ namespace Sensemaking.Specs
                 Then(its_value_is_same_as_large_monetary_pounds);
             });
         }
-              
-
-        [Test]
-        public void negative_monetary_cannot_be_used()
-        {
-            Given(a_negative_monetary_amount);
-            When(getting_amounts);
-            Then(() => informs<ValidationException>("Amount cannot be negative"));
-        }
     }
 }
