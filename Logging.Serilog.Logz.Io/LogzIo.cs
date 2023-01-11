@@ -11,7 +11,7 @@ namespace Sensemaking
             return new LoggerConfiguration()
                 .WriteTo.LogzIoEcs(new LogzioEcsOptions
                 {
-                    Type = settings.Type.ToString(),
+                    Type = settings.Type.ToString().ToLower(),
                     AuthToken = settings.Token,
                     DataCenter = new LogzioDataCenter { SubDomain = settings.SubDomain, Port = settings.Port, UseHttps = true }
                 }, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose)
@@ -24,8 +24,9 @@ namespace Sensemaking
         public enum LogzType
         {
             Local = 1,
-            Development = 1,
-            Production = 2
+            Development = 2,
+            Staging = 3,
+            Production = 4
         }
     }
 
