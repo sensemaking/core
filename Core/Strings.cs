@@ -1,8 +1,7 @@
-﻿using System.Text.RegularExpressions;
-
+﻿
 namespace System
 {
-    public static class Language
+    public static class Strings
     {
         public static bool IsNullOrEmpty(this string? source)
         {
