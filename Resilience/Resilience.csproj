@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<AssemblyName>Sensemaking.Monitoring</AssemblyName>
-		<RootNamespace>Sensemaking.Monitoring</RootNamespace>
+		<AssemblyName>Sensemaking.Resilience</AssemblyName>
+		<RootNamespace>Sensemaking.Resilience</RootNamespace>
+		<Description>Resilience tooling</Description>
 		<Nullable>enable</Nullable>
-		<Description>Monitoring and alerting tooling</Description>
 		<RepositoryUrl>https://github.com/sensemaking/core.git</RepositoryUrl>
 		<Version Condition=" '$(GITHUB_RUN_NUMBER)' != '' ">1.0.$(GITHUB_RUN_NUMBER)</Version>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
@@ -15,7 +15,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Core\Core.csproj" />
+	  <PackageReference Include="NodaTime" Version="3.1.3" />
+	  <PackageReference Include="Polly" Version="7.2.3" />
 	</ItemGroup>
 
 </Project>
