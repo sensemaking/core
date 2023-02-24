@@ -1,5 +1,4 @@
-﻿using System;
-using Serilog;
+﻿using Serilog;
 using Serilog.Sinks.Logz.Io;
 
 namespace Sensemaking
@@ -18,7 +17,6 @@ namespace Sensemaking
                 .CreateLogger();
         }
 
-
         public record Settings(string SubDomain, int Port, string Token, LogzType Type);
 
         public enum LogzType
@@ -29,5 +27,4 @@ namespace Sensemaking
             Production = 4
         }
     }
-
 }
