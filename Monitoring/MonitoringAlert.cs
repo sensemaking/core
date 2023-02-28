@@ -10,28 +10,28 @@ namespace Sensemaking.Monitoring
     }
 
     public class MonitoringAlert : Alert<string>
+    {
+        public MonitorInfo Monitor { get; }
+
+        protected internal MonitoringAlert(MonitorInfo monitor, string name, string message) : base(name, message)
         {
-            public MonitorInfo Monitor { get; }
+            if(monitor == MonitorInfo.Empty)
+                throw new ArgumentException("Monitor alerts must have a code, monitor and message");
 
-            protected internal MonitoringAlert(MonitorInfo monitor, string name, string message) : base(name, message)
-            {
-                if(monitor == MonitorInfo.Empty)
-                    throw new ArgumentException("Monitor alerts must have a code, monitor and message");
+            Monitor = monitor;
+        }
 
-                Monitor = monitor;
-            }
+        public override bool Equals(object? obj)
+        {
+            if(obj is not MonitoringAlert that)
+                return false;
 
-            public override bool Equals(object? obj)
-            {
-                if(obj is not MonitoringAlert that)
-                    return false;
+            return base.Equals(that) && this.Monitor == that.Monitor;
+        }
 
-                return base.Equals(that) && this.Monitor == that.Monitor;
-            }
-
-            public override int GetHashCode()
-            {
-                return HashCode.Combine(base.GetHashCode(), Monitor);
-            }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), Monitor);
         }
     }
+}

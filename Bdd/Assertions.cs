@@ -37,9 +37,11 @@ namespace Sensemaking.Bdd
             Assert.That(condition, Is.False);
         }
 
+
         public static void should_be(this object actual, object expected)
         {
             Assert.That(actual, Is.EqualTo(expected), $"Expected {expected} but was {actual}");
+            Assert.That(actual?.GetHashCode(), Is.EqualTo(expected?.GetHashCode()), $"Expect Hashcode to be equal when objects are equal, expected {expected} but was {actual}");
         }
 
         public static void should_be(this string actual, string expected)
@@ -55,9 +57,9 @@ namespace Sensemaking.Bdd
         public static void should_be<T>(this IEnumerable<T> actual, IEnumerable<T> expected, bool iCareAboutOrdering = true)
         {
             if(iCareAboutOrdering)
-                actual.SequenceEqual(expected).should_be_true("The two enumerables were expected to be the same");
+                actual.HasSameContentsInSameOrder(expected).should_be_true("The two enumerables were expected to be the same");
             else
-                actual.OrderBy(a => a?.GetHashCode()).SequenceEqual(expected.OrderBy(e => e?.GetHashCode())).should_be_true("The two enumerables were expected to be the same");
+                actual.HasSameContents(expected).should_be_true("The two enumerables were expected to be the same");
         }
 
         public static void should_be<T, U>(this IEnumerable<T> actual, IEnumerable<U> expected, Func<T, U, bool> predicate)
@@ -100,7 +102,7 @@ namespace Sensemaking.Bdd
         {
             Assert.That(value, Is.Not.Null);
         }
-        
+
         public static void should_be_empty(this string value)
         {
             Assert.That(value, Is.Empty);

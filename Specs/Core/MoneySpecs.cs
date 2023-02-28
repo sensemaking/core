@@ -23,8 +23,7 @@ namespace Sensemaking.Specs
             When(getting_amounts);
             Then(its_value_is_same_as_monetary_amount);
         }
-
-
+        
         [Test]
         public void pence_returns_total_number_of_pence()
         {

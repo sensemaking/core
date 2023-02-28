@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Sensemaking.Bdd;
 using Sensemaking.Monitoring;
@@ -15,16 +16,16 @@ namespace Sensemaking.Specs
         {
             base.before_each();
             overall_availability = null;
-            instance_monitors_1 = new List<Monitoring.InstanceMonitor>();
-            instance_monitors_2 = new List<Monitoring.InstanceMonitor>();
+            instance_monitors_1 = new List<InstanceMonitor>();
+            instance_monitors_2 = new List<InstanceMonitor>();
         }
 
-        private void available_instance(IList<Monitoring.InstanceMonitor> monitors)
+        private void available_instance(IList<InstanceMonitor> monitors)
         {
             monitors.Add(Fake.AnInstanceMonitor);
         }
 
-        private void unavailable_instance(ICollection<Monitoring.InstanceMonitor> monitors)
+        private void unavailable_instance(ICollection<InstanceMonitor> monitors)
         {
             var instance = monitors.Count + 1;
             monitors.Add(Fake.AnAlertingInstanceMonitor($"{instance} is down."));
@@ -55,6 +56,7 @@ namespace Sensemaking.Specs
         {
             var all_alerts = new MultiInstanceMonitor(instance_monitors_1).Availability().Alerts
                 .Concat(new MultiInstanceMonitor(instance_monitors_2).Availability().Alerts);
+
             overall_availability.Alerts.should_be(all_alerts);
         }
     }

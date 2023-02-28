@@ -39,12 +39,12 @@ namespace Sensemaking.Http
 
         public bool Equals(Problem that)
         {
-            return this.Title == that.Title && this.Errors.SequenceEqual(that.Errors);
+            return this.Title == that.Title && this.Errors.HasSameContents(that.Errors);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Title, Errors);
+            return HashCode.Combine(Title, Errors.GetHashCodeUsingContents());
         }
 
         #endregion

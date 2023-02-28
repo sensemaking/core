@@ -38,7 +38,7 @@ namespace Sensemaking.Monitoring
 
         public bool Equals(MonitorInfo that)
         {
-            return this.Type == that.Type && this.Name == that.Name && this.Instances.SequenceEqual(that.Instances);
+            return this.Type == that.Type && this.Name == that.Name && this.Instances.HasSameContents(that.Instances);
         }
 
         public override bool Equals(object? that)
@@ -48,7 +48,7 @@ namespace Sensemaking.Monitoring
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Type, Name, Instances);
+            return HashCode.Combine(Type, Name, Instances.GetHashCodeUsingContents());
         }
     }
 }

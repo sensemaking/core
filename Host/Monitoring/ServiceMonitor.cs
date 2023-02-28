@@ -88,7 +88,7 @@ namespace Sensemaking.Host.Monitoring
 
             public bool Equals(Status that)
             {
-                return this.Monitoring == that.Monitoring && this.Alerts.SequenceEqual(that.Alerts);
+                return this.Monitoring.HasSameContents(that.Monitoring) && this.Alerts.HasSameContents(that.Alerts);
             }
 
             public override bool Equals(object? obj)
@@ -98,7 +98,7 @@ namespace Sensemaking.Host.Monitoring
 
             public override int GetHashCode()
             {
-                return HashCode.Combine(Monitoring, Alerts);
+                return HashCode.Combine(Monitoring.GetHashCodeUsingContents(), Alerts.GetHashCodeUsingContents());
             }
 
             #endregion
