@@ -28,6 +28,8 @@ namespace System
 
     public class NotFoundException : Exception { public NotFoundException() : base() { } }
 
+    public class TooLateException : Exception { public TooLateException() : base() { } }
+
     public static class Validation
     {
         public static void BasedOn(Action<IList<string>> validator)
