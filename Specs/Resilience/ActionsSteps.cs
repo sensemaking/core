@@ -13,7 +13,7 @@ namespace Sensemaking.Specs
 
         private int call_counter;
         private int fail_call_counter;
-        private int aproximate_execution_count;
+        private int approximate_execution_count;
         private const int number_of_attempts = 3;
         private Action action;
         private Action<Exception> fail_action;
@@ -65,7 +65,7 @@ namespace Sensemaking.Specs
 
         private void with_retry_that_handles_exceptions_for_a_period()
         {
-            aproximate_execution_count = 3;
+            approximate_execution_count = 3;
             retry_wrapper = action.KeepTrying()
                 .Every(Period.FromMilliseconds(100))
                 .For(Duration.FromMilliseconds(300))
@@ -96,8 +96,8 @@ namespace Sensemaking.Specs
         private void it_reports_failure_after_last_attempt()
         {
             the_exception.Message.should_be(expected_exception_message);
-            call_counter.should_be_greater_than_or_equal_to(aproximate_execution_count-1);
-            call_counter.should_be_less_than_or_equal_to(aproximate_execution_count+1);
+            call_counter.should_be_greater_than_or_equal_to(approximate_execution_count-1);
+            call_counter.should_be_less_than_or_equal_to(approximate_execution_count+1);
         }
         
         private void it_reports_the_failure_after_last_attempt()
