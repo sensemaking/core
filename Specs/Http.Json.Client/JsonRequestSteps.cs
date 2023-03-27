@@ -150,9 +150,9 @@ namespace Sensemaking.Specs
             (the_response as JsonResponse<FakeBody>).Body.Value.should_be(the_body_to_respond_with.Value);
         }
 
-        private void it_calls_the_url_using(HttpMethod verb)
+        private Action it_calls_the_url_using(HttpMethod verb)
         {
-            FakeHttp.ShouldHaveCalled(url).WithVerb(verb);
+            return () => FakeHttp.ShouldHaveCalled(url).WithVerb(verb);
         }
 
         private void it_passes_the_payload_as_json()
