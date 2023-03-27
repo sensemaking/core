@@ -14,6 +14,7 @@ namespace Sensemaking.Specs
             When(getting_amounts);
             Then(it_is_formatted_to_2dp);
             And(can_be_in_chosen_currency);
+
         }
 
         [Test]
