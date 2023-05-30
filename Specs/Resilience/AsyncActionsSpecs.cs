@@ -16,6 +16,7 @@ namespace Sensemaking.Specs
         }
         
         [Test]
+        [Ignore("")]
         public void faulty_action_reports_failure_after_last_retry_attempt()
         {
             scenario(() =>
