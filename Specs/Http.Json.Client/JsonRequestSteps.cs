@@ -117,32 +117,32 @@ namespace Sensemaking.Specs
 
         private void getting()
         {
-            the_response = (client != null ? client.GetAsync<FakeBody>(url, the_headers) : url.GetAsync<FakeBody>(the_headers)).Result;
+            the_response = (client != null ? client.Get<FakeBody>(url, the_headers) : url.Get<FakeBody>(the_headers)).Result;
         }
 
         private void putting()
         {
-            the_response = (client != null ? client.PutAsync(url, the_payload, the_headers) : url.PutAsync(the_payload, the_headers)).Result;
+            the_response = (client != null ? client.Put(url, the_payload, the_headers) : url.Put(the_payload, the_headers)).Result;
         }
 
         private void putting_expecting_a_response_body()
         {
-            the_response = the_response = (client != null ? client.PutAsync<FakeBody>(url, the_payload, the_headers) : url.PutAsync<FakeBody>(the_payload, the_headers)).Result;
+            the_response = the_response = (client != null ? client.Put<FakeBody>(url, the_payload, the_headers) : url.Put<FakeBody>(the_payload, the_headers)).Result;
         }
 
         private void deleting()
         {
-            the_response = (client != null ? client.DeleteAsync(url, the_headers) : url.DeleteAsync(the_headers)).Result;
+            the_response = (client != null ? client.Delete(url, the_headers) : url.Delete(the_headers)).Result;
         }
 
         private void posting()
         {
-            the_response = (client != null ? client.PostAsync(url, the_payload, the_headers) : url.PostAsync(the_payload, the_headers)).Result;
+            the_response = (client != null ? client.Post(url, the_payload, the_headers) : url.Post(the_payload, the_headers)).Result;
         }
 
         private void posting_expecting_a_response_body()
         {
-            the_response = (client != null ? client.PostAsync<FakeBody>(url, the_payload, the_headers) : url.PostAsync<FakeBody>(the_payload, the_headers)).Result;
+            the_response = (client != null ? client.Post<FakeBody>(url, the_payload, the_headers) : url.Post<FakeBody>(the_payload, the_headers)).Result;
         }
 
         private void it_provides_the_desrialized_response_body()
