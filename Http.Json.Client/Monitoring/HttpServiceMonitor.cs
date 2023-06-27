@@ -20,8 +20,7 @@ namespace Sensemaking.Http.Json.Client.Monitoring
             {
                 var request = new FlurlRequest(access.Url);
                 access.Headers.ForEach(header => request.WithHeader(header.Name, header.Value));
-                var code = request.GetAsync().Result.ResponseMessage.IsSuccessStatusCode;
-                return code ?
+                return request.GetAsync().Result.ResponseMessage.IsSuccessStatusCode ?
                     Sensemaking.Monitoring.Availability.Up() :
                     Sensemaking.Monitoring.Availability.Down(AlertFactory.ServiceUnavailable(Info, $"Service at {access.Url} is down."));
             }
