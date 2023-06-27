@@ -24,7 +24,7 @@ namespace Sensemaking.Specs
         [Test]
         public void provides_headers_to_service()
         {
-            Given(headers);
+            Given(some_headers);
             And(the_service_is_up);
             When(checking_availability);
             Then(the_headers_are_sent);

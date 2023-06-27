@@ -1,31 +1,36 @@
-﻿using Flurl.Http;
+﻿using Flurl;
+using Flurl.Http;
+using System;
 using Sensemaking.Monitoring;
 
 namespace Sensemaking.Http.Json.Client.Monitoring
 {
     public class HttpServiceMonitor : InstanceMonitor
     {
-        private readonly string url;
-        private readonly object headers;
+        private readonly Access access;
 
-        public HttpServiceMonitor(MonitorInfo info, string url, object headers) : base(info)
+        public HttpServiceMonitor(MonitorInfo info, Access access) : base(info)
         {
-            this.url = url;
-            this.headers = headers;
+            this.access = access;
         }
 
         public override Availability Availability()
         {
             try
             {
-                return url.WithHeaders(headers).GetAsync().Result.ResponseMessage.IsSuccessStatusCode ?
+                var request = new FlurlRequest(access.Url);
+                access.Headers.ForEach(header => request.WithHeader(header.Name, header.Value));
+                var code = request.GetAsync().Result.ResponseMessage.IsSuccessStatusCode;
+                return code ?
                     Sensemaking.Monitoring.Availability.Up() :
-                    Sensemaking.Monitoring.Availability.Down(AlertFactory.ServiceUnavailable(Info, $"Service at {url} is down."));
+                    Sensemaking.Monitoring.Availability.Down(AlertFactory.ServiceUnavailable(Info, $"Service at {access.Url} is down."));
             }
             catch
             {
-                return Sensemaking.Monitoring.Availability.Down(AlertFactory.ServiceUnavailable(Info, $"Service at {url} is down."));
+                return Sensemaking.Monitoring.Availability.Down(AlertFactory.ServiceUnavailable(Info, $"Service at {access.Url} is down."));
             }
         }
+        
+        public record Access(string Url, (string Name, string Value)[] Headers);
     }
 }

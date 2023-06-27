@@ -192,6 +192,12 @@ namespace Sensemaking.Specs
         }
 
         [Test]
+        public void supports_basic_authentication()
+        {
+
+        }
+
+        [Test]
         public void response_includes_the_status_code()
         {
             scenario(() =>
