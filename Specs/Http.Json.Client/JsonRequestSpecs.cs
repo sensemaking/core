@@ -2,6 +2,7 @@
 using System.Net.Http;
 using NUnit.Framework;
 using Sensemaking.Bdd;
+using Serilog.Filters;
 
 namespace Sensemaking.Specs
 {
@@ -62,20 +63,6 @@ namespace Sensemaking.Specs
 
             scenario(() =>
             {
-                Given(a_url);
-                And(some_headers);
-                And(a_payload);
-                And(the_response_has_a_body);
-                When(putting_expecting_a_response_body);
-                Then(it_calls_the_url_using(HttpMethod.Put));
-                And(it_passes_the_payload_as_json);
-                And(it_uses_the_headers);
-                And(it_accepts_json);
-                And(it_provides_the_desrialized_response_body);
-            });
-
-            scenario(() =>
-            {
                 Given(a_flurl_client);
                 And(a_url);
                 And(some_headers);
@@ -87,6 +74,23 @@ namespace Sensemaking.Specs
                 And(it_uses_the_headers);
                 And(it_accepts_json);
             });
+        }
+
+        [Test]
+        public void patches_json()
+        {
+            scenario(() =>
+            {
+                Given(a_url);
+                And(some_headers);
+                And(a_payload);
+                And(the_response_has_no_body);
+                When(patching);
+                Then(it_calls_the_url_using(HttpMethod.Patch));
+                And(it_passes_the_payload_as_json);
+                And(it_uses_the_headers);
+                And(it_accepts_json);
+            });
 
             scenario(() =>
             {
@@ -94,13 +98,12 @@ namespace Sensemaking.Specs
                 And(a_url);
                 And(some_headers);
                 And(a_payload);
-                And(the_response_has_a_body);
-                When(putting_expecting_a_response_body);
-                Then(it_calls_the_url_using(HttpMethod.Put));
+                And(the_response_has_no_body);
+                When(patching);
+                Then(it_calls_the_url_using(HttpMethod.Patch));
                 And(it_passes_the_payload_as_json);
                 And(it_uses_the_headers);
                 And(it_accepts_json);
-                And(it_provides_the_desrialized_response_body);
             });
         }
 

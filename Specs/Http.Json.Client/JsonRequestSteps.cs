@@ -123,9 +123,9 @@ namespace Sensemaking.Specs
             the_response = (client != null ? client.Put(url, the_payload, the_headers) : url.Put(the_payload, the_headers)).Result;
         }
 
-        private void putting_expecting_a_response_body()
+        private void patching()
         {
-            the_response = the_response = (client != null ? client.Put<FakeBody>(url, the_payload, the_headers) : url.Put<FakeBody>(the_payload, the_headers)).Result;
+            the_response = (client != null ? client.Patch(url, the_payload, the_headers) : url.Patch(the_payload, the_headers)).Result;
         }
 
         private void deleting()
