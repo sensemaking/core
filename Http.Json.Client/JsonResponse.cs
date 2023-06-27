@@ -11,16 +11,10 @@ namespace Sensemaking.Http.Json.Client
         public HttpStatusCode Status { get; }
         public (string Name, string Value)[] Headers { get; }
 
-        public string BodyAsString { get; }
-        
-        public Cookie[] Cookies { get; }
-
-        internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers, string body, Cookie[] cookies)
+        internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers)
         {
             Status = status;
             Headers = headers.ToArray();
-            BodyAsString = body;
-            Cookies = cookies;
         }
 
         public static implicit operator HttpStatusCode (JsonResponse response)
@@ -33,7 +27,7 @@ namespace Sensemaking.Http.Json.Client
     {
         public T Body { get; }
 
-        internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers, string body, Cookie[] cookies) : base(status, headers, body, cookies)
+        internal JsonResponse(HttpStatusCode status, IEnumerable<(string, string)> headers, string body) : base(status, headers)
         {
             if (body.IsNullOrEmpty())
                 throw new Exception("The response to a GET request did not include a body.");

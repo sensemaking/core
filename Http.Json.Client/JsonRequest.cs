@@ -13,32 +13,25 @@ namespace Sensemaking.Http.Json.Client
         private static async Task<JsonResponse> MakeRequest(this IFlurlClient client, string url, Func<IFlurlRequest, Task<IFlurlResponse>> request, params (string Name, string Value)[] headers)
         {
             var response = await request(client.Request(url).WithHeaders(headers.AddAcceptHeader()));
-            var cookies = new CookieContainer().GetCookies(new Uri(url, UriKind.Absolute)).ToArray();
-            return await response.ToJsonResponse(cookies);
+            return await response.ToJsonResponse();
         }
         
         private static async Task<JsonResponse<T>> MakeRequest<T>(this IFlurlClient client, string url, Func<IFlurlRequest, Task<IFlurlResponse>> request, params (string Name, string Value)[] headers)
         {
-            var cookies = new CookieContainer();
             var response = await request(client.Request(url).WithHeaders(headers.AddAcceptHeader()));
-            var responseCookies = cookies.GetCookies(new Uri(url, UriKind.Absolute)).ToArray();
-            return await response.ToJsonResponse<T>(responseCookies);
+            return await response.ToJsonResponse<T>();
         }
         
         private static async Task<JsonResponse> MakeRequest(this string url, Func<IFlurlRequest, Task<IFlurlResponse>> request, params (string Name, string Value)[] headers)
         {
-            var cookies = new CookieContainer();
             var response = await request(url.WithHeaders(headers.AddAcceptHeader()));
-            var responseCookies = cookies.GetCookies(new Uri(url, UriKind.Absolute)).ToArray();
-            return await response.ToJsonResponse(responseCookies);
+            return await response.ToJsonResponse();
         }
         
         private static async Task<JsonResponse<T>> MakeRequest<T>(this string url, Func<IFlurlRequest, Task<IFlurlResponse>> request, params (string Name, string Value)[] headers)
         {
-            var cookies = new CookieContainer();
             var response = await request(url.WithHeaders(headers.AddAcceptHeader()));
-            var responseCookies = cookies.GetCookies(new Uri(url, UriKind.Absolute)).ToArray();
-            return await response.ToJsonResponse<T>(responseCookies);
+            return await response.ToJsonResponse<T>();
         }
         
         public static async Task<JsonResponse<T>> Get<T>(this string url, params (string Name, string Value)[] headers) => await url.MakeRequest<T>(request => request.GetAsync(), headers);
