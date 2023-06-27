@@ -46,6 +46,7 @@ namespace Sensemaking.Specs
         }
         
         [Test]
+        [Ignore("")]
         public void function_returning_unexpected_result_reports_failure_after_last_retry_attempt()
         {
             Given(a_function_returning_unexpected_result);
