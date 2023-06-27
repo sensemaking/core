@@ -50,9 +50,7 @@ namespace Sensemaking.Specs
             client = new FlurlClient();
         }
 
-        private void some_headers()
-        {
-        }
+        private void some_headers() { }
 
         private void a_payload()
         {

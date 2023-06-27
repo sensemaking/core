@@ -73,7 +73,7 @@ namespace Sensemaking.Specs
                 And(it_accepts_json);
                 And(it_provides_the_desrialized_response_body);
             });
-            
+
             scenario(() =>
             {
                 Given(a_flurl_client);
@@ -87,7 +87,7 @@ namespace Sensemaking.Specs
                 And(it_uses_the_headers);
                 And(it_accepts_json);
             });
-            
+
             scenario(() =>
             {
                 Given(a_flurl_client);
@@ -189,12 +189,6 @@ namespace Sensemaking.Specs
                 And(it_accepts_json);
                 And(it_provides_the_desrialized_response_body);
             });
-        }
-
-        [Test]
-        public void supports_basic_authentication()
-        {
-
         }
 
         [Test]
