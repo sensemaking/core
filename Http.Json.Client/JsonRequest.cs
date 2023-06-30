@@ -35,7 +35,6 @@ namespace Sensemaking.Http.Json.Client
         }
         
         public static async Task<JsonResponse<T>> Get<T>(this string url, params (string Name, string Value)[] headers) => await url.MakeRequest<T>(request => request.GetAsync(), headers);
-        public static async Task<JsonResponse<T>> Get<T>(this string url, (string Username, string Password) basicAuth, params (string Name, string Value)[] headers) => await url.MakeRequest<T>(request => request.GetAsync(), headers);
         public static async Task<JsonResponse<T>> Get<T>(this IFlurlClient client, string url, params (string Name, string Value)[] headers) => await client.MakeRequest<T>(url, request => request.GetAsync(), headers);
         public static async Task<JsonResponse> Put(this string url, object payload, params (string Name, string Value)[] headers) => await url.MakeRequest(request => request.PutAsync(payload.ToRequestBody()), headers);
         public static async Task<JsonResponse> Put(this IFlurlClient client, string url, object payload, params (string Name, string Value)[] headers) => await client.MakeRequest(url, request => request.PutAsync(payload.ToRequestBody()), headers);

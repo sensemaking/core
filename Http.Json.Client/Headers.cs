@@ -14,9 +14,9 @@ public static class Headers
         return headers.SingleOrDefault(h => h.Name == headerName).Value ?? string.Empty;
     }
 
-    public static IEnumerable<(string, string)> AddBasicAuthentication(this IEnumerable<(string, string)> headers, (string Username, string Password) auth)
+    public static (string, string)[] AddBasicAuthentication(this IEnumerable<(string, string)> headers, (string Username, string Password) auth)
     {
-        return new[] { AuthorizationHeader(auth) }.Concat(headers);
+        return new[] { AuthorizationHeader(auth) }.Concat(headers).ToArray();
     }
 
     internal static IEnumerable<(string, string)> AddAcceptHeader(this IEnumerable<(string, string)> headers)
