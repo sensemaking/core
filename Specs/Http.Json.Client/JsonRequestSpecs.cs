@@ -236,7 +236,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_has_headers_and_a_body);
-                When(() => trying(getting));
+                When(trying(getting));
                 Then(it_should_have_the_headers);
             });
 
@@ -244,7 +244,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_has_headers_and_no_body);
-                When(() => trying(putting));
+                When(trying(putting));
                 Then(it_should_have_the_headers);
             });
 
@@ -252,7 +252,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_has_headers_and_no_body);
-                When(() => trying(deleting));
+                When(trying(deleting));
                 Then(it_should_have_the_headers);
             });
 
@@ -260,7 +260,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_has_headers_and_no_body);
-                When(() => trying(posting));
+                When(trying(posting));
                 Then(it_should_have_the_headers);
             });
         }
@@ -272,8 +272,8 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_has_no_body);
-                When(() => trying(getting));
-                Then(() => informs<Exception>("The response to a GET request did not include a body."));
+                When(trying(getting));
+                Then(informs<Exception>("The response to a GET request did not include a body."));
             });
         }
 
@@ -284,8 +284,8 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_has_a_non_json_body);
-                When(() => trying(getting));
-                Then(() => informs<Exception>("The response does not have a Json content type."));
+                When(trying(getting));
+                Then(informs<Exception>("The response does not have a Json content type."));
             });
         }
 
@@ -294,8 +294,8 @@ namespace Sensemaking.Specs
         {
             Given(a_url);
             And(the_response_has_no_body_but_has_a_content_type);
-            When(() => trying(getting));
-            Then(() => informs<Exception>("The response has a Content-Type but no body."));
+            When(trying(getting));
+            Then(informs<Exception>("The response has a Content-Type but no body."));
         }
 
         [Test]
@@ -305,7 +305,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_errors);
-                When(() => trying(getting));
+                When(trying(getting));
                 Then(it_causes_a_problem_exception);
                 And(the_exception_has_the_status_code);
                 And(the_exception_has_any_response_headers);
@@ -315,7 +315,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_errors);
-                When(() => trying(putting));
+                When(trying(putting));
                 Then(it_causes_a_problem_exception);
                 And(the_exception_has_the_status_code);
                 And(the_exception_has_any_response_headers);
@@ -325,7 +325,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_errors);
-                When(() => trying(deleting));
+                When(trying(deleting));
                 Then(it_causes_a_problem_exception);
                 And(the_exception_has_the_status_code);
                 And(the_exception_has_any_response_headers);
@@ -335,7 +335,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_errors);
-                When(() => trying(posting));
+                When(trying(posting));
                 Then(it_causes_a_problem_exception);
                 And(the_exception_has_the_status_code);
                 And(the_exception_has_any_response_headers);
@@ -349,7 +349,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_errors_with_a_problem_and_headers);
-                When(() => trying(getting));
+                When(trying(getting));
                 Then(the_exception_should_have_the_problem);
             });
 
@@ -357,7 +357,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_errors_with_a_problem_and_headers);
-                When(() => trying(putting));
+                When(trying(putting));
                 Then(the_exception_should_have_the_problem);
             });
 
@@ -365,7 +365,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_errors_with_a_problem_and_headers);
-                When(() => trying(deleting));
+                When(trying(deleting));
                 Then(the_exception_should_have_the_problem);
             });
 
@@ -373,7 +373,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_url);
                 And(the_response_errors_with_a_problem_and_headers);
-                When(() => trying(posting));
+                When(trying(posting));
                 Then(the_exception_should_have_the_problem);
             });
         }

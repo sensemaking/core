@@ -23,7 +23,7 @@ namespace Sensemaking.Specs
             {
                 Given(an_async_action_that_constantly_fails);
                 And(with_retry_that_handles_exceptions_for_a_period);
-                When(() => trying(executing_async));
+                When(trying(executing_async));
                 Then(it_reports_failure_after_last_attempt);
             });
             
@@ -31,7 +31,7 @@ namespace Sensemaking.Specs
             {
                 Given(an_async_action_that_constantly_fails);
                 And(with_retry_that_handles_exceptions_for_some_attempts);
-                When(() => trying(executing_async));
+                When(trying(executing_async));
                 Then(it_reports_the_failure_after_last_attempt);
             });
         }

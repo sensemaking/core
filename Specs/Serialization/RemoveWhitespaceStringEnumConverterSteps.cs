@@ -137,7 +137,7 @@ namespace Sensemaking.Specs
         private void catch_serialisation_exception(Action action)
         {
             json_reader.Value.Returns(the_value);
-            trying(action);
+            trying(action)();
         }
     }
 }

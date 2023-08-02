@@ -35,16 +35,19 @@ namespace Sensemaking.Bdd
 
         public void And(Action action) { action.Invoke(); }
 
-        protected virtual void trying(Action action)
+        protected virtual Action trying(Action action)
         {
-            try
+            return () =>
             {
-                action();
-            }
-            catch (Exception e)
-            {
-                the_exception = e is AggregateException ? e.InnerException : e;
-            }
+                try
+                {
+                    action();
+                }
+                catch (Exception e)
+                {
+                    the_exception = e is AggregateException ? e.InnerException : e;
+                }
+            };
         }
 
         protected virtual Action informs<T>(string message) where T : Exception
