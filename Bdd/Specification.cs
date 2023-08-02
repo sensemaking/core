@@ -47,26 +47,29 @@ namespace Sensemaking.Bdd
             }
         }
 
-        protected virtual void informs<T>(string message) where T : Exception
+        protected virtual Action informs<T>(string message) where T : Exception
         {
-            if (the_exception == null)
-                "it".should_fail("Exception was not provided.");
+            return () =>
+            {
+                if (the_exception == null)
+                    "it".should_fail("Exception was not provided.");
 
-            if (the_exception is not T)
-                "it".should_fail($"Exception was {the_exception.GetType()} but should have been {typeof(T)}.");
+                if (the_exception is not T)
+                    "it".should_fail($"Exception was {the_exception.GetType()} but should have been {typeof(T)}.");
 
-            if (message.IsNullOrEmpty()) 
-                return;
+                if (message.IsNullOrEmpty())
+                    return;
 
-            if (the_exception is not IListExceptionErrors exceptionWithErrors)
-                the_exception!.Message.should_be(message);
-            else
-                exceptionWithErrors.Errors.should_contain(message);
+                if (the_exception is not IListExceptionErrors exceptionWithErrors)
+                    the_exception!.Message.should_be(message);
+                else
+                    exceptionWithErrors.Errors.should_contain(message);
+            };
         }
 
         protected virtual void informs<T>() where T : Exception
         {
-            informs<T>(null);
+           informs<T>(null)();
         }
 
         protected virtual void causes<T>() where T : Exception

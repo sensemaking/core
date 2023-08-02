@@ -2,8 +2,6 @@
 using System.Net.Http;
 using NUnit.Framework;
 using Sensemaking.Bdd;
-using Serilog.Filters;
-using Sensemaking.Http.Json.Client;
 
 namespace Sensemaking.Specs
 {
