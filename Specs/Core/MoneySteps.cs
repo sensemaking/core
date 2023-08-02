@@ -67,7 +67,7 @@ namespace Sensemaking.Specs
                 value_from_pence = new Money(monetary_pounds).Pence;
                 value_from_large_pence = new Money(large_monetary_pounds).Pence;
                 pence = money.Pence;
-            })();
+            });
         }
 
         private void subtracting()

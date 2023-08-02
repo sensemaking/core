@@ -32,7 +32,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_function_that_constantly_fails);
                 And(with_retry_that_handles_exceptions);
-                When(trying(executing));
+                When(() => trying(executing));
                 Then(it_reports_failure_after_last_attempt);
             });
             
@@ -40,7 +40,7 @@ namespace Sensemaking.Specs
             {
                 Given(a_function_that_constantly_fails);
                 And(with_retry_that_handles_exceptions_for_some_attempts);
-                When(trying(executing));
+                When(() => trying(executing));
                 Then(it_reports_the_failure_after_last_attempt);
             });
         }
@@ -51,7 +51,7 @@ namespace Sensemaking.Specs
         {
             Given(a_function_returning_unexpected_result);
             And(with_retry_that_has_success_condition);
-            When(trying(executing));
+            When(() => trying(executing));
             Then(it_reports_failure_after_last_attempt);
         }
         

@@ -35,35 +35,32 @@ namespace Sensemaking.Bdd
 
         public void And(Action action) { action.Invoke(); }
 
-        protected virtual Action trying(Action action)
+        protected virtual void trying(Action action)
         {
-            return () =>
+            try
             {
-                try
-                {
-                    action();
-                }
-                catch (Exception e)
-                {
-                    the_exception = e is AggregateException ? e.InnerException : e;
-                }
-            };
+                action();
+            }
+            catch(Exception e)
+            {
+                the_exception = e is AggregateException ? e.InnerException : e;
+            }
         }
 
         protected virtual Action informs<T>(string message) where T : Exception
         {
             return () =>
             {
-                if (the_exception == null)
+                if(the_exception == null)
                     "it".should_fail("Exception was not provided.");
 
-                if (the_exception is not T)
+                if(the_exception is not T)
                     "it".should_fail($"Exception was {the_exception.GetType()} but should have been {typeof(T)}.");
 
-                if (message.IsNullOrEmpty())
+                if(message.IsNullOrEmpty())
                     return;
 
-                if (the_exception is not IListExceptionErrors exceptionWithErrors)
+                if(the_exception is not IListExceptionErrors exceptionWithErrors)
                     the_exception!.Message.should_be(message);
                 else
                     exceptionWithErrors.Errors.should_contain(message);
@@ -72,15 +69,15 @@ namespace Sensemaking.Bdd
 
         protected virtual void informs<T>() where T : Exception
         {
-           informs<T>(null)();
+            informs<T>(null)();
         }
 
         protected virtual void causes<T>() where T : Exception
         {
-            if (the_exception == null)
+            if(the_exception == null)
                 "it".should_fail("Exception was not provided.");
 
-            if (the_exception is not T)
+            if(the_exception is not T)
                 "it".should_fail($"Exception was {the_exception.GetType()} but should have been {typeof(T)}.");
         }
 
