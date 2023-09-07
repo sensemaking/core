@@ -37,6 +37,10 @@ namespace Sensemaking.Bdd
             Assert.That(condition, Is.False);
         }
 
+        internal static void should_be_false(this bool condition, string message)
+        {
+            Assert.That(condition, Is.False, message);
+        }
 
         public static void should_be(this object actual, object expected)
         {
@@ -57,9 +61,9 @@ namespace Sensemaking.Bdd
         public static void should_be<T>(this IEnumerable<T> actual, IEnumerable<T> expected, bool iCareAboutOrdering = true)
         {
             if(iCareAboutOrdering)
-                actual.HasSameContentsInSameOrder(expected).should_be_true("The two enumerables were expected to be the same");
+                actual.HasSameContentsInSameOrder(expected).should_be_true("The two enumerables were expected to have the same contents in the same order");
             else
-                actual.HasSameContents(expected).should_be_true("The two enumerables were expected to be the same");
+                actual.HasSameContents(expected).should_be_true("The two enumerables were expected to have the same contents");
         }
 
         public static void should_be<T, U>(this IEnumerable<T> actual, IEnumerable<U> expected, Func<T, U, bool> predicate)
@@ -71,6 +75,11 @@ namespace Sensemaking.Bdd
         public static void should_not_be(this object actual, object expected)
         {
             Assert.That(actual, Is.Not.EqualTo(expected), $"Expected {expected} not to be {actual}");
+        }
+
+        public static void should_not_be<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
+        {
+            actual.HasSameContents(expected).should_be_false("The two enumerables should not have the same contents");
         }
 
         public static void should_be_greater_than(this IComparable actual, IComparable expected)
