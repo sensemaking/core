@@ -48,18 +48,6 @@ namespace System
             return !source.Any(predicate);
         }
 
-        public static void Times(this int source, Action action)
-        {
-            for (var i = 0; i < source; i++)
-                action();
-        }
-
-        public static void Times(this int source, Action<int> action)
-        {
-            for (var i = 0; i < source; i++)
-                action(i);
-        }
-
         public static bool HasSameContentsInSameOrder<T>(this IEnumerable<T> @this, IEnumerable<T> that)
         {
             return @this.IsEquivalent(that, true);
