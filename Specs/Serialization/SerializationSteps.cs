@@ -99,7 +99,7 @@ namespace Sensemaking.Specs
             var serialize = the_object.Serialize();
             deserializedByExtensionMethod = serialize.Deserialize<DeserializedObject>();
         }
-
+    
         private void private_setter_are_deserialized()
         {
             deserializedByExtensionMethod.APrivateSetterNumber.should_be(1);
