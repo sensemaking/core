@@ -1,5 +1,6 @@
 ﻿{
 	"emptyArrayFromNull": null,
+	"emptyImmutableListFromNull": null,
 	"money": 12.23,
 	"nonNullMoney": 34.45,
 	"moneyAsInteger": 11,

@@ -10,7 +10,7 @@ namespace Sensemaking.Specs
         {
             Given(a_json_payload);
             When(deserializing);
-            Then(private_setter_properties_are_deserialized);
+            Then(private_setter_are_deserialized);
         }
 
         [Test]
@@ -18,15 +18,23 @@ namespace Sensemaking.Specs
         {
             Given(a_json_payload);
             When(deserializing);
-            Then(null_arrays_properties_are_deserialized_into_empty_arrays);
+            Then(null_arrays_are_deserialized_into_empty_arrays);
         }
     
         [Test]
-        public void deserializes_null_into_empty_immutable_arrays()
+        public void deserializes_missing_into_empty_immutable_arrays()
         {
             Given(a_json_payload);
             When(deserializing);
-            Then(null_immutable_arrays_properties_are_deserialized_into_empty_arrays);
+            Then(missing_immutable_arrays_are_deserialized_into_empty_arrays);
+        }
+    
+        [Test]
+        public void deserializes_null_into_empty_immutable_lists()
+        {
+            Given(a_json_payload);
+            When(deserializing);
+            Then(null_immutable_lists_are_deserialized_into_empty_lists);
         }
 
         [Test]

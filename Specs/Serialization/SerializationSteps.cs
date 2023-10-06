@@ -35,8 +35,8 @@ namespace Sensemaking.Specs
         {
             public int[] EmptyArrayFromNull { get; set; }
             public string[] EmptyArrayFromMissing { get; set; }
-            public ImmutableArray<string> EmptyImmutableArrayFromNull { get; set; }
             public ImmutableArray<int> EmptyImmutableArrayFromMissing { get; set; }
+            public ImmutableList<int> EmptyImmutableListFromMissing { get; set; }
             public Money Money { get; set; }
             public Money MoneyAsInteger { get; set; }
             public Money MoneyAsLong { get; set; }
@@ -61,10 +61,8 @@ namespace Sensemaking.Specs
             MoneyAsInteger = new Money(11),
             MoneyAsLong = new Money(11111111111),
             NonNullMoney = new Money(34.45m),
-            NullMoney = null,
             Date = Date.Today().Date,
             DateWithATime = Date.Today().Date.PlusDays(-1),
-            NullDate = null,
             NonNullNullableDate = Date.Today().Date.PlusDays(-2),
             NonNullNullableDateWithATime = Date.Today().Date.PlusDays(-3),
             StringEnumValue = RemoveWhitespaceStringEnumConverterSpecs.FakeEnum.Wobble
@@ -102,13 +100,13 @@ namespace Sensemaking.Specs
             deserializedByExtensionMethod = serialize.Deserialize<DeserializedObject>();
         }
 
-        private void private_setter_properties_are_deserialized()
+        private void private_setter_are_deserialized()
         {
             deserializedByExtensionMethod.APrivateSetterNumber.should_be(1);
             deserializedByJsonSerializer.APrivateSetterNumber.should_be(1);
         }
 
-        private void null_arrays_properties_are_deserialized_into_empty_arrays()
+        private void null_arrays_are_deserialized_into_empty_arrays()
         {
             deserializedByExtensionMethod.EmptyArrayFromNull.should_be_empty();
             deserializedByJsonSerializer.EmptyArrayFromNull.should_be_empty();
@@ -117,10 +115,16 @@ namespace Sensemaking.Specs
             deserializedByJsonSerializer.EmptyArrayFromMissing.should_be_empty();
         }
 
-        private void null_immutable_arrays_properties_are_deserialized_into_empty_arrays()
+        private void missing_immutable_arrays_are_deserialized_into_empty_arrays()
         {
-            deserializedByExtensionMethod.EmptyImmutableArrayFromNull.should_be_empty();
+            deserializedByExtensionMethod.EmptyImmutableArrayFromMissing.should_be_empty();
             deserializedByJsonSerializer.EmptyImmutableArrayFromMissing.should_be_empty();
+        }
+
+        private void null_immutable_lists_are_deserialized_into_empty_lists()
+        {
+            deserializedByExtensionMethod.EmptyImmutableListFromMissing.should_be_empty();
+            deserializedByJsonSerializer.EmptyImmutableListFromMissing.should_be_empty();
         }
 
         private void money_is_deserialized()
