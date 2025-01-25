@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<AssemblyName>Sensemaking.Serialization.Specs</AssemblyName>
 		<RootNamespace>Sensemaking.Specs</RootNamespace>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>

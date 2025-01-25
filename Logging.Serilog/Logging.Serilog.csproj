@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<AssemblyName>Sensemaking.Serilog</AssemblyName>
 		<RootNamespace>Sensemaking</RootNamespace>
 		<Description>Serilog extensions for logging objects as Json</Description>
