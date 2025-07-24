@@ -60,7 +60,7 @@ namespace Sensemaking.Bdd
 
         public static void should_be<T>(this IEnumerable<T> actual, IEnumerable<T> expected, bool iCareAboutOrdering = true)
         {
-            if(iCareAboutOrdering)
+            if (iCareAboutOrdering)
                 actual.HasSameContentsInSameOrder(expected).should_be_true("The two enumerables were expected to have the same contents in the same order");
             else
                 actual.HasSameContents(expected).should_be_true("The two enumerables were expected to have the same contents");
@@ -149,7 +149,7 @@ namespace Sensemaking.Bdd
 
         public static void should_contain<T, U>(this IEnumerable<T> actual, U expected, Func<T, U, bool> predicate)
         {
-            Assert.True(actual.Any(y => predicate(y, expected)), $"{expected} was not found");
+            Assert.That(actual.Any(y => predicate(y, expected)), Is.True, $"{expected} was not found");
         }
 
         public static void should_not_contain(this IEnumerable<object> actual, object expected)

@@ -96,10 +96,10 @@ namespace Sensemaking.Specs
         private void it_reports_failure_after_last_attempt()
         {
             the_exception.Message.should_be(expected_exception_message);
-            call_counter.should_be_greater_than_or_equal_to(approximate_execution_count-1);
-            call_counter.should_be_less_than_or_equal_to(approximate_execution_count+1);
+            call_counter.should_be_greater_than_or_equal_to(approximate_execution_count - 1);
+            call_counter.should_be_less_than_or_equal_to(approximate_execution_count + 1);
         }
-        
+
         private void it_reports_the_failure_after_last_attempt()
         {
             the_exception.Message.should_be(the_exception_message);

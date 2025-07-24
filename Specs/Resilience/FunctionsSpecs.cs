@@ -14,7 +14,7 @@ namespace Sensemaking.Specs
             When(executing);
             Then(it_executes_on_the_first_attempt);
         }
-        
+
         [Test]
         public void function_executes_on_the_first_attempt_with_retry_on_success_condition()
         {
@@ -23,19 +23,42 @@ namespace Sensemaking.Specs
             When(executing);
             Then(it_executes_on_the_first_attempt);
         }
-        
+
         [Test]
-        [Ignore("")]
-        public void faulty_function_reports_failure_after_last_retry_attempt()
+        public void faulty_function_mitigates_or_errors_after_last_retry_attempt()
         {
+            scenario(() =>
+            {
+                Given(a_function_that_constantly_fails);
+                And(with_retry_that_has_default_mitigation);
+                When(() => trying(executing));
+                Then(() => it_reports_failure_after_last_attempt(default_exception_message));
+            });
+
+            scenario(() =>
+            {
+                Given(a_function_that_constantly_fails);
+                And(with_retry_that_has_mitigation);
+                When(() => trying(executing));
+                Then(it_mitigates_after_last_attempt);
+            });
+
             scenario(() =>
             {
                 Given(a_function_that_constantly_fails);
                 And(with_retry_that_handles_exceptions);
                 When(() => trying(executing));
-                Then(it_reports_failure_after_last_attempt);
+                Then(() => it_reports_failure_after_last_attempt(expected_exception_message));
             });
-            
+
+            scenario(() =>
+            {
+                Given(a_function_that_constantly_fails);
+                And(with_retry_that_handles_exception_messages);
+                When(() => trying(executing));
+                Then(() => it_reports_failure_after_last_attempt(expected_exception_message));
+            });
+
             scenario(() =>
             {
                 Given(a_function_that_constantly_fails);
@@ -44,7 +67,7 @@ namespace Sensemaking.Specs
                 Then(it_reports_the_failure_after_last_attempt);
             });
         }
-        
+
         [Test]
         [Ignore("")]
         public void function_returning_unexpected_result_reports_failure_after_last_retry_attempt()
@@ -52,9 +75,9 @@ namespace Sensemaking.Specs
             Given(a_function_returning_unexpected_result);
             And(with_retry_that_has_success_condition);
             When(() => trying(executing));
-            Then(it_reports_failure_after_last_attempt);
+            Then(() => it_reports_failure_after_last_attempt(expected_exception_message));
         }
-        
+
         [Test]
         public void flaky_function_executes_after_several_attempts_with_retry_on_exception()
         {
@@ -63,7 +86,7 @@ namespace Sensemaking.Specs
             When(executing);
             Then(it_executes_on_another_attempt);
         }
-        
+
         [Test]
         public void flaky_function_executes_after_several_attempts_with_retry_on_success_condition()
         {

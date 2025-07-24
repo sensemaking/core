@@ -8,6 +8,8 @@ namespace Sensemaking.Specs
 {
     public partial class FunctionsSpecs
     {
+        private const string expected_mitigation_message = "test mitigation";
+        private const string default_exception_message = "Function retry timed out.";
         private const string expected_exception_message = "test timeoutMessage";
         private const string the_exception_message = "Exception of type 'System.Exception' was thrown.";
 
@@ -18,9 +20,10 @@ namespace Sensemaking.Specs
         private Func<bool> function;
         private IExecutable<bool> retry_wrapper;
         private Action<Exception> fail_action;
+        private string mitigation_message;
         private const int number_of_attempts = 3;
 
-        
+
         protected override void before_each()
         {
             base.before_each();
@@ -92,7 +95,36 @@ namespace Sensemaking.Specs
             };
         }
 
+        private void with_retry_that_has_default_mitigation()
+        {
+            aproximate_execution_count = 3;
+            retry_wrapper = function.KeepTrying()
+                .Every(Period.FromMilliseconds(100))
+                .For(Duration.FromMilliseconds(300))
+                .UntilThereIsNoException();
+        }
+
+        private void with_retry_that_has_mitigation()
+        {
+            aproximate_execution_count = 3;
+            retry_wrapper = function.KeepTrying()
+                .Every(Period.FromMilliseconds(100))
+                .For(Duration.FromMilliseconds(300))
+                .UntilThereIsNoException()
+                .IfItTimesOut(() => { mitigation_message = expected_mitigation_message; });
+        }
+
         private void with_retry_that_handles_exceptions()
+        {
+            aproximate_execution_count = 3;
+            retry_wrapper = function.KeepTrying()
+                .Every(Period.FromMilliseconds(100))
+                .For(Duration.FromMilliseconds(300))
+                .UntilThereIsNoException()
+                .IfItTimesOut(new Exception(expected_exception_message));
+        }
+
+        private void with_retry_that_handles_exception_messages()
         {
             aproximate_execution_count = 3;
             retry_wrapper = function.KeepTrying()
@@ -124,11 +156,18 @@ namespace Sensemaking.Specs
             execution_result.should_be_true();
         }
 
-        private void it_reports_failure_after_last_attempt()
+        private void it_mitigates_after_last_attempt()
         {
-            the_exception.Message.should_be(expected_exception_message);
-            call_counter.should_be_greater_than_or_equal_to(aproximate_execution_count-1);
-            call_counter.should_be_less_than_or_equal_to(aproximate_execution_count+1);
+            mitigation_message.should_be(expected_mitigation_message);
+            call_counter.should_be_greater_than_or_equal_to(aproximate_execution_count - 1);
+            call_counter.should_be_less_than_or_equal_to(aproximate_execution_count + 1);
+        }
+
+        private void it_reports_failure_after_last_attempt(string exception_message)
+        {
+            the_exception.Message.should_be(exception_message);
+            call_counter.should_be_greater_than_or_equal_to(aproximate_execution_count - 1);
+            call_counter.should_be_less_than_or_equal_to(aproximate_execution_count + 1);
         }
 
         private void it_reports_the_failure_after_last_attempt()

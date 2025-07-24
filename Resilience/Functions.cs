@@ -23,9 +23,11 @@ namespace Sensemaking.Resilience
         ISpecifyHowToReportTimeout<T> UntilThereIsNoException();
     }
 
-    public interface ISpecifyHowToReportTimeout<T>
+    public interface ISpecifyHowToReportTimeout<T> : IExecutable<T>
     {
-        IExecutable<T> IfItTimesOut(string timeoutMessage);
+        IExecutable<T> IfItTimesOut(Action mitigatingAction);
+        IExecutable<T> IfItTimesOut(Exception timeoutException);
+        IExecutable<T> IfItTimesOut(string timeoutExceptionMessage);
     }
 
     public interface ISpecifyHowToReportRetry<T>
@@ -55,7 +57,7 @@ namespace Sensemaking.Resilience
     {
         private readonly Func<T> task;
         private Func<T, bool>? failureResultCondition;
-        private string timeoutMessage = null!;
+        private Action timeoutAction;
         private Duration? duration;
         private Period frequency = null!;
         private int? attempts = null;
@@ -63,6 +65,7 @@ namespace Sensemaking.Resilience
 
         public FunctionRetry(Func<T> task)
         {
+            this.timeoutAction = () => { throw new TimeoutException("Function retry timed out."); };
             this.task = task;
         }
 
@@ -95,9 +98,21 @@ namespace Sensemaking.Resilience
             return this;
         }
 
-        public IExecutable<T> IfItTimesOut(string timeoutMessage)
+        public IExecutable<T> IfItTimesOut(Action mitigationAction)
         {
-            this.timeoutMessage = timeoutMessage;
+            this.timeoutAction = mitigationAction;
+            return this;
+        }
+
+        public IExecutable<T> IfItTimesOut(Exception timeoutException)
+        {
+            this.timeoutAction = () => { throw timeoutException; };
+            return this;
+        }
+
+        public IExecutable<T> IfItTimesOut(string timeoutExceptionMessage)
+        {
+            this.timeoutAction = () => { throw new TimeoutException(timeoutExceptionMessage); };
             return this;
         }
 
@@ -105,7 +120,7 @@ namespace Sensemaking.Resilience
         {
             if (duration.HasValue)
             {
-                Action<Context, TimeSpan, Task, Exception> onTimeout = (ctx, span, task, ex) => { throw new Exception(timeoutMessage); };
+                Action<Context, TimeSpan, Task, Exception> onTimeout = (ctx, span, task, ex) => this.timeoutAction();
 
                 var timeout = Policy.Timeout(duration.Value.ToTimeSpan(), TimeoutStrategy.Pessimistic, onTimeout);
 
@@ -118,9 +133,9 @@ namespace Sensemaking.Resilience
             else
             {
                 Action<Exception, TimeSpan> onRetry = (exception, span) => reportRetry(exception);
-                
+
                 return Policy.Handle<Exception>()
-                    .WaitAndRetry(attempts!.Value -1, i => frequency.ToDuration().ToTimeSpan(), onRetry)
+                    .WaitAndRetry(attempts!.Value - 1, i => frequency.ToDuration().ToTimeSpan(), onRetry)
                     .Execute(task);
             }
         }
