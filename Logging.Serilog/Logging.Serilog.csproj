@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sensemaking.Serilog</AssemblyName>
 		<RootNamespace>Sensemaking</RootNamespace>
 		<Description>Serilog extensions for logging objects as Json</Description>

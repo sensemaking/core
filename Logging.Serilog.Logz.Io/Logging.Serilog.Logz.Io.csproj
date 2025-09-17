@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
+		    <LangVersion>latest</LangVersion>
         <AssemblyName>Sensemaking.Serilog.Logz.Io</AssemblyName>
         <RootNamespace>Sensemaking</RootNamespace>
         <Nullable>enable</Nullable>

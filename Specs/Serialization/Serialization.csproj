@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sensemaking.Serialization.Specs</AssemblyName>
 		<RootNamespace>Sensemaking.Specs</RootNamespace>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>

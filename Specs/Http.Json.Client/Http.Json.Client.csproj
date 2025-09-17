@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sensemaking.Http.Json.Client.Specs</AssemblyName>
 		<RootNamespace>Sensemaking.Specs</RootNamespace>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>

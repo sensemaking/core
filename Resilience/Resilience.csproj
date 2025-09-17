@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sensemaking.Resilience</AssemblyName>
 		<RootNamespace>Sensemaking.Resilience</RootNamespace>
 		<Description>Resilience tooling</Description>

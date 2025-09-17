@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sensemaking.Serialization</AssemblyName>
 		<RootNamespace>System.Serialization</RootNamespace>
 		<Nullable>enable</Nullable>

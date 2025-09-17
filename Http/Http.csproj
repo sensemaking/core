@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sensemaking.Http</AssemblyName>
 		<RootNamespace>Sensemaking.Http</RootNamespace>
 		<Nullable>enable</Nullable>

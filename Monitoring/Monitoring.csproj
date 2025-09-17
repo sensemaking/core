@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sensemaking.Monitoring</AssemblyName>
 		<RootNamespace>Sensemaking.Monitoring</RootNamespace>
 		<Nullable>enable</Nullable>

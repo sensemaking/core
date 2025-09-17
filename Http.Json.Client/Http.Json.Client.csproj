@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<AssemblyName>Sensemaking.Http.Json.Client</AssemblyName>
 		<RootNamespace>Sensemaking.Http.Json.Client</RootNamespace>
 		<Nullable>enable</Nullable>
