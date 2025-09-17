@@ -29,6 +29,7 @@ namespace Sensemaking.Specs
         protected override void before_each()
         {
             base.before_each();
+            client = null;
             FakeHttp = new HttpTest();
             the_body_to_respond_with = null;
             the_status_to_respond_with = HttpStatusCode.OK;

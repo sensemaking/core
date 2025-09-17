@@ -16,6 +16,6 @@
 
     <ItemGroup>
       <PackageReference Include="Serilog" Version="4.3.0" />
-      <PackageReference Include="Serilog.Sinks.Logz.Io" Version="7.2.0" />
+      <PackageReference Include="Serilog.Sinks.Logz.Io" Version="8.0.0" />
     </ItemGroup>
 </Project>

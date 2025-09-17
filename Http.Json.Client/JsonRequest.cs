@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 using Flurl.Http;
 
@@ -8,16 +6,18 @@ namespace Sensemaking.Http.Json.Client
 {
     public static class JsonRequest
     {
-       static JsonRequest() => FlurlHttp.GlobalSettings.AllowedHttpStatusRange = "*";
+        static JsonRequest() => FlurlHttp.Clients.WithDefaults(settings => settings.AllowAnyHttpStatus());
         
         private static async Task<JsonResponse> MakeRequest(this IFlurlClient client, string url, Func<IFlurlRequest, Task<IFlurlResponse>> request, params (string Name, string Value)[] headers)
         {
+            client.Settings.AllowedHttpStatusRange = "*";
             var response = await request(client.Request(url).WithHeaders(headers.AddAcceptHeader()));
             return await response.ToJsonResponse();
         }
         
         private static async Task<JsonResponse<T>> MakeRequest<T>(this IFlurlClient client, string url, Func<IFlurlRequest, Task<IFlurlResponse>> request, params (string Name, string Value)[] headers)
         {
+            client.Settings.AllowedHttpStatusRange = "*";
             var response = await request(client.Request(url).WithHeaders(headers.AddAcceptHeader()));
             return await response.ToJsonResponse<T>();
         }
