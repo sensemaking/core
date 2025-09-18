@@ -133,6 +133,16 @@ namespace Sensemaking.Bdd
             Assert.That(collection.Any(), Is.True);
         }
 
+        public static void should_contain(this string actual, string expected)
+        {
+            Assert.That(actual.Contains(expected), Is.True, $"{expected} was not found");
+        }
+
+        public static void should_not_contain(this string actual, string expected)
+        {
+            Assert.That(actual.Contains(expected), Is.Not.True, $"{expected} was found");
+        }
+
         public static void should_contain<T>(this IEnumerable<T> actual, T expected)
         {
             Assert.That(actual, Contains.Item(expected), $"{expected?.Serialize() ?? "null"}\r\n\r\nwas not found in\r\n\r\n{actual?.Serialize() ?? "null"}");
