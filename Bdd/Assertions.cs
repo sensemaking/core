@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Serialization;
 using NUnit.Framework;
 
 namespace Sensemaking.Bdd
@@ -132,29 +133,29 @@ namespace Sensemaking.Bdd
             Assert.That(collection.Any(), Is.True);
         }
 
-        public static void should_contain(this string actual, string expected)
+        public static void should_contain<T>(this IEnumerable<T> actual, T expected)
         {
-            Assert.That(actual.Contains(expected), Is.True, $"{expected} was not found");
+            Assert.That(actual, Contains.Item(expected), $"{expected?.Serialize() ?? "null"}\r\n\r\nwas not found in\r\n\r\n{actual?.Serialize() ?? "null"}");
+        }
+        
+        public static void should_not_contain<T>(this IEnumerable<T> actual, T expected)
+        {
+            Assert.That(actual.Contains(expected), Is.Not.True, $"{expected?.Serialize() ?? "null"}\r\n\r\nwas found in\r\n\r\n{actual?.Serialize() ?? "null"}");
+        }
+        
+        public static void should_not_contain<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
+        {
+            Assert.That(actual.Any(expected.Contains), Is.Not.True, $"At least one of {expected?.Serialize() ?? "null"}\r\n\r\nwas found in\r\n\r\n{actual?.Serialize() ?? "null"}");
         }
 
-        public static void should_not_contain(this string actual, string expected)
+        public static void should_all_be<T>(this IEnumerable<T> actual, T expected)
         {
-            Assert.That(actual.Contains(expected), Is.Not.True, $"{expected} was found");
-        }
-
-        public static void should_contain(this IEnumerable<object> actual, object expected)
-        {
-            Assert.That(actual, Contains.Item(expected));
+            Assert.That(actual.All(i => i!.Equals(expected)), Is.True, $"Expected {expected?.Serialize() ?? "null"}\r\n\r\nwas not found in all elements of\r\n\r\n{actual?.Serialize() ?? "null"}");
         }
 
         public static void should_contain<T, U>(this IEnumerable<T> actual, U expected, Func<T, U, bool> predicate)
         {
-            Assert.That(actual.Any(y => predicate(y, expected)), Is.True, $"{expected} was not found");
-        }
-
-        public static void should_not_contain(this IEnumerable<object> actual, object expected)
-        {
-            Assert.That(actual.Contains(expected), Is.Not.True);
+            Assert.That(actual.Any(y => predicate(y, expected)), $"{expected?.Serialize() ?? "null"}\r\n\r\nwas not found in\r\n\r\n{actual?.Serialize() ?? "null"}");
         }
 
         public static void should_contain<T>(this IEnumerable<T> actual, Func<T, bool> predicate)
@@ -169,7 +170,12 @@ namespace Sensemaking.Bdd
 
         public static void should_contain_all<T>(this IEnumerable<T> actual, IEnumerable<T> expected)
         {
-            actual.Intersect(expected).should_be(expected);
+            expected.ForEach(actual.should_contain);
+        }
+
+        public static void should_contain_all<T, U>(this IEnumerable<T> actual, IEnumerable<U> expected, Func<T, U, bool> predicate)
+        {
+            expected.ForEach(e => actual.should_contain(e, predicate));
         }
 
         public static void should_be_instance_of<T>(this object actual)

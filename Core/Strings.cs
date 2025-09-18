@@ -1,4 +1,5 @@
 ﻿
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
 
@@ -21,5 +22,10 @@ public static class Strings
     {
         var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
         return Convert.ToBase64String(plainTextBytes);
+    }
+    
+    public static bool IsDigital(this string source)
+    {
+        return !source.IsNullOrEmpty() && source.All(char.IsDigit);
     }
 }

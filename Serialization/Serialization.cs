@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NodaTime;
 using NodaTime.Serialization.JsonNet;
 
+
 namespace System.Serialization;
 
 public sealed class JsonSerializer : Newtonsoft.Json.JsonSerializer
