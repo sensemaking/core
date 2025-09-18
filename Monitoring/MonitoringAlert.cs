@@ -16,7 +16,7 @@ namespace Sensemaking.Monitoring
         protected internal MonitoringAlert(MonitorInfo monitor, string name, string message) : base(name, message)
         {
             if(monitor == MonitorInfo.Empty)
-                throw new ArgumentException("Monitor alerts must have a code, monitor and message");
+                throw new ArgumentException("Monitor alerts must have a name, monitor and message");
 
             Monitor = monitor;
         }
