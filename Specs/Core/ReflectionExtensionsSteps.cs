@@ -1,4 +1,5 @@
-﻿using Sensemaking.Bdd;
+﻿using System;
+using Sensemaking.Bdd;
 
 namespace Sensemaking.Specs;
 
@@ -35,14 +36,14 @@ public partial class ReflectionExtensionsSpecs
 
     private void the_value_is_set()
     {
-        testReflection.Get<string>("private_property").should_be(test_value);
+        testReflection.GetReflectedValue<string>("private_property").should_be(test_value);
         testReflection.public_property_private_setter.should_be(test_value);
         testReflection.GetFieldValue.should_be(test_field_value);
     }
 
     private void the_inherited_value_is_set()
     {
-        testInheritedReflection.Get<string>("private_property").should_be(test_value);
+        testInheritedReflection.GetReflectedValue<string>("private_property").should_be(test_value);
         testInheritedReflection.public_property_private_setter.should_be(test_value);
         testInheritedReflection.GetFieldValue.should_be(test_field_value);
     }
