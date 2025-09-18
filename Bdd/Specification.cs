@@ -6,7 +6,7 @@ namespace Sensemaking.Bdd
 {
     public abstract class Specification
     {
-        protected Exception the_exception;
+        protected Exception the_exception = null!;
 
         [OneTimeSetUp]
         public void TestFixtureSetup() { before_all(); }
@@ -24,7 +24,7 @@ namespace Sensemaking.Bdd
 
         protected virtual void before_each()
         {
-            the_exception = null;
+            the_exception = null!;
         }
 
         public void Given(Action action) { action.Invoke(); }
@@ -43,7 +43,7 @@ namespace Sensemaking.Bdd
             }
             catch(Exception e)
             {
-                the_exception = e is AggregateException ? e.InnerException : e;
+                the_exception = (e is AggregateException ? e.InnerException : e)!;
             }
         }
 
@@ -55,7 +55,7 @@ namespace Sensemaking.Bdd
                     "it".should_fail("Exception was not provided.");
 
                 if(the_exception is not T)
-                    "it".should_fail($"Exception was {the_exception.GetType()} but should have been {typeof(T)}.");
+                    "it".should_fail($"Exception was {the_exception!.GetType()} but should have been {typeof(T)}.");
 
                 if(message.IsNullOrEmpty())
                     return;
@@ -69,7 +69,7 @@ namespace Sensemaking.Bdd
 
         protected virtual void informs<T>() where T : Exception
         {
-            informs<T>(null)();
+            informs<T>(null!)();
         }
 
         protected virtual void causes<T>() where T : Exception
@@ -78,7 +78,7 @@ namespace Sensemaking.Bdd
                 "it".should_fail("Exception was not provided.");
 
             if(the_exception is not T)
-                "it".should_fail($"Exception was {the_exception.GetType()} but should have been {typeof(T)}.");
+                "it".should_fail($"Exception was {the_exception!.GetType()} but should have been {typeof(T)}.");
         }
 
         protected void it_is_valid()
