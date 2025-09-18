@@ -17,39 +17,39 @@ namespace Sensemaking.Specs
         }
 
         [Test]
-        public void logs_status_as_information_when_its_health_is_alive()
+        public void logs_status_information_when_its_health_is_alive()
         {
             Given(a_service_monitor);
             And(its_status_is_alive);
             When(notifying_of_service_status);
-            Then(status_is_logged_as_information);
+            Then(status_is_logged_information);
         }
 
         [Test]
-        public void logs_status_as_warning_when_its_health_is_ill()
+        public void logs_status_warning_when_its_health_is_ill()
         {
             Given(a_service_monitor);
             And(its_status_is_ill);
             When(notifying_of_service_status);
-            Then(status_is_logged_as_a_warning);
+            Then(status_is_logged_a_warning);
         }
 
         [Test]
-        public void logs_status_as_error_when_its_health_is_on_last_legs()
+        public void logs_status_error_when_its_health_is_on_last_legs()
         {
             Given(a_service_monitor);
             And(its_status_is_on_last_legs);
             When(notifying_of_service_status);
-            Then(status_is_logged_as_an_error);
+            Then(status_is_logged_an_error);
         }
 
         [Test]
-        public void logs_status_as_fatal_when_its_health_is_dead()
+        public void logs_status_fatal_when_its_health_is_dead()
         {
             Given(a_service_monitor);
             And(its_status_is_dead);
             When(notifying_of_service_status);
-            Then(status_is_logged_as_fatal);
+            Then(status_is_logged_fatal);
         }
     }
 }

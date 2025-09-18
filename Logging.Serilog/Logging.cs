@@ -71,31 +71,10 @@ namespace Sensemaking
         }
     }
 
-    internal class LogEntry<T>
-    {
-        public LogEntry(MonitorInfo monitor, LogEntryTypes type, T entry)
-        {
-            Monitor = monitor;
-            Type = type;
-            Entry = entry;
-        }
+    internal record LogEntry<T>(MonitorInfo Monitor, LogEntryTypes Type, T Entry);
 
-        public MonitorInfo Monitor { get; private set; }
-        public LogEntryTypes Type { get; private set; }
-        public T Entry { get; private set; }
-    }
-
-    internal class Metric<T> : LogEntry<T>
-    {
-        public Metric(MonitorInfo monitor, string name, double durationInMilliseconds, T additionalInfo) : base(monitor, LogEntryTypes.Metric, additionalInfo)
-        {
-            Name = name;
-            Duration = durationInMilliseconds;
-        }
-
-        public string Name { get; private set; }
-        public double Duration { get; private set; }
-    }
+    internal record Metric<T>(MonitorInfo Monitor, string Name, double Duration, T Entry)
+        : LogEntry<T>(Monitor, LogEntryTypes.Metric, Entry);
 
         public enum LogEntryTypes
         {

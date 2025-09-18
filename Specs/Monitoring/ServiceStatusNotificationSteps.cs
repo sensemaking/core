@@ -76,34 +76,34 @@ namespace Sensemaking.Specs
 
         private void status_is_logged()
         {
-            logger.should_have_logged_as_information(service_status);
+            logger.should_have_logged_information(service_status);
         }
 
         private void it_is_logged_again_after_heartbeat_interval()
         {
             logger.ClearReceivedCalls();
             Thread.Sleep((int) heartbeat.Milliseconds + 50);
-            logger.should_have_logged_as_information(service_status);
+            logger.should_have_logged_information(service_status);
         }
 
-        private void status_is_logged_as_information()
+        private void status_is_logged_information()
         {
-            logger.should_have_logged_as_information(service_status);
+            logger.should_have_logged_information(service_status);
         }
 
-        private void status_is_logged_as_a_warning()
+        private void status_is_logged_a_warning()
         {
-            logger.should_have_logged_as_warning(service_status);
+            logger.should_have_logged_warning(service_status);
         }
 
-        private void status_is_logged_as_an_error()
+        private void status_is_logged_an_error()
         {
-            logger.should_have_logged_as_error(service_status);
+            logger.should_have_logged_error(service_status);
         }
 
-        private void status_is_logged_as_fatal()
+        private void status_is_logged_fatal()
         {
-            logger.should_have_logged_as_fatal(service_status);
+            logger.should_have_logged_fatal(service_status);
         }
     }
 }
