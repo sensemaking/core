@@ -127,33 +127,27 @@ namespace Sensemaking.Resilience
 
         public void Execute()
         {
+            void onRetry(Exception exception, TimeSpan span) => reportRetry(exception);
             if (duration.HasValue)
             {
-                Action<Context, TimeSpan, Task, Exception> onTimeout = (ctx, span, task, ex) => throw new Exception(timeoutMessage);
-                var timeout = Policy.Timeout(duration.Value.ToTimeSpan(), TimeoutStrategy.Pessimistic, onTimeout);
-                var retry = Policy.Handle<Exception>().WaitAndRetry(int.MaxValue, i => frequency.ToDuration().ToTimeSpan());
+                void OnTimeout(Context ctx, TimeSpan span, Task task, Exception ex) => throw new Exception(timeoutMessage);
+                var timeout = Policy.Timeout(duration.Value.ToTimeSpan(), TimeoutStrategy.Pessimistic, (Action<Context, TimeSpan, Task, Exception>) OnTimeout);
+                var retry = Policy.Handle<Exception>().WaitAndRetry(int.MaxValue, i => frequency.ToDuration().ToTimeSpan(), (Action<Exception,TimeSpan>) onRetry);
                 timeout.Wrap(retry).Execute(task);
             }
             else
             {
-                Action<Exception,TimeSpan> onRetry = (exception, span) => reportRetry(exception);
-                Policy.Handle<Exception>().WaitAndRetry(attempts!.Value -1, i => frequency.ToDuration().ToTimeSpan(), onRetry).Execute(task);
+                Policy.Handle<Exception>().WaitAndRetry(attempts!.Value -1, i => frequency.ToDuration().ToTimeSpan(), (Action<Exception,TimeSpan>) onRetry).Execute(task);
             }
         }
     }
-    internal class AsyncActionRetry : ISpecifyAttemptFrequency, ISpecifyHowLongToKeepTrying, ISpecifyHowToStopTimeout, ISpecifyHowToReportTimeout, ISpecifyHowToStopRetry, ISpecifyHowToReportRetry, IAsyncExecutable
+    internal class AsyncActionRetry(Func<Task> task) : ISpecifyAttemptFrequency, ISpecifyHowLongToKeepTrying, ISpecifyHowToStopTimeout, ISpecifyHowToReportTimeout, ISpecifyHowToStopRetry, ISpecifyHowToReportRetry, IAsyncExecutable
     {
-        private readonly Func<Task> task;
         private string timeoutMessage = null!;
         private Duration? duration = null;
         private Period frequency = null!;
         private int? attempts = null;
         private Action<Exception> reportRetry = e => { };
-
-        public AsyncActionRetry(Func<Task> task)
-        {
-            this.task = task;
-        }
 
         public ISpecifyHowLongToKeepTrying Every(Period frequency)
         {
@@ -207,13 +201,13 @@ namespace Sensemaking.Resilience
 
         public Task ExecuteAsync()
         {
-            Action<Exception, TimeSpan> onRetry = (exception, span) => reportRetry(exception);
+            void onRetry(Exception exception, TimeSpan span) => reportRetry(exception);
 
             var maxAttempts = duration.HasValue
                 ? duration.Value.Milliseconds / (int)frequency.Milliseconds
                 : attempts!.Value;
             return Policy.Handle<Exception>()
-                .WaitAndRetryAsync(maxAttempts - 1, i => frequency.ToDuration().ToTimeSpan(), onRetry)
+                .WaitAndRetryAsync(maxAttempts - 1, i => frequency.ToDuration().ToTimeSpan(), (Action<Exception, TimeSpan>) onRetry)
                 .ExecuteAsync(task);
         }
 

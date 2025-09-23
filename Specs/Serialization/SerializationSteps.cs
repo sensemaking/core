@@ -50,6 +50,8 @@ namespace Sensemaking.Specs
             public int APrivateSetterNumber { get; private set; }
             public RemoveWhitespaceStringEnumConverterSpecs.FakeEnum StringEnumValue { get; set; }
             public uint Two54 { get; set; }
+            [JsonProperty("JsonPropertyName")]
+            public uint PropertyName { get; set; }
         }
 
         private DeserializedObject deserializedByExtensionMethod;
@@ -99,7 +101,12 @@ namespace Sensemaking.Specs
             var serialize = the_object.Serialize();
             deserializedByExtensionMethod = serialize.Deserialize<DeserializedObject>();
         }
-    
+
+        private void json_property_name_is_respected()
+        {
+            the_object.Serialize().Contains("JsonPropertyName").should_be_true();
+        }    
+        
         private void private_setter_are_deserialized()
         {
             deserializedByExtensionMethod.APrivateSetterNumber.should_be(1);

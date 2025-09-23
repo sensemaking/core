@@ -12,7 +12,15 @@ namespace Sensemaking.Specs
             When(deserializing);
             Then(private_setter_are_deserialized);
         }
-
+ 
+        [Test]
+        public void respects_json_property_names_over_camel_case()
+        {
+            Given(a_json_payload);
+            When(deserializing);
+            Then(json_property_name_is_respected);
+        }
+        
         [Test]
         public void deserializes_null_into_empty_arrays()
         {

@@ -8,6 +8,13 @@ namespace System.Serialization;
 
 public class ContractResolver : CamelCasePropertyNamesContractResolver
 {
+     public ContractResolver()
+    {
+        NamingStrategy = new CamelCaseNamingStrategy();
+        NamingStrategy.ProcessDictionaryKeys = true;
+        NamingStrategy.OverrideSpecifiedNames = false;
+    }
+     
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
     {
         var jProperty = base.CreateProperty(member, memberSerialization);

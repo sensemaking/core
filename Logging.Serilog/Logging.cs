@@ -12,7 +12,7 @@ namespace Sensemaking
 
         public static void Configure(MonitorInfo monitor, ILogger logger)
         {
-            Logging.Monitor = monitor;
+            Monitor = monitor;
             Log.Logger = logger;
         }
 
