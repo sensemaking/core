@@ -1,21 +1,76 @@
-name: Build
-on: [push]
+name: Core Build
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 21 * * *"
+  push:
+    paths:
+      - ".github/workflows/core.yml"
+      - "Core/**"
+  
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+  
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      version: "2.${{github.run_number}}.${{github.run_attempt}}"
+      working_directory: "${{github.workspace}}/Core"
+    defaults:
+      run:
+        working-directory: ${{ env.working_directory }}
+    permissions:
+      contents: write
+      packages: write
+      actions: read
+      
     steps:
     - name: Pull
       uses: actions/checkout@v2
-    - name: Install .Net Core
+        
+    - name: Install .Net
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '9.0.x'
-        source-url: https://nuget.pkg.github.com/sensemaking/index.json
+        source-url: https://nuget.pkg.github.com/FreemarketFX/index.json
       env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-    - name: Build and Test
-      run: dotnet test --configuration Release
-    - name: Package
-      run: dotnet pack -o packages --no-restore
-    - name: Publish Packages 
-      run: dotnet nuget push '${{ github.workspace }}/packages/*.nupkg' 
+          NUGET_AUTH_TOKEN: ${{ secrets.admin_publish_nuget_token }}
+          
+    - name: Update Nuget Dependencies
+      run: |
+        dotnet tool install --global dotnet-outdated-tool
+        dotnet restore
+        dotnet outdated --upgrade
+    - name: Push Updated Dependencies
+      uses: stefanzweifel/git-auto-commit-action@v5
+        
+    - name: Build, Test & Publish
+      run: | 
+        dotnet test --configuration Release
+        dotnet pack -o packages --no-restore -p:PackageVersion=${{env.version}}
+        dotnet nuget push '${{ env.working_directory }}/packages/*.nupkg' 
+      
+#    - name: Get previous workflow status
+#      uses: Mercymeilya/last-workflow-status@v0.3.3
+#      id: last_status
+#      with:
+#        github_token: ${{ secrets.github_token }}
+#    - name: Notify Slack 
+#      if: failure() || (success() && steps.last_status.outputs.last_status == 'failure')
+#      uses: slackapi/slack-github-action@v1.27.0
+#      with:
+#        webhook: ${{ secrets.slack_webhook_url }}
+#        webhook-type: incoming-webhook
+#        payload: |
+#          { 
+#            "blocks" : [
+#              {
+#                "type": "section",
+#                "text" : {
+#                  "type": "mrkdwn",
+#                  "text": "<${{ github.server_url }}\/${{ github.repository }}\/actions\/runs\/${{ github.run_id }}|${{github.workflow}} ${{ job.status }} - ${{ github.actor }}>"
+#                } 
+#              }] 
+#          }
