@@ -1,12 +1,9 @@
 name: Core Build
 on:
   workflow_dispatch:
+  push:
   schedule:
     - cron: "0 21 * * *"
-  push:
-    paths:
-      - ".github/workflows/core.yml"
-      - "Core/**"
   
 concurrency:
   group: ${{github.workflow}}-${{github.ref}}
