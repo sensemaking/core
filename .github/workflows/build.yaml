@@ -13,8 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      version: "2.${{github.run_number}}.${{github.run_attempt}}"
-      working_directory: "${{github.workspace}}/Core"
+      version: "1.0.${{github.run_number}}"
+      working_directory: "${{github.workspace}}"
     defaults:
       run:
         working-directory: ${{ env.working_directory }}
@@ -31,9 +31,9 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '9.0.x'
-        source-url: https://nuget.pkg.github.com/FreemarketFX/index.json
+        source-url: https://nuget.pkg.github.com/sensemaking/index.json
       env:
-          NUGET_AUTH_TOKEN: ${{ secrets.admin_publish_nuget_token }}
+          NUGET_AUTH_TOKEN: ${{ secrets.github_token }}
           
     - name: Update Nuget Dependencies
       run: |
