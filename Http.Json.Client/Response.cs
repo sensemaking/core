@@ -31,6 +31,9 @@ namespace Sensemaking.Http.Json.Client
             var contentType = response.Content.Headers.ContentType;
             var body = await response.Content.ReadAsStringAsync();
 
+            Console.WriteLine($"Content-Type: {contentType?.MediaType}");
+            headers.ForEach(h => Console.WriteLine($"{h.Key}: {h.Item2}"));
+            
             if(body.IsNullOrEmpty() && contentType != null)
                 throw new Exception("The response has a Content-Type but no body.");
 
